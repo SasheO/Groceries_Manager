@@ -1,6 +1,3 @@
-Sashe's Original App Design Project - README
-===
-
 # Groceries_Manager
 
 ## Table of Contents
