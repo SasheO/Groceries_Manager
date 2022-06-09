@@ -31,12 +31,12 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * User can view and edit (add and delete) of ingredients in their pantry list
     * Each item has a delete button to remove list from pantry
 * User can search recipes gotten from an online recipe database e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
+
+
+**Optional Nice-to-have Stories**
 * User can save and unsave recipes
 * User can view saved recipes
 * User can create own recipes which are automatically saved
-
-**Optional Nice-to-have Stories**
-
 * User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
 * User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
     * Items in pantry must be clickable
@@ -59,11 +59,11 @@ Enables user to manage shopping list, pantry records and recipes in one app.
   * (stretch) User can edit information on pantry item after it is created e.g. expiration dates
 * Stream
   * User can search recipes gotten from online recipe database
-* Stream
+* Stream (optional)
     * User can view their saved recipes and username
 * Detail
     * User can view recipes in detail
-* Create
+* Create (optional)
     * User can create own recipes
 
 
@@ -73,7 +73,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 * Grocery List
 * Pantry list
-* Saved recipes
+* Saved recipes (optional)
 * Recipe search
 
 **Flow Navigation** (Screen to Screen)
@@ -92,6 +92,10 @@ Enables user to manage shopping list, pantry records and recipes in one app.
   * => Create pantry item
 * Pantry item
   * => Pantry List
+* Saved recipes
+  * => Create new recipe
+* New Recipe
+  * => Saved recipes
 
 
 ## Wireframes
