@@ -49,11 +49,11 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * Login
    * Upon download of the application, user is prompted to log in.
 * Stream
-   * * User can view grocery shopping list
+   * User can view grocery shopping list and delete item
 * Create
    * User can add new item to grocery shopping list
 * Stream
-   * User can view pantry list
+   * User can view pantry list and delete item
 * Create
    * User can add new item to pantry list
 * Stream
