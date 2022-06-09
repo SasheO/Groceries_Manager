@@ -34,6 +34,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 **Optional Nice-to-have Stories**
 
+* User can move items from grocery shopping list to pantry directly
 * User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
 * User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
 * User can select things in grocery list and implement recipe search directly
