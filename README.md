@@ -14,7 +14,6 @@ Sashe's Original App Design Project - README
 Enables user to manage shopping list, pantry records and recipes in one app.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
 - **Category:** Productivity
 - **Mobile:** This app would be primarily developed for a mobile device because of its portability and push notifications.
 - **Story:** Keeps all the user needs for groceries and cooking in one location.
