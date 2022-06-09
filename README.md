@@ -19,7 +19,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 - **Story:** Keeps all the user needs for groceries and cooking in one location.
 - **Market:** Anyone can use this app, particularly adults who manage their own groceries
 - **Habit:** This app should be used often as it manages user needs for daily living (cooking, getting groceries)
-- **Scope:**
+- **Scope:** Pretty limited in scope, could possibly expand to more social app for sharing recipes (and not just making personal recipes or getting recipes from an API)
 
 ## Product Spec
 
