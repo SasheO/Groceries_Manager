@@ -12,7 +12,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 ### App Evaluation
 - **Category:** Productivity
-- **Mobile:** This app would be primarily developed for a mobile device because of its portability and possible push notifications (implemented as stretch feature).
+- **Mobile:** This app would be primarily developed for a mobile device because of its portability and possible push notifications (implemented as a stretch feature).
 - **Story:** Keeps all the user needs for groceries and cooking in one location.
 - **Market:** Anyone can use this app, particularly adults who manage their own groceries
 - **Habit:** This app should be used often as it manages user needs for daily living (cooking, getting groceries)
@@ -30,7 +30,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
   * User can move items from grocery shopping list to pantry directly
 * User can view and edit (add and delete) of ingredients in their pantry list
     * Each item has a delete button to remove list from pantry
-* User can search recipes gotten from an online recipe database e.g. [Edamam](https://developer.edamam.com/edamam-recipe-api)
+* User can search recipes gotten from an online recipe database e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
 * User can save and unsave recipes
 * User can view saved recipes
 * User can create own recipes which are automatically saved
