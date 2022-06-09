@@ -78,19 +78,19 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **Flow Navigation** (Screen to Screen)
 
 * Login screen
-   => Register screen, if user does not already have account
-   => Grocery list
+   * => Register screen, if user does not already have account
+   * => Grocery list
  * Register screen
-   => Grocery list
+   * => Grocery list
 * Grocery List
-   => Create grocery item
-   => (stretch) search for recipe with selected grocery item
+   * => Create grocery item
+   * => (stretch) search for recipe with selected grocery item
 * Create grocery item
-    => Grocery List 
+  * => Grocery List 
 * Pantry List
-   => Create pantry item
+  * => Create pantry item
 * Create pantry item
-    => Pantry List
+  * => Pantry List
 
 
 ## Wireframes
