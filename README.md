@@ -1,3 +1,6 @@
+Sashe's Original App Design Project - README
+===
+
 # Groceries_Manager
 
 ## Table of Contents
@@ -8,7 +11,7 @@
 
 ## Overview
 ### Description
-[Description of your app]
+Enables user to manage shopping list, pantry records and recipes in one app.
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
@@ -26,18 +29,18 @@
 **Required Must-have Stories**
 
 * User must sign up/in to use app
-* User can view and edit grocery shopping list on app
-* User can view and edit of ingredients in their pantry/what they've already bought
+* User can view and edit (add and delete) grocery shopping list on app
+* User can view and edit (add and delete) of ingredients in their pantry/what they've already bought
 * User can search recipes gotten from an online recipe database e.g. [Edamam](https://developer.edamam.com/edamam-recipe-api)
-* User can save recipes
+* User can save and unsave recipes
 * User can view saved recipes
 * User can create own recipes which are automatically saved
 
 **Optional Nice-to-have Stories**
 
-[ ] User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
-[ ] User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
-[ ] User can select things in grocery list and implement recipe search directly
+* User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
+* User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
+* User can select things in grocery list and implement recipe search directly
 
 
 ### 2. Screen Archetypes
