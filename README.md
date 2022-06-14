@@ -36,7 +36,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **Optional Nice-to-have Stories**
 * User can save and unsave recipes
 * User can view saved recipes
-* User can create own recipes which are automatically saved
+* User can create own recipes which are automatically saved on their device
 * User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
 * User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
     * Items in pantry must be clickable
