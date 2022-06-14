@@ -41,6 +41,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
     * Items in pantry must be clickable
 * User can select things in grocery list and implement recipe search directly
+* User can take pictures of groceries, recipes that they make, etc. and add them
 
 
 ### 2. Screen Archetypes
