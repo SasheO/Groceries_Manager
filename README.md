@@ -45,6 +45,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * User can select things in grocery list and implement recipe search directly
 * User can take pictures of groceries, recipes that they make, etc. and add them
 * User can search and save grocery locations (using GoogleMaps api)
+* User can recover forgotten password through emails
 
 
 ### 2. Screen Archetypes
