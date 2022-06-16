@@ -130,6 +130,15 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 |updatedAt|DateTime       |date when post is created (default field)     |
 |createdAt|DateTime       |date when post is last updated (default field)|
 
+**User**
+|Property |Type           |Description                                   |
+|---------|---------------|----------------------------------------------|
+|objectId |String         |unique id for the user post (default field)   |
+|username |String         |name of user                                  |
+|password |String         |user's password                               |
+|updatedAt|DateTime       |date when post is created (default field)     |
+|createdAt|DateTime       |date when post is last updated (default field)|
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
