@@ -149,6 +149,18 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 |user     |pointer to User|list author                                   |
 |items    |Array          |Array of pointers to food items               |
 
+
+**Recipe (stretch)**
+|Property   |Type           |Description                                   |
+|-----------|---------------|----------------------------------------------|
+|objectId   |String         |unique id for the user post (default field)   |
+|name       |String         |recipe name                                   |
+|updatedAt  |DateTime       |date when post is created (default field)     |
+|createdAt  |DateTime       |date when post is last updated (default field)|
+|user       |pointer to User|recipe author                                 |
+|ingredients|Array          |Array of string of ingredients with qty       |
+|procedure  |String         |String of method for preparing food           |
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
