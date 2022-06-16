@@ -44,6 +44,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
     * Items in pantry must be clickable
 * User can select things in grocery list and implement recipe search directly
 * User can take pictures of groceries, recipes that they make, etc. and add them
+* User can search and save grocery locations (using GoogleMaps api)
 
 
 ### 2. Screen Archetypes
@@ -78,6 +79,11 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * Pantry list
 * Saved recipes (optional)
 * Recipe search
+  * Video recipes
+  * Text recipes
+* Map (optional)
+
+
 
 **Flow Navigation** (Screen to Screen)
 
