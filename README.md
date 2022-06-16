@@ -142,7 +142,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **User list**
 |Property |Type           |Description                                   |
 |---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the user post (default field)   |
+|objectId |String         |unique id for the user list (default field)   |
 |type     |String         |type of list (grocery or pantry)              |
 |updatedAt|DateTime       |date when post is created (default field)     |
 |createdAt|DateTime       |date when post is last updated (default field)|
