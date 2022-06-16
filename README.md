@@ -118,14 +118,16 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 ## Schema 
 ### Models
 **Food items**
-|Property|Type           |Description                                |
-|--------|---------------|-------------------------------------------|
-|objectId|String         |unique id for the user post (default field)|
-|name    |String         |name of item.                              |
-|image   |File           |optional picture of food item              |
-|quantity|number         |amount of food item                        |
-|measure |String         |quantity in which food item is measured    |
-|user    |pointer to User|food item author                           |
+|Property |Type           |Description                                   |
+|---------|---------------|----------------------------------------------|
+|objectId |String         |unique id for the user post (default field)   |
+|name     |String         |name of item.                                 |
+|image    |File           |optional picture of food item                 |
+|quantity |number         |amount of food item                           |
+|measure  |String         |quantity in which food item is measured       |
+|user     |pointer to User|food item author                              |
+|updatedAt|DateTime       |date when post is created (default field)     |
+|createdAt|DateTime       |date when post is last updated (default field)|
 
 ### Networking
 - [Add list of network requests by screen ]
