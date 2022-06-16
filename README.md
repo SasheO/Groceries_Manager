@@ -162,6 +162,12 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 |procedure  |String         |String of method for preparing food           |
 
 ### Networking
+* grocery/pantry list screen: 
+    * get request for all food items in list where user is author
+```
+   input code here
+```
+
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
