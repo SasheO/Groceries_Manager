@@ -165,7 +165,11 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * grocery/pantry list screen: 
     * get request for all food items in list where user is author
 ```
-   input code here
+type in code here
+   // whereKey("author", equalTo: currentUser)
+   // whereKey("type", equalTo: type ) --> type is either grocery or pantry list
+   // query.order(byDescending: "createdAt")
+   
 ```
 
 - [Add list of network requests by screen ]
