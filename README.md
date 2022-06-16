@@ -121,7 +121,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **Food items**
 |Property |Type           |Description                                   |
 |---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the user post (default field)   |
+|objectId |String         |unique id for the food item (default field)   |
 |name     |String         |name of item.                                 |
 |image    |File           |optional picture of food item                 |
 |quantity |number         |amount of food item                           |
@@ -133,7 +133,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **User**
 |Property |Type           |Description                                   |
 |---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the user post (default field)   |
+|objectId |String         |unique id for the user (default field)        |
 |username |String         |name of user                                  |
 |password |String         |user's password                               |
 |updatedAt|DateTime       |date when post is created (default field)     |
@@ -153,7 +153,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 **Recipe (stretch)**
 |Property   |Type           |Description                                   |
 |-----------|---------------|----------------------------------------------|
-|objectId   |String         |unique id for the user post (default field)   |
+|objectId   |String         |unique id for the recipe (default field)      |
 |name       |String         |recipe name                                   |
 |updatedAt  |DateTime       |date when post is created (default field)     |
 |createdAt  |DateTime       |date when post is last updated (default field)|
