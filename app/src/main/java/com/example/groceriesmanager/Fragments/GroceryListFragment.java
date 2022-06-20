@@ -11,6 +11,9 @@ import com.example.groceriesmanager.R;
 
 public class GroceryListFragment extends Fragment {
 
+        // required empty constructor
+        public GroceryListFragment() {}
+
         // The onCreateView method is called when Fragment should create its View object hierarchy,
         // either dynamically or via XML layout inflation.
         @Override
@@ -23,7 +26,7 @@ public class GroceryListFragment extends Fragment {
         // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
-            // Setup any handles to view objects here
-            // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-
+                // Setup any handles to view objects here
+                // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        }
 }
