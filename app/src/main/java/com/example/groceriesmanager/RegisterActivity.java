@@ -17,7 +17,6 @@ import com.parse.SignUpCallback;
 
 
 
-
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView tvLogin;
@@ -60,9 +59,9 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "please choose a username", Toast.LENGTH_LONG).show();
                 }
                 // todo: check if no one else has this username
-                // check if there is a password
+                // todo: check if there is a password
                 else {
-                    // todo: create new user
+                    // \create new user
                     ParseUser newUser = new ParseUser();
                     newUser.setUsername(username);
                     newUser.setPassword(password);
@@ -88,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void goToMainActivity(){
         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         startActivity(intent);
-        // line below ensures user cannot go back to login page by repeatedly pressing back
+        // line below ensures user cannot go back to register page by repeatedly pressing back
         finish();
     }
 
