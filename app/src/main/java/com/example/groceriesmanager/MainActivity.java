@@ -1,6 +1,7 @@
 package com.example.groceriesmanager;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final String TAG = "MainActivity";
     BottomNavigationView bottomNavigationView;
     // these lines below are necessary to be able to refer to the fragments from another fragment via the activity
@@ -42,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // when you first open the main activity, the grocerylist fragment shows first
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        fragmentManager.beginTransaction().replace(R.id.frameLayout, groceryListFragment);
-        ft.commit();
+        fragmentManager.beginTransaction().replace(R.id.frameLayout, groceryListFragment).commit();
 
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.miYoutubeSearch:
                         fragment = youtubeSearchFragment;
+                        break;
+                    case R.id.miGroceryList:
+                        fragment = groceryListFragment;
                         break;
                     default:
                         fragment = groceryListFragment;
