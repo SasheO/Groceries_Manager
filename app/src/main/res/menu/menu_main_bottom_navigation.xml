@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miGroceryList"
+        android:icon="@drawable/list"
+        android:title="Groceries"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miPantryList"
+        android:icon="@drawable/shelf"
+        android:title="Pantries"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miSavedList"
+        android:icon="@android:drawable/btn_star_big_on"
+        android:title="Saved"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miRecipeSearch"
+        android:icon="@drawable/pot"
+        android:title="Recipes"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miYoutubeSearch"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="YouTube"
+        app:showAsAction="always" />
+</menu>

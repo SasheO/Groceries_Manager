@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
+            // if user presses logout menu item button
             case R.id.miLogOut:
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
