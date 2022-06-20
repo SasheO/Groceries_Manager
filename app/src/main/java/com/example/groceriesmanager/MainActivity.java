@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Fragments.GroceryListFragment;
+import com.example.groceriesmanager.Fragments.PantryListFragment;
+import com.example.groceriesmanager.Fragments.RecipeSearchFragment;
+import com.example.groceriesmanager.Fragments.SavedRecipesFragment;
+import com.example.groceriesmanager.Fragments.YoutubeSearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     // these lines below are necessary to be able to refer to the fragments from another fragment via the activity
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public GroceryListFragment groceryListFragment = new GroceryListFragment();
+    public PantryListFragment pantryListFragment = new PantryListFragment();
+    public SavedRecipesFragment savedRecipesFragment = new SavedRecipesFragment();
+    public RecipeSearchFragment recipeSearchFragment = new RecipeSearchFragment();
+    public YoutubeSearchFragment youtubeSearchFragment = new YoutubeSearchFragment();
 
 
     @Override
@@ -49,18 +57,17 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.miPantryList:
                         // this replaces the fragment housed in frameLayout with a postfragment
-//                        fragment = newPostFragment;
-//                        break;
-
+                        fragment = pantryListFragment;
+                        break;
                     case R.id.miSavedList:
-//                        fragment = profileFragment;
-//                        break;
+                        fragment = savedRecipesFragment;
+                        break;
                     case R.id.miRecipeSearch:
-//                        fragment = profileFragment;
-//                        break;
+                        fragment = recipeSearchFragment;
+                        break;
                     case R.id.miYoutubeSearch:
-//                        fragment = profileFragment;
-//                        break;
+                        fragment = youtubeSearchFragment;
+                        break;
                     default:
                         fragment = groceryListFragment;
                         break;
