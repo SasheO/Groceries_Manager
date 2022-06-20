@@ -35,6 +35,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 
 **Optional Nice-to-have Stories**
+* Each item in grocery/pantry list has an image shown
 * User can save and unsave recipes
 * User can view saved recipes
 * User can create own recipes which are automatically saved on their device
