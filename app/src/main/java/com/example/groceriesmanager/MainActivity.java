@@ -50,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
-                switch (item.getItemId()) {
-                    case R.id.miGroceryList:
-                        // this replaces the fragment housed in frameLayout with a feedfragment
-                        fragment = groceryListFragment;
-                        break;
+                switch (item.getItemId()) {// this replaces the fragment housed in frameLayout with a feedfragment
                     case R.id.miPantryList:
                         // this replaces the fragment housed in frameLayout with a postfragment
                         fragment = pantryListFragment;
