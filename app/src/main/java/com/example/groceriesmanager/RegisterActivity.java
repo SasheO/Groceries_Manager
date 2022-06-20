@@ -73,7 +73,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 Log.e(TAG, "error encountered signing up new user: " + e.toString());
                             }
                             else{
-                                Toast.makeText(RegisterActivity.this, "Welcome to Instagram!", Toast.LENGTH_LONG).show();
+                                // todo: change the text toasted below when you decide a better name for user
+                                Toast.makeText(RegisterActivity.this, "Welcome to Groceries Manager!", Toast.LENGTH_LONG).show();
                                 goToMainActivity();
                             }
                         }
