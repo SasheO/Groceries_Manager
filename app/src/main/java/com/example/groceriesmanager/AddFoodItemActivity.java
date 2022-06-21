@@ -81,6 +81,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                     // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
                     if (type=="grocery"){
                         // todo: save it to current user's grocery list
+
                     }
                     else if (type == "pantry"){
                         // todo: save it to current user's pantry list
