@@ -1,15 +1,23 @@
 package com.example.groceriesmanager.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.AddFoodItemActivity;
 import com.example.groceriesmanager.R;
 
 public class GroceryListFragment extends Fragment {
+        // TODO: Rename parameter arguments, choose names that match
+        RecyclerView rvGroceryList;
+        ImageButton btnAddGroceryItem;
+
 
         // required empty constructor
         public GroceryListFragment() {}
@@ -27,6 +35,17 @@ public class GroceryListFragment extends Fragment {
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
                 // Setup any handles to view objects here
-                // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+                rvGroceryList = view.findViewById(R.id.rvGroceryList);
+                btnAddGroceryItem = view.findViewById(R.id.btnAddGroceryItem);
+
+
+                btnAddGroceryItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                                Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
+                                // todo: put extra that indicates that this is a new grocery list item
+                                startActivity(intent);
+                        }
+                });
         }
 }
