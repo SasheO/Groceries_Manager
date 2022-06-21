@@ -19,7 +19,7 @@
             android:textSize="45sp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btnAddGroceryItem"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@null"
@@ -28,6 +28,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGroceryList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

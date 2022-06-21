@@ -18,6 +18,9 @@
         android:theme="@style/Theme.GroceriesManager"
         tools:targetApi="31">
         <activity
+            android:name=".AddFoodItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -31,7 +34,7 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
