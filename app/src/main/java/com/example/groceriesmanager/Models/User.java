@@ -12,7 +12,7 @@ public class User extends ParseUser {
     public void setGroceryList(UserList groceryList){put(KEY_GROCERYLIST, groceryList);}
     public void setPantryList(UserList pantryList){put(KEY_PANTRYLIST, pantryList);}
 
-    public ParseObject getGroceryList(){return getParseObject(KEY_GROCERYLIST);}
-    public ParseObject getPantryList(){return getParseObject(KEY_PANTRYLIST);}
+    public UserList getGroceryList(){return (UserList) getParseObject(KEY_GROCERYLIST);}
+    public UserList getPantryList(){return (UserList) getParseObject(KEY_PANTRYLIST);}
 
 }

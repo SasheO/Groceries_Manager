@@ -12,9 +12,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
+import com.example.groceriesmanager.Models.User;
+import com.example.groceriesmanager.Models.UserList;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
@@ -72,23 +76,59 @@ public class AddFoodItemActivity extends AppCompatActivity {
                             }
                             else{
                                 Log.i(TAG, "food item saved successfully");
-                                finish();
+                                // todo: make the following code work to save a new food item to the current user's grocery list on the server
+                                addFoodToGroceryList(type, newFoodItem);
                             }
                         }
                     });
 
-                    // todo: add it to either a grocery or pantry list of the logged in user
-                    // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
-                    if (type=="grocery"){
-                        // todo: save it to current user's grocery list
 
-                    }
-                    else if (type == "pantry"){
-                        // todo: save it to current user's pantry list
-                    }
 
                 }
             }
         });
+    }
+
+    private void addFoodToGroceryList(String type, FoodItem newFoodItem) {
+        User current_user = (User) ParseUser.getCurrentUser();
+
+        // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
+        if (type=="grocery"){
+            // todo: save it to current user's grocery list
+            UserList groceryList =  current_user.getGroceryList();
+            Log.i(TAG, "grocery list id" + groceryList.getObjectId().toString());
+            groceryList.addFoodItem(newFoodItem);
+            groceryList.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!=null){
+                        Log.e(TAG, "error saving food item to grocery list: "+ e.toString());
+                    }
+                    else {
+                        Log.i(TAG, "saved food item to grocery list successfully");
+                        Toast.makeText(AddFoodItemActivity.this, "saved!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }
+            });
+        }
+        else if (type == "pantry"){
+            // todo: save it to current user's pantry list
+            UserList pantryList = current_user.getPantryList();
+            pantryList.addFoodItem(newFoodItem);
+            pantryList.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!=null){
+                        Log.e(TAG, "error saving food item to pantry list: "+ e.toString());
+                    }
+                    else {
+                        Log.i(TAG, "saved food item to pantry list successfully");
+                        Toast.makeText(AddFoodItemActivity.this, "saved!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                }
+            });
+        }
     }
 }
