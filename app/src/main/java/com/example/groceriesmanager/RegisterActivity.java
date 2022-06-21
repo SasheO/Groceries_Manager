@@ -11,8 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.groceriesmanager.Models.User;
+import com.example.groceriesmanager.Models.UserList;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 
@@ -24,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etRegisterPassword;
     private Button btnRegister;
     private static final String TAG = "RegisterActivity";
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // what will happen when the user clicks the sign up button
-                String username = etRegisterUsername.getText().toString();
-                String password = etRegisterPassword.getText().toString();
+                username = etRegisterUsername.getText().toString();
+                password = etRegisterPassword.getText().toString();
 
                 // check if username is valid i.e. no spaces
                 if (username.contains(" ")){
@@ -62,24 +67,37 @@ public class RegisterActivity extends AppCompatActivity {
                 // todo: check if no one else has this username
                 // todo: check if there is a password
                 else {
-                    // \create new user
-                    ParseUser newUser = new ParseUser();
-                    newUser.setUsername(username);
-                    newUser.setPassword(password);
-                    newUser.signUpInBackground(new SignUpCallback() {
+                    // create grocery and pantry list for the new user
+                    UserList groceryList = new UserList();
+                    groceryList.setType("grocery");
+                    UserList pantryList = new UserList();
+                    pantryList.setType("pantry");
+                    groceryList.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if (e!= null){
-                                Toast.makeText(RegisterActivity.this, "error encountered signing up", Toast.LENGTH_LONG).show();
-                                Log.e(TAG, "error encountered signing up new user: " + e.toString());
+                            if (e!=null){
+                                Log.e(TAG, "error saving user grocery list in server" + e.toString());
                             }
                             else{
-                                // todo: change the text toasted below when you decide a better name for user
-                                Toast.makeText(RegisterActivity.this, "Welcome to Groceries Manager!", Toast.LENGTH_LONG).show();
-                                goToMainActivity();
+                                Log.i(TAG, "user grocery list successfully created and saved in server");
+
+                                pantryList.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e!=null){
+                                            Log.e(TAG, "error saving new user pantry list in server"+ e.toString());
+                                        }
+                                        else{
+                                            Log.i(TAG, "new user pantry list successfully created and saved in server");
+                                            createNewUser(username, password, groceryList, pantryList);
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
+
+
                 }
 
             }
@@ -93,4 +111,28 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    private void createNewUser(String username, String password, UserList groceryList, UserList pantryList){
+        // create new user
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        // set their grocery and pantry list
+        newUser.setGroceryList(groceryList);
+        newUser.setPantryList(pantryList);
+
+        // sign them up in server
+        newUser.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!= null){
+                    Toast.makeText(RegisterActivity.this, "error encountered signing up", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "error encountered signing up new user: " + e.toString());
+                }
+                else{
+                    Toast.makeText(RegisterActivity.this, "Welcome to " + R.string.app_name, Toast.LENGTH_LONG).show();
+                    goToMainActivity();
+                }
+            }
+        });
+    }
 }

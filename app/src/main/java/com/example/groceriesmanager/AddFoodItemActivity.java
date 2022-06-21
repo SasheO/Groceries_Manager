@@ -5,16 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
@@ -57,14 +57,35 @@ public class AddFoodItemActivity extends AppCompatActivity {
                 else{
                     //todo: create a food item
                     FoodItem newFoodItem = new FoodItem();
-                    newFoodItem.setName(foodName);
+                    newFoodItem.setName(foodName.replaceAll("\n", ""));
                     newFoodItem.setUser(ParseUser.getCurrentUser());
                     if (foodQty != ""){
                         newFoodItem.setQuantity(foodQty);
                         newFoodItem.setMeasure(foodMeasure);
                     }
-                    // todo: add it to either a grocery or pantry list of the logged in user
+                    // update info in parse server
+                    newFoodItem.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!=null){
+                                Log.e(TAG, "error saving food item to server");
+                            }
+                            else{
+                                Log.i(TAG, "food item saved successfully");
+                                finish();
+                            }
+                        }
+                    });
 
+                    // todo: add it to either a grocery or pantry list of the logged in user
+                    // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
+                    if (type=="grocery"){
+                        // todo: save it to current user's grocery list
+
+                    }
+                    else if (type == "pantry"){
+                        // todo: save it to current user's pantry list
+                    }
 
                 }
             }
