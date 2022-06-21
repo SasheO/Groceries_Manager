@@ -2,6 +2,7 @@ package com.example.groceriesmanager;
 
 import android.app.Application;
 
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -15,8 +16,7 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         // register all classes that inherit parse
-        // ParseObject.registerSubclass(Post.class);
-        // ParseObject.registerSubclass(Comment.class);
+        ParseObject.registerSubclass(FoodItem.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
