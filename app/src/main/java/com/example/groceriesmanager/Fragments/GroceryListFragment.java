@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.AddFoodItemActivity;
+import com.example.groceriesmanager.Activities.AddFoodItemActivity;
 import com.example.groceriesmanager.R;
 
 public class GroceryListFragment extends Fragment {

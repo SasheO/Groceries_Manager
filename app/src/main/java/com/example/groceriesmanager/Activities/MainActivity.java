@@ -1,11 +1,9 @@
-package com.example.groceriesmanager;
+package com.example.groceriesmanager.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +17,7 @@ import com.example.groceriesmanager.Fragments.PantryListFragment;
 import com.example.groceriesmanager.Fragments.RecipeSearchFragment;
 import com.example.groceriesmanager.Fragments.SavedRecipesFragment;
 import com.example.groceriesmanager.Fragments.YoutubeSearchFragment;
+import com.example.groceriesmanager.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
