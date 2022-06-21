@@ -65,7 +65,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                     }
                     // todo: add it to either a grocery or pantry list of the logged in user
 
-                    //
+
                 }
             }
         });
