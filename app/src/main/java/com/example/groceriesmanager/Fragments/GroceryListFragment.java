@@ -16,7 +16,7 @@ import com.example.groceriesmanager.R;
 public class GroceryListFragment extends Fragment {
         // TODO: Rename parameter arguments, choose names that match
         RecyclerView rvGroceryList;
-        ImageButton btnAddGroceryItem;
+        ImageButton ibAddGroceryItem;
 
 
         // required empty constructor
@@ -36,10 +36,10 @@ public class GroceryListFragment extends Fragment {
         public void onViewCreated(View view, Bundle savedInstanceState) {
                 // Setup any handles to view objects here
                 rvGroceryList = view.findViewById(R.id.rvGroceryList);
-                btnAddGroceryItem = view.findViewById(R.id.btnAddGroceryItem);
+                ibAddGroceryItem = view.findViewById(R.id.ibAddGroceryItem);
 
 
-                btnAddGroceryItem.setOnClickListener(new View.OnClickListener() {
+                ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);

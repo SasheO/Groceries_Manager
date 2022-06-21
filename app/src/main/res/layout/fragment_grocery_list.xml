@@ -19,7 +19,7 @@
             android:textSize="45sp" />
 
         <ImageButton
-            android:id="@+id/btnAddGroceryItem"
+            android:id="@+id/ibAddGroceryItem"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@null"
