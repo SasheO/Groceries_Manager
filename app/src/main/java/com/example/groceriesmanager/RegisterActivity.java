@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterUsername = findViewById(R.id.etRegisterUsername);
         btnRegister = findViewById(R.id.btnRegister);
 
+
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

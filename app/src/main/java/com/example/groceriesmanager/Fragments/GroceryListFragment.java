@@ -44,6 +44,7 @@ public class GroceryListFragment extends Fragment {
                         public void onClick(View v) {
                                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
                                 // todo: put extra that indicates that this is a new grocery list item
+                                intent.putExtra("type", "grocery");
                                 startActivity(intent);
                         }
                 });

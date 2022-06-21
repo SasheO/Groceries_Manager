@@ -71,7 +71,7 @@
         android:contentDescription="Number text input for food quantity"
         android:ems="10"
         android:inputType="number"
-        android:text="1"
+        android:text=""
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
