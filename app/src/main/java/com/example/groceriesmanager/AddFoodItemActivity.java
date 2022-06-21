@@ -17,6 +17,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddFoodItemActivity extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
         User current_user = (User) ParseUser.getCurrentUser();
 
         String type = getIntent().getStringExtra("type");
+
 
         // array adapter for rendering items into the spinner
         ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
@@ -76,12 +78,12 @@ public class AddFoodItemActivity extends AppCompatActivity {
                             else{
                                 Log.i(TAG, "food item saved successfully");
                                 etFoodName.setText("");
-//                                Log.i(TAG, "...type = " + type);
 
+                                // todo: add item to given grocery or pantry list
+                                // todo: extract this grocery/pantry list stuff into another function for readability
+                                // error: this does not run!!!
                                 if (type == "grocery"){
-                                    Log.i(TAG, "...type = " + type);
-
-                                    Log.i(TAG, "current user id: " + current_user.getObjectId().toString());
+                                    Log.i(TAG, "type: " + type);
                                     List<FoodItem> groceryList = current_user.getGroceryList();
                                     groceryList.add(newFoodItem);
                                     current_user.setGroceryList(groceryList);
@@ -89,17 +91,30 @@ public class AddFoodItemActivity extends AppCompatActivity {
                                         @Override
                                         public void done(ParseException e) {
                                             if (e!= null){
-                                                Log.e(TAG, "error saving food item to grocerylist");
+                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
                                             }
-                                            else{
-                                                Log.e(TAG, "successfully saved food item to grocery list");
+                                            else {
+                                                Log.i(TAG, "successfully updated user grocery list");
                                             }
                                         }
                                     });
-
                                 }
-                                else {
-                                    // Log.i(TAG, "type = " + type);
+                                else if (type == "pantry"){
+                                    Log.i(TAG, "type: " + type);
+                                    List<FoodItem> pantryList = current_user.getPantryList();
+                                    pantryList.add(newFoodItem);
+                                    current_user.setPantryList(pantryList);
+                                    current_user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e!= null){
+                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
+                                            }
+                                            else {
+                                                Log.i(TAG, "successfully updated user grocery list");
+                                            }
+                                        }
+                                    });
                                 }
 
                             }
