@@ -1,20 +1,22 @@
 <resources>
-    <string name="app_name">Accessibly Cooking!</string>
+    <string name="app_name">Groceries Manager</string>
     <string-array name="food_measures">
         <item></item>
         <item>ct</item>
         <item>tbsp</item>
         <item>tsp</item>
         <item>oz</item>
-        <item>fl. oz</item>
-        <item>c</item>
-        <item>quart</item>
-        <item>pint</item>
-        <item>gal</item>
+        <item>cup</item>
         <item>lb</item>
         <item>mL</item>
         <item>g</item>
         <item>kg</item>
         <item>L</item>
+        <!--
+        <item>quart</item>
+        <item>pint</item>
+        <item>gal</item>
+        <item>fl. oz</item>
+        -->
     </string-array>
 </resources>

@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.groceriesmanager.Models.UserList;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 
@@ -76,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                             else{
                                 // todo: change the text toasted below when you decide a better name for user
                                 Toast.makeText(RegisterActivity.this, "Welcome to Groceries Manager!", Toast.LENGTH_LONG).show();
+                                createUserLists();
                                 goToMainActivity();
                             }
                         }
@@ -93,4 +96,35 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    private void createUserLists(){
+        UserList groceryList = new UserList();
+        groceryList.setUser(ParseUser.getCurrentUser());
+        groceryList.setType("grocery");
+        groceryList.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error saving user grocery list in server");
+                }
+                else{
+                    Log.i(TAG, "user grocery list successfully created and saved in server");
+                }
+            }
+        });
+
+        UserList pantryList = new UserList();
+        pantryList.setUser(ParseUser.getCurrentUser());
+        pantryList.setType("pantry");
+        pantryList.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error saving new user pantry list in server");
+                }
+                else{
+                    Log.i(TAG, "new user pantry list successfully created and saved in server");
+                }
+            }
+        });
+    }
 }
