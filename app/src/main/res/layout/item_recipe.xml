@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="6dp">
 
+    <ImageView
+        android:id="@+id/ivRecipeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Recipe image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvRecipeTitle"
+        android:layout_width="268dp"
+        android:layout_height="86dp"
+        android:layout_marginBottom="42dp"
+        android:contentDescription="Recipe Title"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivRecipeImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/ivRecipeImage"
+        app:layout_constraintTop_toTopOf="@+id/ivRecipeImage"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Recipe Title Appears Here" />
+
+    <TextView
+        android:id="@+id/tvRecipeIngredientLines"
+        android:layout_width="396dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Text view of ingredient lines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivRecipeImage"
+        tools:text="Ingredient lines appear here" />
+
+    <TextView
+        android:id="@+id/tvOpenRecipeLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+
+        android:contentDescription="Open recipe link"
+        android:text="Open Recipe Link"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecipeIngredientLines" />
+
+    <ImageButton
+        android:id="@+id/ibOpenRecipeLink"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="4dp"
+        android:background="@null"
+        android:contentDescription="open recipe link button"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/tvOpenRecipeLink"
+        app:layout_constraintStart_toEndOf="@+id/tvOpenRecipeLink"
+        app:layout_constraintTop_toTopOf="@+id/tvOpenRecipeLink"
+        app:layout_constraintVertical_bias="0.692"
+        app:srcCompat="@android:drawable/ic_menu_set_as"
+        app:tint="#121111" />
+
+    <TextView
+        android:id="@+id/tvRecipeFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="85dp"
+        android:contentDescription="Recipe filters"
+        app:layout_constraintEnd_toEndOf="@+id/tvRecipeTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvRecipeTitle"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecipeTitle"
+        tools:text="Recipe Filters appear here" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.groceriesmanager.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
@@ -22,6 +24,12 @@ public class RecipeAdapter extends
     private List<Recipe> recipeList;
     MainActivity context;
     public static final String TAG = "RecipeAdapter";
+
+    // constructor to set context
+    public RecipeAdapter(Context context, List<Recipe> recipeList) {
+        this.context = (MainActivity) context;
+        this.recipeList = recipeList;
+    }
 
     @NonNull
     @Override
@@ -56,12 +64,12 @@ public class RecipeAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-//        public TextView tvFoodItemName;
-//        public TextView tvFoodItemQty;
-//        public TextView tvFoodItemMeasure;
-//        public ImageView ivFoodItemPic;
-//        public ImageButton ibFoodItemCheckBox;
-//        public ImageButton ibFoodItemDelete;
+        public TextView tvRecipeTitle;
+        public TextView tvRecipeIngredientLines;
+        public TextView tvOpenRecipeLink;
+        public TextView tvRecipeFilters;
+        public ImageButton ibOpenRecipeLink;
+        public ImageView ivRecipeImage;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -70,26 +78,38 @@ public class RecipeAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
-//            tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
-//            tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
-//            tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-//            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
-//            ibFoodItemCheckBox = (ImageButton) itemView.findViewById(R.id.ibFoodItemCheckBox);
-//            ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
+            tvRecipeTitle = (TextView) itemView.findViewById(R.id.tvRecipeTitle);
+            tvRecipeIngredientLines = (TextView) itemView.findViewById(R.id.tvRecipeIngredientLines);
+            tvOpenRecipeLink = (TextView) itemView.findViewById(R.id.tvOpenRecipeLink);
+            tvRecipeFilters = (TextView) itemView.findViewById(R.id.tvRecipeFilters);
+            ibOpenRecipeLink = (ImageButton) itemView.findViewById(R.id.ibOpenRecipeLink);
+            ivRecipeImage = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
         }
 
         public void bind(Recipe recipe) {
-//            tvFoodItemName.setText(foodItem.getName());
-//            String qty = foodItem.getQuantity();
-//            if (qty == null){
-//                tvFoodItemQty.setVisibility(View.GONE);
-//                tvFoodItemMeasure.setVisibility(View.GONE);
-//            }
-//            else{
-//                tvFoodItemQty.setVisibility(View.VISIBLE);
-//                tvFoodItemQty.setText(foodItem.getQuantity());
-//                tvFoodItemMeasure.setText(foodItem.getMeasure());
-//            }
+            tvRecipeTitle.setText(recipe.getTitle());
+            Glide.with(context)
+                    .load(recipe.getImage_url())
+                    .placeholder(R.drawable.vegetables)
+                    .error(R.drawable.vegetables)
+                    .into(ivRecipeImage);
+
+            // todo: convert recipe lines from recipe from string array to a string that can be displayed in
+
+            // todo: what happens when user clicks open recipe link
+            tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            // todo: what happens when user clicks open recipe link
+            ibOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
 
         @Override

@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="type ingredient, recipe names, etc."
+            android:hint="look up recipes, ingredients, etc."
             />
 
         <ImageButton
