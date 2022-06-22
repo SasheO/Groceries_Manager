@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
@@ -84,8 +85,8 @@ public class AddFoodItemActivity extends AppCompatActivity {
 
                                 // todo: add item to given grocery or pantry list
                                 // todo: extract this grocery/pantry list stuff into another function for readability
-                                // error: this does not run!!!
-                                if (type == "grocery"){
+                                // note: you cannot compare string with ==, must use .equals
+                                if (Objects.equals(type, "grocery")){
                                     Log.i(TAG, "type: " + type);
                                     List<FoodItem> groceryList = current_user.getGroceryList();
                                     groceryList.add(newFoodItem);
