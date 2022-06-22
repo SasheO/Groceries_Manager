@@ -17,7 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddFoodItemActivity extends AppCompatActivity {
