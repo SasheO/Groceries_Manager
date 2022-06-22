@@ -27,7 +27,6 @@ public class GroceryListFragment extends Fragment {
         RecyclerView rvGroceryList;
         ImageButton btnAddGroceryItem;
         List<FoodItem> groceryList;
-        public static final String KEY_GROCERY_LIST = "groceryList";
         private static final String TAG = "GroceryListFragment";
         public FoodListAdapter adapter;
 
@@ -49,7 +48,6 @@ public class GroceryListFragment extends Fragment {
                 // Setup any handles to view objects here
                 rvGroceryList = (RecyclerView) view.findViewById(R.id.rvGroceryList);
                 btnAddGroceryItem = view.findViewById(R.id.btnAddGroceryItem);
-                groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
                 groceryList = new ArrayList<>();
                 User current_user = (User) ParseUser.getCurrentUser();
                 groceryList = current_user.getGroceryList();

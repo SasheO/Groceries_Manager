@@ -6,10 +6,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pantry list"
-        tools:layout_editor_absoluteY="333dp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="207dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Pantry List"
+            android:textSize="45sp" />
+
+        <ImageButton
+            android:id="@+id/btnAddPantryItem"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:contentDescription="Add new item button"
+            app:srcCompat="@android:drawable/ic_input_add" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPantryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
