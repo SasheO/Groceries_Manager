@@ -68,6 +68,7 @@ public class RecipeSearchFragment extends Fragment {
                     // this creates the request url
                     HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
                     urlBuilder.addQueryParameter("q", query);
+                    urlBuilder.addQueryParameter("type", "public");
                     urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
                     urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
                     String url = urlBuilder.build().toString();
@@ -105,26 +106,6 @@ public class RecipeSearchFragment extends Fragment {
 
 
 
-//                AsyncHttpClient client = new AsyncHttpClient();
-//                RequestParams params = new RequestParams();
-//        params.put("q", userQuery); // q is whatever the user searches
-
-//        List<String> filters = new ArrayList<>();
-//        params.put("health", filters); // health is an array string that can hold filters like vegan, vegetarian, etc.
-//                client.get("https://api.edamam.com/api/recipes/v2", params, new TextHttpResponseHandler() {
-//                            @Override
-//                            public void onSuccess(int statusCode, Headers headers, String response) {
-//                                // called when response HTTP status is "200 OK"
-//                                Log.i(TAG, "response: "+response);
-//                            }
-//
-//                            @Override
-//                            public void onFailure(int statusCode, Headers headers, String errorResponse, Throwable t) {
-//                                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-//                                Log.e(TAG, "unable to access from edamam server. error: " + errorResponse);
-//                            }
-//                        }
-//                );
                 }
             }
         });
