@@ -10,7 +10,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Adapters.FoodListAdapter;
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
@@ -35,6 +39,8 @@ public class RecipeSearchFragment extends Fragment {
     EditText etRecipeIngredient;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
+    public RecipeAdapter adapter;
+    RecyclerView rvRecipeSearch;
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -55,6 +61,15 @@ public class RecipeSearchFragment extends Fragment {
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         etRecipeIngredient = (EditText) view.findViewById(R.id.etRecipeIngredient);
         ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
+        rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvRecipeSearch);
+        recipeList = new ArrayList<>();
+        adapter = new RecipeAdapter(getContext(), recipeList);
+
+        // set the adapter on the recycler view
+        rvRecipeSearch.setAdapter(adapter);
+        // set the layout manager on the recycler view
+        rvRecipeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+
 
         ibRecipeSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,11 +111,9 @@ public class RecipeSearchFragment extends Fragment {
                                     JSONObject responsejson = new JSONObject(myResponse);
                                     JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
                                     // todo: add all recipes to the recipe list that will be passed into adapter
-                                    recipeList = new ArrayList<>();
                                     recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
                                     Log.i(TAG, "recipe list: " + recipeList.toString());
                                     Log.i(TAG, String.valueOf(recipeList.size()));
-                                    // todo: notify adapter data set changed
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Log.e(TAG, "JSONException: " + e.toString());
@@ -110,6 +123,7 @@ public class RecipeSearchFragment extends Fragment {
                                     @Override
                                     public void run() {
                                         // edit the view here
+                                        adapter.notifyDataSetChanged();
                                     }
                                 });
                             }
