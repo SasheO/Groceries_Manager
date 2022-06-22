@@ -1,4 +1,4 @@
-package com.example.groceriesmanager;
+package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.User;
+import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

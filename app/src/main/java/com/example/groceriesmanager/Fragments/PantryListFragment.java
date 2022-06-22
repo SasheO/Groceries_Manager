@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
-import com.example.groceriesmanager.AddFoodItemActivity;
+import com.example.groceriesmanager.Activities.AddFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;

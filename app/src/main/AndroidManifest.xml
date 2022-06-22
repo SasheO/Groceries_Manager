@@ -18,13 +18,13 @@
         android:theme="@style/Theme.GroceriesManager"
         tools:targetApi="31">
         <activity
-            android:name=".AddFoodItemActivity"
+            android:name=".Activities.AddFoodItemActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:exported="false" />
     </application>
 
