@@ -10,7 +10,8 @@
         android:id="@+id/tvFoodItemName"
         android:layout_width="239dp"
         android:layout_height="52dp"
-        android:textSize="50sp"
+        android:text="Food name"
+        android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/ivFoodItemPic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -54,6 +55,7 @@
         android:layout_width="53dp"
         android:layout_height="49dp"
         android:background="@null"
+        android:contentDescription="bought checkbox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/checkbox_off_background" />
@@ -64,6 +66,7 @@
         android:layout_height="49dp"
         android:layout_marginTop="4dp"
         android:background="@null"
+        android:contentDescription="delete button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ibFoodItemCheckBox"
         app:srcCompat="@android:drawable/ic_menu_delete" />

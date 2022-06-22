@@ -46,19 +46,20 @@ public class GroceryListFragment extends Fragment {
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
                 // Setup any handles to view objects here
-                rvGroceryList = view.findViewById(R.id.rvGroceryList);
+                rvGroceryList = (RecyclerView) view.findViewById(R.id.rvGroceryList);
                 btnAddGroceryItem = view.findViewById(R.id.btnAddGroceryItem);
                 groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
                 groceryList = new ArrayList<>();
+                Log.i(TAG, "grocery list: " + groceryList.toString());
+                groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
                 adapter = new FoodListAdapter(getContext(), groceryList);
 
                 // set the adapter on the recycler view
                 rvGroceryList.setAdapter(adapter);
                 // set the layout manager on the recycler view
                 rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
-                groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
                 Log.i(TAG, "groceryList: "+groceryList.toString());
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
 
                 btnAddGroceryItem.setOnClickListener(new View.OnClickListener() {
                         @Override

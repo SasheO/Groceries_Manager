@@ -19,7 +19,7 @@ import java.util.List;
 
 public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
-    public static List<FoodItem> foodItemList;
+    private List<FoodItem> foodItemList;
     MainActivity context;
     public static final String TAG = "FoodListAdapter";
 
@@ -35,10 +35,10 @@ public class FoodListAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View postView = inflater.inflate(R.layout.item_food_list, parent, false);
+        View foodItemView = inflater.inflate(R.layout.item_food_list, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(postView);
+        ViewHolder viewHolder = new ViewHolder(foodItemView);
 
         return viewHolder;
     }
@@ -77,7 +77,7 @@ public class FoodListAdapter extends
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
-
+            itemView.setOnClickListener(this);
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
