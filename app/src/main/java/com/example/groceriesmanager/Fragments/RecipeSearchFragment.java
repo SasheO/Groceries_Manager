@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +34,7 @@ public class RecipeSearchFragment extends Fragment {
     ImageButton ibRecipeSearch;
     EditText etRecipeIngredient;
     private static final String TAG = "RecipeSearchFragment";
+    public static List<Recipe> recipeList;
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -88,7 +91,21 @@ public class RecipeSearchFragment extends Fragment {
                         public void onResponse(Call call, Response response) throws IOException {
                             if (response.isSuccessful()){
                                 String myResponse = response.body().string();
-                                Log.i(TAG, "response: " + myResponse);
+                                Log.i(TAG, "recipes: " + myResponse);
+                                try {
+                                    JSONObject responsejson = new JSONObject(myResponse);
+                                    JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
+                                    // todo: add all recipes to the recipe list that will be passed into adapter
+                                    recipeList = new ArrayList<>();
+                                    recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
+                                    Log.i(TAG, "recipe list: " + recipeList.toString());
+                                    Log.i(TAG, String.valueOf(recipeList.size()));
+                                    // todo: notify adapter data set changed
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e(TAG, "JSONException: " + e.toString());
+                                }
+
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
