@@ -108,16 +108,16 @@ public class FoodListAdapter extends
                 @Override
                 public void onClick(View v) {
                     // todo: delete item from the list
-                    // todo: display the toast (?) with undo button
+                    // todo: display the snackbar with undo button
                 }
             });
 
             ibFoodItemSwitchList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    foodItem.switchList();
+                    foodItem.switchList(v);
                     // todo: update the local view
-                    // todo: display the toast (?) with undo button
+                    // todo: display the snackbar with undo button
                 }
             });
 
