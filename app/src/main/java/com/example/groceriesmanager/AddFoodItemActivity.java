@@ -77,6 +77,9 @@ public class AddFoodItemActivity extends AppCompatActivity {
                             else{
                                 Log.i(TAG, "food item saved successfully");
                                 etFoodName.setText("");
+                                etFoodQty.setText("");
+
+
 
                                 // todo: add item to given grocery or pantry list
                                 // todo: extract this grocery/pantry list stuff into another function for readability

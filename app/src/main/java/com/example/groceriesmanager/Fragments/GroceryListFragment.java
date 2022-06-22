@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.AddFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
+import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
 import com.parse.ParseUser;
 
@@ -50,15 +51,18 @@ public class GroceryListFragment extends Fragment {
                 btnAddGroceryItem = view.findViewById(R.id.btnAddGroceryItem);
                 groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
                 groceryList = new ArrayList<>();
-                Log.i(TAG, "grocery list: " + groceryList.toString());
-                groceryList = ParseUser.getCurrentUser().getList(KEY_GROCERY_LIST);
+                User current_user = (User) ParseUser.getCurrentUser();
+                groceryList = current_user.getGroceryList();
                 adapter = new FoodListAdapter(getContext(), groceryList);
 
                 // set the adapter on the recycler view
                 rvGroceryList.setAdapter(adapter);
                 // set the layout manager on the recycler view
                 rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
-                Log.i(TAG, "groceryList: "+groceryList.toString());
+//                Log.i(TAG, "groceryList: "+groceryList.toString());
+                for (FoodItem item: groceryList){
+                        Log.i(TAG, "food item: " + item.getObjectId().toString());
+                }
 //                adapter.notifyDataSetChanged();
 
                 btnAddGroceryItem.setOnClickListener(new View.OnClickListener() {
