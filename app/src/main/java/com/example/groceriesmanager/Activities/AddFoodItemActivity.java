@@ -81,45 +81,10 @@ public class AddFoodItemActivity extends AppCompatActivity {
                                 etFoodName.setText("");
                                 etFoodQty.setText("");
 
+                                addFoodToGroceryList(type, newFoodItem);
 
 
-                                // todo: add item to given grocery or pantry list
-                                // todo: extract this grocery/pantry list stuff into another function for readability
-                                // note: you cannot compare string with ==, must use .equals
-                                if (Objects.equals(type, "grocery")){
-                                    Log.i(TAG, "type: " + type);
-                                    List<FoodItem> groceryList = current_user.getGroceryList();
-                                    groceryList.add(newFoodItem);
-                                    current_user.setGroceryList(groceryList);
-                                    current_user.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e!= null){
-                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
-                                            }
-                                            else {
-                                                Log.i(TAG, "successfully updated user grocery list");
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (type == "pantry"){
-                                    Log.i(TAG, "type: " + type);
-                                    List<FoodItem> pantryList = current_user.getPantryList();
-                                    pantryList.add(newFoodItem);
-                                    current_user.setPantryList(pantryList);
-                                    current_user.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (e!= null){
-                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
-                                            }
-                                            else {
-                                                Log.i(TAG, "successfully updated user grocery list");
-                                            }
-                                        }
-                                    });
-                                }
+
 
                             }
                         }
@@ -134,7 +99,45 @@ public class AddFoodItemActivity extends AppCompatActivity {
 
     private void addFoodToGroceryList(String type, FoodItem newFoodItem) {
         User current_user = (User) ParseUser.getCurrentUser();
-
+// note: you cannot compare string with ==, must use .equals
+        if (Objects.equals(type, "grocery")){
+            Log.i(TAG, "type: " + type);
+            List<FoodItem> groceryList = current_user.getGroceryList();
+            groceryList.add(newFoodItem);
+            current_user.setGroceryList(groceryList);
+            current_user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!= null){
+                        Log.e(TAG, "error updating user's grocery list: "+e.toString());
+                    }
+                    else {
+                        Log.i(TAG, "successfully updated user grocery list");
+                        // todo: create food item and show it in local list without refreshing
+                        finish();
+                    }
+                }
+            });
+        }
+        else if (Objects.equals(type, "pantry")){
+            Log.i(TAG, "type: " + type);
+            List<FoodItem> pantryList = current_user.getPantryList();
+            pantryList.add(newFoodItem);
+            current_user.setPantryList(pantryList);
+            current_user.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!= null){
+                        Log.e(TAG, "error updating user's grocery list: "+e.toString());
+                    }
+                    else {
+                        Log.i(TAG, "successfully updated user grocery list");
+                        // todo: create food item and show it in local list without refreshing
+                        finish();
+                    }
+                }
+            });
+        }
         // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
 
 
