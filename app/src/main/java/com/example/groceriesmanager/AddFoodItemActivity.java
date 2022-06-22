@@ -17,7 +17,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddFoodItemActivity extends AppCompatActivity {
@@ -78,6 +77,9 @@ public class AddFoodItemActivity extends AppCompatActivity {
                             else{
                                 Log.i(TAG, "food item saved successfully");
                                 etFoodName.setText("");
+                                etFoodQty.setText("");
+
+
 
                                 // todo: add item to given grocery or pantry list
                                 // todo: extract this grocery/pantry list stuff into another function for readability

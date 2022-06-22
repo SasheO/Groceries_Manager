@@ -1,6 +1,9 @@
 package com.example.groceriesmanager.Models;
 
+import android.util.Log;
+
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -11,19 +14,35 @@ public class FoodItem extends ParseObject {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_USER = "user";
     private static final String KEY_MEASURE = "measure";
+    private static final String TAG = "FoodItem";
 
     public String getName(){
-        return getString(KEY_NAME);
+        try {
+            return fetchIfNeeded().getString(KEY_NAME);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return "dummy name";
+        }
     }
     public String getQuantity() {
-        return getString(KEY_QUANTITY);
+        try {
+            return fetchIfNeeded().getString(KEY_QUANTITY);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return "dummy qty";
+        }
     }
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
     }
     public String getMeasure()
     {
-        return getString(KEY_MEASURE);
+        try {
+            return fetchIfNeeded().getString(KEY_MEASURE);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return "dummy measure";
+        }
     }
 
     public void setName(String name){ put(KEY_NAME, name); }
