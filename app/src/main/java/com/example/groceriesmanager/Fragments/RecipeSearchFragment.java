@@ -11,15 +11,22 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-//import com.codepath.asynchttpclient.AsyncHttpClient;
-//import com.codepath.asynchttpclient.RequestParams;
-//import com.codepath.asynchttpclient.callback.TextHttpResponseHandler;
 import com.example.groceriesmanager.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class RecipeSearchFragment extends Fragment {
     ImageButton ibRecipeSearch;
@@ -55,12 +62,53 @@ public class RecipeSearchFragment extends Fragment {
                     Toast.makeText(getContext(), "type in something!", Toast.LENGTH_LONG).show();
                 }
                 else{
-//                // todo: create async client for edamam
+                    String query = etRecipeIngredient.getText().toString();
+                    // todo: finish implementing okhttp client for edamam
+                    OkHttpClient client = new OkHttpClient();
+                    // this creates the request url
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
+                    urlBuilder.addQueryParameter("q", query);
+                    urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
+                    urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
+                    String url = urlBuilder.build().toString();
+                    //
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
+
+
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.e(TAG, "error in executing okhttp call: "+ e.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.isSuccessful()){
+                                String myResponse = response.body().string();
+                                Log.i(TAG, "response: " + myResponse);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // edit the view here
+                                    }
+                                });
+                            }
+                            else { // response is unsuccessful
+                                Log.e(TAG, "response unsuccessful: " + response);
+                            }
+
+
+                        }
+                    });
+
+
+
 //                AsyncHttpClient client = new AsyncHttpClient();
 //                RequestParams params = new RequestParams();
 //        params.put("q", userQuery); // q is whatever the user searches
-//        params.put("app_id", R.string.edamam_app_id);
-//        params.put("app_key", R.string.edamam_app_key);
+
 //        List<String> filters = new ArrayList<>();
 //        params.put("health", filters); // health is an array string that can hold filters like vegan, vegetarian, etc.
 //                client.get("https://api.edamam.com/api/recipes/v2", params, new TextHttpResponseHandler() {
