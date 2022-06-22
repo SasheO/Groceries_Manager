@@ -29,6 +29,7 @@ public class PantryListFragment extends Fragment {
     List<FoodItem> pantryList;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
+    private static final String type = "pantry";
 
     // required empty constructor
     public PantryListFragment() {}
@@ -68,7 +69,7 @@ public class PantryListFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", "pantry");
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });

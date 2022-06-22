@@ -16,12 +16,16 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
     private List<FoodItem> foodItemList;
     MainActivity context;
     public static final String TAG = "FoodListAdapter";
+    public String foodListType;
+    public static final String PANTRY = "pantry";
+    public static final String GROCERY = "grocery";
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList) {
@@ -68,7 +72,7 @@ public class FoodListAdapter extends
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
         public ImageView ivFoodItemPic;
-        public ImageButton ibFoodItemCheckBox;
+        public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
 
         // We also create a constructor that accepts the entire item row
@@ -82,13 +86,14 @@ public class FoodListAdapter extends
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
             ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
-            ibFoodItemCheckBox = (ImageButton) itemView.findViewById(R.id.ibFoodItemCheckBox);
+            ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
         }
 
         public void bind(FoodItem foodItem) {
             tvFoodItemName.setText(foodItem.getName());
             String qty = foodItem.getQuantity();
+
             if (qty == null){
                 tvFoodItemQty.setVisibility(View.GONE);
                 tvFoodItemMeasure.setVisibility(View.GONE);
@@ -98,8 +103,25 @@ public class FoodListAdapter extends
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }
+
+            ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: delete item from the list
+                    // todo: display the toast (?) with undo button
+                }
+            });
+
+            ibFoodItemSwitchList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    foodItem.switchList();
+                    // todo: update the local view
+                    // todo: display the toast (?) with undo button
+                }
+            });
+
             // todo (stretch): glide the picture if there is one
-            // todo: set on click listeners for the image buttons
         }
 
         @Override
