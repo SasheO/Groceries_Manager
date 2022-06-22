@@ -6,6 +6,9 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject {
@@ -52,4 +55,43 @@ public class FoodItem extends ParseObject {
     public void setQuantity(String quantity){ put(KEY_QUANTITY, quantity); }
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
 
+    public void switchList(){
+        User current_user = (User) ParseUser.getCurrentUser();
+            List<FoodItem> groceryList = current_user.getGroceryList();
+            List<FoodItem> pantryList = current_user.getPantryList();
+            boolean changed = false;
+            for (FoodItem foodItem: groceryList){
+                if (foodItem.hasSameId(this)){
+                    groceryList.remove(foodItem);
+                    current_user.setGroceryList(groceryList);
+                    changed = true;
+                    pantryList.add(foodItem);
+                    current_user.setPantryList(pantryList);
+                    break;
+                }
+            }
+
+            if (!changed){
+                for (FoodItem foodItem: pantryList){
+                    pantryList.remove(foodItem);
+                    current_user.setPantryList(pantryList);
+                    changed = true;
+                    groceryList.add(foodItem);
+                    current_user.setGroceryList(groceryList);
+                    break;
+                }
+            }
+
+        current_user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error switching food item to other list");
+                }
+                else{
+                    Log.i(TAG, "item switched lists successfully");
+                }
+            }
+        });
+    }
     }
