@@ -13,11 +13,12 @@ import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.User;
-import com.example.groceriesmanager.Models.UserList;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
@@ -35,9 +36,10 @@ public class AddFoodItemActivity extends AppCompatActivity {
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
         btnAddFoodItem = findViewById(R.id.btnAddFoodItem);
+        User current_user = (User) ParseUser.getCurrentUser();
 
         String type = getIntent().getStringExtra("type");
-        Log.i(TAG, "type: "+type);
+
 
         // array adapter for rendering items into the spinner
         ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
@@ -75,8 +77,49 @@ public class AddFoodItemActivity extends AppCompatActivity {
                             }
                             else{
                                 Log.i(TAG, "food item saved successfully");
-                                // todo: make the following code work to save a new food item to the current user's grocery list on the server
-                                addFoodToGroceryList(type, newFoodItem);
+                                etFoodName.setText("");
+                                etFoodQty.setText("");
+
+
+
+                                // todo: add item to given grocery or pantry list
+                                // todo: extract this grocery/pantry list stuff into another function for readability
+                                // error: this does not run!!!
+                                if (type == "grocery"){
+                                    Log.i(TAG, "type: " + type);
+                                    List<FoodItem> groceryList = current_user.getGroceryList();
+                                    groceryList.add(newFoodItem);
+                                    current_user.setGroceryList(groceryList);
+                                    current_user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e!= null){
+                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
+                                            }
+                                            else {
+                                                Log.i(TAG, "successfully updated user grocery list");
+                                            }
+                                        }
+                                    });
+                                }
+                                else if (type == "pantry"){
+                                    Log.i(TAG, "type: " + type);
+                                    List<FoodItem> pantryList = current_user.getPantryList();
+                                    pantryList.add(newFoodItem);
+                                    current_user.setPantryList(pantryList);
+                                    current_user.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e!= null){
+                                                Log.e(TAG, "error updating user's grocery list: "+e.toString());
+                                            }
+                                            else {
+                                                Log.i(TAG, "successfully updated user grocery list");
+                                            }
+                                        }
+                                    });
+                                }
+
                             }
                         }
                     });
@@ -92,42 +135,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
         User current_user = (User) ParseUser.getCurrentUser();
 
         // todo: (stretch) check if item with same name exists and update the quantity instead of creating a new object
-        if (type=="grocery"){
-            // todo: save it to current user's grocery list
-            UserList groceryList =  current_user.getGroceryList();
-            Log.i(TAG, "grocery list id" + groceryList.getObjectId().toString());
-            groceryList.addFoodItem(newFoodItem);
-            groceryList.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e!=null){
-                        Log.e(TAG, "error saving food item to grocery list: "+ e.toString());
-                    }
-                    else {
-                        Log.i(TAG, "saved food item to grocery list successfully");
-                        Toast.makeText(AddFoodItemActivity.this, "saved!", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-                }
-            });
-        }
-        else if (type == "pantry"){
-            // todo: save it to current user's pantry list
-            UserList pantryList = current_user.getPantryList();
-            pantryList.addFoodItem(newFoodItem);
-            pantryList.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e!=null){
-                        Log.e(TAG, "error saving food item to pantry list: "+ e.toString());
-                    }
-                    else {
-                        Log.i(TAG, "saved food item to pantry list successfully");
-                        Toast.makeText(AddFoodItemActivity.this, "saved!", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
-                }
-            });
-        }
+
+
     }
 }
