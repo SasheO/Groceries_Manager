@@ -53,7 +53,7 @@ public class FoodListAdapter extends
 //        Post post = postList.get(position);
         FoodItem foodItem = foodItemList.get(position);
 
-        holder.bind(foodItem);
+        holder.bind(foodItem, position);
 
         holder.itemView.setClickable(true);
     }
@@ -90,7 +90,7 @@ public class FoodListAdapter extends
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
         }
 
-        public void bind(FoodItem foodItem) {
+        public void bind(FoodItem foodItem, int position) {
             tvFoodItemName.setText(foodItem.getName());
             String qty = foodItem.getQuantity();
 
@@ -107,9 +107,25 @@ public class FoodListAdapter extends
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    foodItem.delete(v);
                     foodItemList.remove(foodItem);
                     notifyDataSetChanged();
+                    Snackbar.make(v, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            foodItemList.add(position, foodItem);
+                            notifyDataSetChanged();
+                        }
+                    }).addCallback(new Snackbar.Callback(){
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                // Snackbar closed on its own
+                                // todo: wait until snackbar disappears before running code below
+                                 foodItem.deleteFood();
+                            }
+                        }
+                    }).show();
+
                 }
             });
 
