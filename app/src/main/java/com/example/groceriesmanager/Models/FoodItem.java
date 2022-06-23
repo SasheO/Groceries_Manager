@@ -92,7 +92,7 @@ public class FoodItem extends ParseObject {
                 }
                 else{
                     Log.i(TAG, "item switched lists successfully");
-                    Snackbar.make(view, "Item switched lists!", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                    Snackbar.make(view, getName() + " switched lists!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             switchList(view);
