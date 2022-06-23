@@ -29,6 +29,7 @@ public class GroceryListFragment extends Fragment {
     List<FoodItem> groceryList;
     private static final String TAG = "GroceryListFragment";
     public FoodListAdapter adapter;
+    private static final String type = "grocery";
 
     // required empty constructor
     public GroceryListFragment() {}
@@ -51,24 +52,20 @@ public class GroceryListFragment extends Fragment {
         groceryList = new ArrayList<>();
         User current_user = (User) ParseUser.getCurrentUser();
         groceryList = current_user.getGroceryList();
+        Log.i(TAG, "grocery list: " + groceryList.toString());
         adapter = new FoodListAdapter(getContext(), groceryList);
 
         // set the adapter on the recycler view
         rvGroceryList.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                Log.i(TAG, "groceryList: "+groceryList.toString());
-        for (FoodItem item: groceryList){
-            Log.i(TAG, "food item: " + item.getObjectId().toString());
-        }
-//                adapter.notifyDataSetChanged();
 
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", "grocery");
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Groceries Manager</string>
     <string-array name="food_measures">
-        <item></item>
+        <item>-</item>
         <item>ct</item>
         <item>tbsp</item>
         <item>tsp</item>

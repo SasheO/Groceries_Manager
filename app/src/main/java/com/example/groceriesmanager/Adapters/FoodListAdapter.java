@@ -14,14 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Objects;
 
 public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
-    private List<FoodItem> foodItemList;
+    protected List<FoodItem> foodItemList;
     MainActivity context;
     public static final String TAG = "FoodListAdapter";
+    public static final String PANTRY = "pantry";
+    public static final String GROCERY = "grocery";
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList) {
@@ -49,7 +53,7 @@ public class FoodListAdapter extends
 //        Post post = postList.get(position);
         FoodItem foodItem = foodItemList.get(position);
 
-        holder.bind(foodItem);
+        holder.bind(foodItem, position);
 
         holder.itemView.setClickable(true);
     }
@@ -68,7 +72,7 @@ public class FoodListAdapter extends
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
         public ImageView ivFoodItemPic;
-        public ImageButton ibFoodItemCheckBox;
+        public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
 
         // We also create a constructor that accepts the entire item row
@@ -82,13 +86,14 @@ public class FoodListAdapter extends
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
             ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
-            ibFoodItemCheckBox = (ImageButton) itemView.findViewById(R.id.ibFoodItemCheckBox);
+            ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
         }
 
-        public void bind(FoodItem foodItem) {
+        public void bind(FoodItem foodItem, int position) {
             tvFoodItemName.setText(foodItem.getName());
             String qty = foodItem.getQuantity();
+
             if (qty == null){
                 tvFoodItemQty.setVisibility(View.GONE);
                 tvFoodItemMeasure.setVisibility(View.GONE);
@@ -98,8 +103,42 @@ public class FoodListAdapter extends
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }
+
+            ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
+                    Snackbar.make(v, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            foodItemList.add(position, foodItem);
+                            notifyDataSetChanged();
+                        }
+                    }).addCallback(new Snackbar.Callback(){
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
+                                foodItem.deleteFoodFromList();
+                                 foodItem.deleteFood();
+                            }
+                        }
+                    }).show();
+
+                }
+            });
+
+            ibFoodItemSwitchList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    foodItem.switchList(v);
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
+                }
+            });
+
             // todo (stretch): glide the picture if there is one
-            // todo: set on click listeners for the image buttons
         }
 
         @Override

@@ -29,6 +29,7 @@ public class PantryListFragment extends Fragment {
     List<FoodItem> pantryList;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
+    private static final String type = "pantry";
 
     // required empty constructor
     public PantryListFragment() {}
@@ -52,23 +53,20 @@ public class PantryListFragment extends Fragment {
         User current_user = (User) ParseUser.getCurrentUser();
         pantryList = current_user.getPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList);
+        Log.i(TAG, "pantry list: " + pantryList.toString());
 
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                Log.i(TAG, "groceryList: "+groceryList.toString());
-        for (FoodItem item: pantryList){
-            Log.i(TAG, "food item: " + item.getObjectId().toString());
-        }
-//                adapter.notifyDataSetChanged();
+
 
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", "pantry");
+                intent.putExtra("type", type);
                 startActivity(intent);
             }
         });
