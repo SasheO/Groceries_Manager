@@ -115,8 +115,8 @@ public class FoodListAdapter extends
                 @Override
                 public void onClick(View v) {
                     foodItem.switchList(v);
-//                    foodItemList.remove(position);
-//                    notifyDataSetChanged();
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
                 }
             });
 
