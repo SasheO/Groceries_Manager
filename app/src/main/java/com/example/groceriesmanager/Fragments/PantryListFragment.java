@@ -58,11 +58,7 @@ public class PantryListFragment extends Fragment {
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                Log.i(TAG, "groceryList: "+groceryList.toString());
-        for (FoodItem item: pantryList){
-            Log.i(TAG, "food item: " + item.getObjectId().toString());
-        }
-//                adapter.notifyDataSetChanged();
+
 
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override

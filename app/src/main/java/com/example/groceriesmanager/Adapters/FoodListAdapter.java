@@ -20,10 +20,9 @@ import java.util.Objects;
 
 public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
-    private List<FoodItem> foodItemList;
+    protected List<FoodItem> foodItemList;
     MainActivity context;
     public static final String TAG = "FoodListAdapter";
-    public String foodListType;
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
 
@@ -116,8 +115,8 @@ public class FoodListAdapter extends
                 @Override
                 public void onClick(View v) {
                     foodItem.switchList(v);
-                    // todo: update the local view
-                    // todo: display the snackbar with undo button
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
                 }
             });
 
