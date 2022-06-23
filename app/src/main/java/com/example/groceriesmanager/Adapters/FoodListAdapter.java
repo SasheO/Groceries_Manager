@@ -132,9 +132,23 @@ public class FoodListAdapter extends
             ibFoodItemSwitchList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    foodItem.switchList(v);
-                    foodItemList.remove(foodItem);
-                    notifyDataSetChanged();
+                    foodItem.switchList();
+                    Snackbar.make(v, foodItem.getName() + " switched lists!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
+                                foodItemList.remove(foodItem);
+                                notifyDataSetChanged();
+                            }
+                        }
+                        }).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            foodItem.switchList();
+                        }
+                    }).show();
+
                 }
             });
 

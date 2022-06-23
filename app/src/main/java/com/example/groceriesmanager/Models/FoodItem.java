@@ -58,7 +58,7 @@ public class FoodItem extends ParseObject {
     public void setQuantity(String quantity){ put(KEY_QUANTITY, quantity); }
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
 
-    public void switchList(View view){
+    public void switchList(){
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
@@ -94,12 +94,6 @@ public class FoodItem extends ParseObject {
                 }
                 else{
                     Log.i(TAG, "item switched lists successfully");
-                    Snackbar.make(view, getName() + " switched lists!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            switchList(view);
-                        }
-                    }).show();
                 }
             }
         });
