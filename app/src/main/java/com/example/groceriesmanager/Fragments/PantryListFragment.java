@@ -53,6 +53,7 @@ public class PantryListFragment extends Fragment {
         User current_user = (User) ParseUser.getCurrentUser();
         pantryList = current_user.getPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList);
+        Log.i(TAG, "pantry list: " + pantryList.toString());
 
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);

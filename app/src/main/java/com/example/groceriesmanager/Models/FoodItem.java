@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.DeleteCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -75,11 +76,13 @@ public class FoodItem extends ParseObject {
 
             if (!changed){
                 for (FoodItem foodItem: pantryList){
-                    pantryList.remove(foodItem);
-                    current_user.setPantryList(pantryList);
-                    groceryList.add(foodItem);
-                    current_user.setGroceryList(groceryList);
-                    break;
+                    if (foodItem.hasSameId(this)){
+                        pantryList.remove(foodItem);
+                        current_user.setPantryList(pantryList);
+                        groceryList.add(foodItem);
+                        current_user.setGroceryList(groceryList);
+                        break;
+                    }
                 }
             }
 
@@ -102,7 +105,7 @@ public class FoodItem extends ParseObject {
         });
     }
 
-    public void delete(View view){
+    public void deleteFoodFromList(){ // this removes the food object from the list it is in
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
@@ -118,9 +121,11 @@ public class FoodItem extends ParseObject {
 
         if (!changed){
             for (FoodItem foodItem: pantryList){
-                pantryList.remove(foodItem);
-                current_user.setPantryList(pantryList);
-                break;
+                if (foodItem.hasSameId(this)){
+                    pantryList.remove(foodItem);
+                    current_user.setPantryList(pantryList);
+                    break;
+                }
             }
         }
 
@@ -128,20 +133,28 @@ public class FoodItem extends ParseObject {
             @Override
             public void done(ParseException e) {
                 if (e!=null){
-                    Log.e(TAG, "error deleting food item");
+                    Log.e(TAG, "error deleting food item from list");
                 }
                 else{
-                    Log.i(TAG, "food item deleted successfully");
-                    Snackbar.make(view, getName() + " just deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // todo: add item back
-                        }
-                    }).show();
-                    // todo: after action bar has disappeared, delete food item in the server
+                    Log.i(TAG, "food item deleted from list successfully");
+
                 }
             }
         });
 
+    }
+
+    public void deleteFood(){ // this deleted the food item in the server
+        deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error deleting food item object in server");
+                }
+                else {
+                    Log.i(TAG, "food item object successfully deleted in server");
+                }
+            }
+        });
     }
     }

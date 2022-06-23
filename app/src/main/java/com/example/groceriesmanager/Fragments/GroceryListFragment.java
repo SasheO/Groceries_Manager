@@ -52,6 +52,7 @@ public class GroceryListFragment extends Fragment {
         groceryList = new ArrayList<>();
         User current_user = (User) ParseUser.getCurrentUser();
         groceryList = current_user.getGroceryList();
+        Log.i(TAG, "grocery list: " + groceryList.toString());
         adapter = new FoodListAdapter(getContext(), groceryList);
 
         // set the adapter on the recycler view
