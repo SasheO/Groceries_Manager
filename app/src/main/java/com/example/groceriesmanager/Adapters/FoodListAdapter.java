@@ -119,8 +119,8 @@ public class FoodListAdapter extends
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
                             if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                // Snackbar closed on its own
-                                // todo: wait until snackbar disappears before running code below
+                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
+                                foodItem.deleteFoodFromList();
                                  foodItem.deleteFood();
                             }
                         }

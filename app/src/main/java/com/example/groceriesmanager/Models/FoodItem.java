@@ -105,7 +105,7 @@ public class FoodItem extends ParseObject {
         });
     }
 
-    public void deleteFood(){
+    public void deleteFoodFromList(){ // this removes the food object from the list it is in
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
@@ -136,13 +136,15 @@ public class FoodItem extends ParseObject {
                     Log.e(TAG, "error deleting food item from list");
                 }
                 else{
-                    Log.i(TAG, "food item deleted successfully from list");
+                    Log.i(TAG, "food item deleted from list successfully");
+
                 }
             }
         });
 
+    }
 
-        // todo: delete food item from fooditem class
+    public void deleteFood(){ // this deleted the food item in the server
         deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
