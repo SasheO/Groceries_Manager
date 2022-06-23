@@ -77,7 +77,6 @@ public class FoodItem extends ParseObject {
                 for (FoodItem foodItem: pantryList){
                     pantryList.remove(foodItem);
                     current_user.setPantryList(pantryList);
-                    changed = true;
                     groceryList.add(foodItem);
                     current_user.setGroceryList(groceryList);
                     break;
@@ -101,5 +100,48 @@ public class FoodItem extends ParseObject {
                 }
             }
         });
+    }
+
+    public void delete(View view){
+        User current_user = (User) ParseUser.getCurrentUser();
+        List<FoodItem> groceryList = current_user.getGroceryList();
+        List<FoodItem> pantryList = current_user.getPantryList();
+        boolean changed = false;
+        for (FoodItem foodItem: groceryList){
+            if (foodItem.hasSameId(this)){
+                groceryList.remove(foodItem);
+                current_user.setGroceryList(groceryList);
+                changed = true;
+                break;
+            }
+        }
+
+        if (!changed){
+            for (FoodItem foodItem: pantryList){
+                pantryList.remove(foodItem);
+                current_user.setPantryList(pantryList);
+                break;
+            }
+        }
+
+        current_user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error deleting food item");
+                }
+                else{
+                    Log.i(TAG, "food item deleted successfully");
+                    Snackbar.make(view, getName() + " just deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // todo: add item back
+                        }
+                    }).show();
+                    // todo: after action bar has disappeared, delete food item in the server
+                }
+            }
+        });
+
     }
     }
