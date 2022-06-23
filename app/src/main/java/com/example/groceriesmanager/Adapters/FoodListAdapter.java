@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Objects;
@@ -106,8 +107,9 @@ public class FoodListAdapter extends
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: delete item from the list
-                    // todo: display the snackbar with undo button
+                    foodItem.delete(v);
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
                 }
             });
 
