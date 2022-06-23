@@ -60,31 +60,31 @@ public class FoodItem extends ParseObject {
 
     public void switchList(View view){
         User current_user = (User) ParseUser.getCurrentUser();
-            List<FoodItem> groceryList = current_user.getGroceryList();
-            List<FoodItem> pantryList = current_user.getPantryList();
-            boolean changed = false;
-            for (FoodItem foodItem: groceryList){
+        List<FoodItem> groceryList = current_user.getGroceryList();
+        List<FoodItem> pantryList = current_user.getPantryList();
+        boolean changed = false;
+        for (FoodItem foodItem: groceryList){
+            if (foodItem.hasSameId(this)){
+                groceryList.remove(foodItem);
+                current_user.setGroceryList(groceryList);
+                changed = true;
+                pantryList.add(foodItem);
+                current_user.setPantryList(pantryList);
+                break;
+            }
+        }
+
+        if (!changed){
+            for (FoodItem foodItem: pantryList){
                 if (foodItem.hasSameId(this)){
-                    groceryList.remove(foodItem);
-                    current_user.setGroceryList(groceryList);
-                    changed = true;
-                    pantryList.add(foodItem);
+                    pantryList.remove(foodItem);
                     current_user.setPantryList(pantryList);
+                    groceryList.add(foodItem);
+                    current_user.setGroceryList(groceryList);
                     break;
                 }
             }
-
-            if (!changed){
-                for (FoodItem foodItem: pantryList){
-                    if (foodItem.hasSameId(this)){
-                        pantryList.remove(foodItem);
-                        current_user.setPantryList(pantryList);
-                        groceryList.add(foodItem);
-                        current_user.setGroceryList(groceryList);
-                        break;
-                    }
-                }
-            }
+        }
 
         current_user.saveInBackground(new SaveCallback() {
             @Override
@@ -157,4 +157,4 @@ public class FoodItem extends ParseObject {
             }
         });
     }
-    }
+}
