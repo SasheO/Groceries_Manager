@@ -64,7 +64,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                     //todo: create a food item
                     FoodItem newFoodItem = new FoodItem();
                     newFoodItem.setName(foodName.replaceAll("\n", ""));
-                    newFoodItem.setUser(ParseUser.getCurrentUser());
+                    newFoodItem.setUser(current_user);
                     if (foodQty != ""){
                         newFoodItem.setQuantity(foodQty);
                         newFoodItem.setMeasure(foodMeasure);

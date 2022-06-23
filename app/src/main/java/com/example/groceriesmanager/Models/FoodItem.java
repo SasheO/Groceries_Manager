@@ -1,11 +1,17 @@
 package com.example.groceriesmanager.Models;
 
 import android.util.Log;
+import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.parse.DeleteCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject {
@@ -52,4 +58,103 @@ public class FoodItem extends ParseObject {
     public void setQuantity(String quantity){ put(KEY_QUANTITY, quantity); }
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
 
+    public void switchList(View view){
+        User current_user = (User) ParseUser.getCurrentUser();
+        List<FoodItem> groceryList = current_user.getGroceryList();
+        List<FoodItem> pantryList = current_user.getPantryList();
+        boolean changed = false;
+        for (FoodItem foodItem: groceryList){
+            if (foodItem.hasSameId(this)){
+                groceryList.remove(foodItem);
+                current_user.setGroceryList(groceryList);
+                changed = true;
+                pantryList.add(foodItem);
+                current_user.setPantryList(pantryList);
+                break;
+            }
+        }
+
+        if (!changed){
+            for (FoodItem foodItem: pantryList){
+                if (foodItem.hasSameId(this)){
+                    pantryList.remove(foodItem);
+                    current_user.setPantryList(pantryList);
+                    groceryList.add(foodItem);
+                    current_user.setGroceryList(groceryList);
+                    break;
+                }
+            }
+        }
+
+        current_user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error switching food item to other list");
+                }
+                else{
+                    Log.i(TAG, "item switched lists successfully");
+                    Snackbar.make(view, getName() + " switched lists!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switchList(view);
+                        }
+                    }).show();
+                }
+            }
+        });
     }
+
+    public void deleteFoodFromList(){ // this removes the food object from the list it is in
+        User current_user = (User) ParseUser.getCurrentUser();
+        List<FoodItem> groceryList = current_user.getGroceryList();
+        List<FoodItem> pantryList = current_user.getPantryList();
+        boolean changed = false;
+        for (FoodItem foodItem: groceryList){
+            if (foodItem.hasSameId(this)){
+                groceryList.remove(foodItem);
+                current_user.setGroceryList(groceryList);
+                changed = true;
+                break;
+            }
+        }
+
+        if (!changed){
+            for (FoodItem foodItem: pantryList){
+                if (foodItem.hasSameId(this)){
+                    pantryList.remove(foodItem);
+                    current_user.setPantryList(pantryList);
+                    break;
+                }
+            }
+        }
+
+        current_user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error deleting food item from list");
+                }
+                else{
+                    Log.i(TAG, "food item deleted from list successfully");
+
+                }
+            }
+        });
+
+    }
+
+    public void deleteFood(){ // this deleted the food item in the server
+        deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error deleting food item object in server");
+                }
+                else {
+                    Log.i(TAG, "food item object successfully deleted in server");
+                }
+            }
+        });
+    }
+}
