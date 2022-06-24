@@ -1,6 +1,8 @@
 package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,14 +102,18 @@ public class RecipeAdapter extends
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
                 }
             });
             // todo: what happens when user clicks open recipe link
             ibOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    context.startActivity(intent);
                 }
             });
         }
