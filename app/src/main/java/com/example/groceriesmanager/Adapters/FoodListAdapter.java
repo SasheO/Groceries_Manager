@@ -122,7 +122,6 @@ public class FoodListAdapter extends
                         public void onDismissed(Snackbar snackbar, int event) {
                             if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                                 // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-                                foodItem.deleteFoodFromList();
                                  foodItem.deleteFood();
                             }
                         }
@@ -142,7 +141,7 @@ public class FoodListAdapter extends
                     else{
                         new_list_type = "grocery";
                     }
-                    Snackbar.make(v, foodItem.getName() + " will be moved to " + type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                    Snackbar.make(v, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
                             // the code here runs while snackbar is being shown

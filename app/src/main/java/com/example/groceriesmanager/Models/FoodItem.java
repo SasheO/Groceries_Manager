@@ -99,21 +99,18 @@ public class FoodItem extends ParseObject {
         });
     }
 
-    public void deleteFoodFromList(){ // this removes the food object from the list it is in
+    public void deleteFood(){ // this removes the food object from the list it is in then deleted the fooditem object in the database
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
-        boolean changed = false;
         for (FoodItem foodItem: groceryList){
             if (foodItem.hasSameId(this)){
                 groceryList.remove(foodItem);
                 current_user.setGroceryList(groceryList);
-                changed = true;
                 break;
             }
         }
 
-        if (!changed){
             for (FoodItem foodItem: pantryList){
                 if (foodItem.hasSameId(this)){
                     pantryList.remove(foodItem);
@@ -121,34 +118,32 @@ public class FoodItem extends ParseObject {
                     break;
                 }
             }
-        }
+
 
         current_user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e!=null){
-                    Log.e(TAG, "error deleting food item from list");
+                    Log.e(TAG, "error deleting food item from list in database");
                 }
                 else{
-                    Log.i(TAG, "food item deleted from list successfully");
+                    Log.i(TAG, "food item deleted from list successfully in database");
 
                 }
             }
         });
 
-    }
-
-    public void deleteFood(){ // this deleted the food item in the server
         deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
                 if (e!=null){
-                    Log.e(TAG, "error deleting food item object in server");
+                    Log.e(TAG, "error deleting food item object in database");
                 }
                 else {
-                    Log.i(TAG, "food item object successfully deleted in server");
+                    Log.i(TAG, "food item object successfully deleted in database");
                 }
             }
         });
     }
+
 }
