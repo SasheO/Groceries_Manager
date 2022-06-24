@@ -44,6 +44,10 @@ public class RecipeSearchFragment extends Fragment {
     public static List<Recipe> recipeList;
     public RecipeAdapter adapter;
     RecyclerView rvRecipeSearch;
+    private static final String QUERY_FILTER_VEGAN = "vegan";
+    private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
+    private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
+
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -61,7 +65,6 @@ public class RecipeSearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         etRecipeLookup = (EditText) view.findViewById(R.id.etRecipeLookup);
         ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
         ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibRecipeSearchClear);
@@ -92,29 +95,30 @@ public class RecipeSearchFragment extends Fragment {
         ibRecipeSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: check if user has typed in ingredients
+                // check if user has typed in something already
                 String userQuery = etRecipeLookup.getText().toString();
                 if (userQuery.replaceAll("\\s", "").length() == 0){
                     Toast.makeText(getContext(), "type in something!", Toast.LENGTH_LONG).show();
                 }
                 else{
+                    adapter.clear(); // clear adapter, in case there are already results
                     String query = etRecipeLookup.getText().toString();
-                    // todo: finish implementing okhttp client for edamam
+                    // send api request to edamam
                     OkHttpClient client = new OkHttpClient();
-                    // this creates the request url
+                    // this builder helps us to creates the request url
                     HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
                     urlBuilder.addQueryParameter("q", query);
                     urlBuilder.addQueryParameter("type", "public");
                     urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
                     urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
                     if (checkboxVegan.isChecked()){
-                        urlBuilder.addQueryParameter("health", "vegan");
+                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
                     }
                     if (checkboxVegetarian.isChecked()){
-                        urlBuilder.addQueryParameter("health", "vegetarian");
+                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
                     }
                     if (checkboxGlutenFree.isChecked()){
-                        urlBuilder.addQueryParameter("health", "gluten-free");
+                        urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);
                     }
                     String url = urlBuilder.build().toString();
                     //
