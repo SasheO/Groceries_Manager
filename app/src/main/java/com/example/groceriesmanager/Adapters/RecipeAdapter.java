@@ -130,5 +130,11 @@ public class RecipeAdapter extends
         public void onClick(View v) {
             // todo: implement what happens when user clicks on an item
         }
+
+    }
+
+    public void clear() {
+        recipeList.clear();
+        notifyDataSetChanged();
     }
 }
