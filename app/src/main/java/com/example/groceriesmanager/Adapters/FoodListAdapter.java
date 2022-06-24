@@ -23,14 +23,16 @@ public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
     protected List<FoodItem> foodItemList;
     MainActivity context;
+    String type;
     public static final String TAG = "FoodListAdapter";
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
 
     // constructor to set context
-    public FoodListAdapter(Context context, List<FoodItem> foodItemList) {
+    public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
         this.context = (MainActivity) context;
         this.foodItemList = foodItemList;
+        this.type = type;
     }
 
     @NonNull
@@ -120,7 +122,6 @@ public class FoodListAdapter extends
                         public void onDismissed(Snackbar snackbar, int event) {
                             if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                                 // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-                                foodItem.deleteFoodFromList();
                                  foodItem.deleteFood();
                             }
                         }
@@ -133,14 +134,19 @@ public class FoodListAdapter extends
                 @Override
                 public void onClick(View v) {
                     foodItem.switchList();
-                    Snackbar.make(v, foodItem.getName() + " switched lists!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-                                foodItemList.remove(foodItem);
-                                notifyDataSetChanged();
-                            }
+                    String new_list_type;
+                    if (Objects.equals(type, "grocery")){
+                        new_list_type = "pantry";
+                    }
+                    else{
+                        new_list_type = "grocery";
+                    }
+                    Snackbar.make(v, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            // the code here runs while snackbar is being shown
+                            foodItemList.remove(foodItem);
+                            notifyDataSetChanged();
                         }
                         }).setAction("UNDO", new View.OnClickListener() {
                         @Override

@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -82,10 +83,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                                 etFoodQty.setText("");
 
                                 addFoodToGroceryList(type, newFoodItem);
-
-
-
-
+//                                showFoodOnListOnDevice(newFoodItem);
                             }
                         }
                     });
@@ -96,6 +94,13 @@ public class AddFoodItemActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void showFoodOnListOnDevice(FoodItem newFoodItem) {
+//        Intent data_passed_back = new Intent();
+//        data_passed_back.putExtra("newFoodItem", newFoodItem);
+//        setResult(RESULT_OK, data_passed_back); // set result code and bundle data for response
+//        finish();
+//    }
 
     private void addFoodToGroceryList(String type, FoodItem newFoodItem) {
         User current_user = (User) ParseUser.getCurrentUser();

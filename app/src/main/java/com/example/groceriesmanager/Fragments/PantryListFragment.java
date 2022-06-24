@@ -52,7 +52,7 @@ public class PantryListFragment extends Fragment {
         pantryList = new ArrayList<>();
         User current_user = (User) ParseUser.getCurrentUser();
         pantryList = current_user.getPantryList();
-        adapter = new FoodListAdapter(getContext(), pantryList);
+        adapter = new FoodListAdapter(getContext(), pantryList, type);
         Log.i(TAG, "pantry list: " + pantryList.toString());
 
         // set the adapter on the recycler view
@@ -68,7 +68,27 @@ public class PantryListFragment extends Fragment {
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 startActivity(intent);
+                //                addFoodItemActivityResultLauncher.launch(intent);
             }
         });
     }
+
+//    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult result) {
+//                    // If the user comes back to this activity from EditActivity
+//                    // with no error or cancellation
+//                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent data_passed_back = result.getData();
+//                        // Get the data passed from EditActivity
+//                        // String editedString = data.getExtras().getString("newString");
+//                        // todo: get food item from grocery list and pass it in
+//                        FoodItem newFoodItem = data_passed_back.getParcelableExtra("newFoodItem");
+////                        groceryList.add(0, newFoodItem);
+////                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//            });
 }
