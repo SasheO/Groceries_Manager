@@ -1,5 +1,6 @@
 package com.example.groceriesmanager.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -24,6 +25,11 @@ public class VideoAdapter extends
     private List<Video> videoList;
     MainActivity context;
     public static final String TAG = "VideoAdapter";
+
+    public VideoAdapter(Context context, List<Video> videoList) {
+        this.context = (MainActivity) context;
+        this.videoList = videoList;
+    }
 
     @NonNull
     @Override

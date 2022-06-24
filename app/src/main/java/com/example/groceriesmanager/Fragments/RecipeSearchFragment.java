@@ -66,7 +66,7 @@ public class RecipeSearchFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         etRecipeLookup = (EditText) view.findViewById(R.id.etYoutubeLookup);
-        ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibYouTubeSearch);
+        ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibYoutubeSearch);
         ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibYoutubeSearchClear);
         rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvYoutubeSearch);
         checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
