@@ -14,6 +14,9 @@ public class Recipe {
     private List<String> filters;
     private String hyperlink_url; // corresponeds to 'url'
     private List<String> ingredientLines;
+    private static final String KEY_FILTER_VEGAN = "Vegan";
+    private static final String KEY_FILTER_VEGETARIAN = "Vegetarian";
+    private static final String KEY_FILTER_GLUTEN_FREE = "Gluten-Free";
 
     public Recipe(){}
 
@@ -30,14 +33,14 @@ public class Recipe {
         this.filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
-            if (Objects.equals(filtersJSONArray.getString(i), "Vegan")){
-                this.filters.add("vegan");
+            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGAN)){
+                this.filters.add(KEY_FILTER_VEGAN);
             }
-            if (Objects.equals(filtersJSONArray.getString(i), "Vegetarian")){
-                this.filters.add("vegetarian");
+            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGETARIAN)){
+                this.filters.add(KEY_FILTER_VEGETARIAN);
             }
-            if (Objects.equals(filtersJSONArray.getString(i), "Gluten-Free")){
-                this.filters.add("gluten-free");
+            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_GLUTEN_FREE)){
+                this.filters.add(KEY_FILTER_GLUTEN_FREE);
             }
         }
     }
