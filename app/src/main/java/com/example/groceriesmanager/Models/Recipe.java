@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Recipe {
     private String image_url;
@@ -25,6 +26,19 @@ public class Recipe {
         this.ingredientLines = new ArrayList<>();
         for (int i=0;i<ingredientLinesJSONArray.length();i++){
             this.ingredientLines.add(ingredientLinesJSONArray.getString(i));
+        }
+        this.filters = new ArrayList<>();
+        JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
+        for (int i=0; i<filtersJSONArray.length(); i++){
+            if (Objects.equals(filtersJSONArray.getString(i), "Vegan")){
+                this.filters.add("vegan");
+            }
+            if (Objects.equals(filtersJSONArray.getString(i), "Vegetarian")){
+                this.filters.add("vegetarian");
+            }
+            if (Objects.equals(filtersJSONArray.getString(i), "Gluten-Free")){
+                this.filters.add("gluten-free");
+            }
         }
     }
 
