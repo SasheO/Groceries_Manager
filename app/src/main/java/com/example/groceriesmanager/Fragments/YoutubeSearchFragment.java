@@ -4,12 +4,33 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
+import com.example.groceriesmanager.Adapters.VideoAdapter;
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
+import java.util.List;
+
 public class YoutubeSearchFragment extends Fragment {
+    EditText etYoutubeLookup;
+    ImageButton ibYoutubeSearchClear;
+    CheckBox checkboxVegan;
+    CheckBox checkboxVegetarian;
+    CheckBox checkboxGlutenFree;
+    private static final String TAG = "YoutubeSearchFragment";
+//    public static List<Recipe> recipeList;
+    public VideoAdapter adapter;
+    RecyclerView rvYoutubeSearch;
+    private static final String QUERY_FILTER_VEGAN = "vegan";
+    private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
+    private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
 
     // required empty constructor
     public YoutubeSearchFragment() {}
