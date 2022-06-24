@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/etRecipeLookup"
+        android:id="@+id/etYoutubeLookup"
         android:layout_width="300dp"
         android:layout_height="76dp"
         android:layout_weight="1"
@@ -19,36 +19,36 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/ibRecipeSearch"
+        android:id="@+id/ibYouTubeSearch"
         android:layout_width="48dp"
         android:layout_height="58dp"
         android:layout_marginStart="0dp"
         android:background="@null"
         android:contentDescription="search recipe"
-        app:layout_constraintBottom_toBottomOf="@+id/etRecipeLookup"
+        app:layout_constraintBottom_toBottomOf="@+id/etYoutubeLookup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/etRecipeLookup"
+        app:layout_constraintStart_toEndOf="@+id/etYoutubeLookup"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.35"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 
     <ImageButton
-        android:id="@+id/ibRecipeSearchClear"
+        android:id="@+id/ibYoutubeSearchClear"
         android:layout_width="49dp"
         android:layout_height="58dp"
         android:background="@null"
         android:contentDescription="clear previous search"
-        app:layout_constraintBottom_toBottomOf="@+id/ibRecipeSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/ibYouTubeSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ibRecipeSearch"
-        app:layout_constraintTop_toTopOf="@+id/ibRecipeSearch"
+        app:layout_constraintStart_toEndOf="@+id/ibYouTubeSearch"
+        app:layout_constraintTop_toTopOf="@+id/ibYouTubeSearch"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_delete" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipeSearch"
+        android:id="@+id/rvYoutubeSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +63,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRecipeLookup">
+        app:layout_constraintTop_toBottomOf="@+id/etYoutubeLookup">
         <CheckBox
             android:id="@+id/checkboxVegan"
             android:layout_width="wrap_content"
