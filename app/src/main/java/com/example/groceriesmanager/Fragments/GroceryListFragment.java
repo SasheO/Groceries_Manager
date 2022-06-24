@@ -1,5 +1,6 @@
 package com.example.groceriesmanager.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,6 +65,7 @@ public class GroceryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +73,27 @@ public class GroceryListFragment extends Fragment {
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 startActivity(intent);
+//                addFoodItemActivityResultLauncher.launch(intent);
             }
         });
     }
+
+//    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult result) {
+//                    // If the user comes back to this activity from EditActivity
+//                    // with no error or cancellation
+//                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent data_passed_back = result.getData();
+//                        // Get the data passed from EditActivity
+//                        // String editedString = data.getExtras().getString("newString");
+//                        // todo: get food item from grocery list and pass it in
+//                        FoodItem newFoodItem = data_passed_back.getParcelableExtra("newFoodItem");
+////                        groceryList.add(0, newFoodItem);
+////                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//            });
 }
