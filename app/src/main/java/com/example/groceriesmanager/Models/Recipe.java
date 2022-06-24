@@ -21,6 +21,11 @@ public class Recipe {
         this.image_url = jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url");
         this.title = jsonObject.getJSONObject("recipe").getString("label");
         this.hyperlink_url = jsonObject.getJSONObject("recipe").getString("url");
+        JSONArray ingredientLinesJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredientLines");
+        this.ingredientLines = new ArrayList<>();
+        for (int i=0;i<ingredientLinesJSONArray.length();i++){
+            this.ingredientLines.add(ingredientLinesJSONArray.getString(i));
+        }
     }
 
     public String getImage_url() {

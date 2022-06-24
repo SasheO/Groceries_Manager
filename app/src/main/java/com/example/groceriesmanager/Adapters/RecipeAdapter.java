@@ -3,6 +3,7 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,20 +98,27 @@ public class RecipeAdapter extends
                     .into(ivRecipeImage);
 
             // todo: convert recipe lines from recipe from string array to a string that can be displayed in
+            String recipe_ingredients = "INGREDIENTS";
+            for (String ingredient: recipe.getIngredientLines()){
+                recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
+            }
 
-            // todo: what happens when user clicks open recipe link
+            tvRecipeIngredientLines.setText(recipe_ingredients);
+
+            // todo: populate recipe filters
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // lines below open hyperlink
                     Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);
                 }
             });
-            // todo: what happens when user clicks open recipe link
             ibOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // lines below open hyperlink
                     Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);

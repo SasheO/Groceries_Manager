@@ -106,14 +106,11 @@ public class RecipeSearchFragment extends Fragment {
                         public void onResponse(Call call, Response response) throws IOException {
                             if (response.isSuccessful()){
                                 String myResponse = response.body().string();
-                                Log.i(TAG, "recipes: " + myResponse);
                                 try {
                                     JSONObject responsejson = new JSONObject(myResponse);
                                     JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
                                     // todo: add all recipes to the recipe list that will be passed into adapter
                                     recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
-                                    Log.i(TAG, "recipe list: " + recipeList.toString());
-                                    Log.i(TAG, String.valueOf(recipeList.size()));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Log.e(TAG, "JSONException: " + e.toString());
