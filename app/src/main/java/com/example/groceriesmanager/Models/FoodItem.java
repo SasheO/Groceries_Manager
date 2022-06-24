@@ -59,6 +59,7 @@ public class FoodItem extends ParseObject {
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
 
     public void switchList(){
+        // todo: put this on another thread
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
@@ -100,10 +101,16 @@ public class FoodItem extends ParseObject {
     }
 
     public void deleteFood(){ // this removes the food object from the list it is in then deleted the fooditem object in the database
+        // todo: put this on another thread
+
+        // todo: ensure that the delete functionality on list works.
+        // delete from user list in server
         User current_user = (User) ParseUser.getCurrentUser();
         List<FoodItem> groceryList = current_user.getGroceryList();
         List<FoodItem> pantryList = current_user.getPantryList();
+        Log.i(TAG, "food id: " + this.getObjectId());
         for (FoodItem foodItem: groceryList){
+            Log.i(TAG, foodItem.getObjectId());
             if (foodItem.hasSameId(this)){
                 groceryList.remove(foodItem);
                 current_user.setGroceryList(groceryList);
@@ -112,6 +119,7 @@ public class FoodItem extends ParseObject {
         }
 
             for (FoodItem foodItem: pantryList){
+                Log.i(TAG, foodItem.getObjectId());
                 if (foodItem.hasSameId(this)){
                     pantryList.remove(foodItem);
                     current_user.setPantryList(pantryList);
@@ -133,6 +141,7 @@ public class FoodItem extends ParseObject {
             }
         });
 
+            // delete food item object in server
         deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
