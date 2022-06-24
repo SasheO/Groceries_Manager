@@ -3,7 +3,6 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
-import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
@@ -40,7 +38,7 @@ public class RecipeAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View recipeItemView = inflater.inflate(R.layout.item_recipe, parent, false);
+        View recipeItemView = inflater.inflate(R.layout.item_recipe_search, parent, false);
 
         // Return a new holder instance
         RecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
