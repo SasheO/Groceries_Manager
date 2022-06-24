@@ -97,13 +97,25 @@ public class RecipeAdapter extends
                     .error(R.drawable.vegetables)
                     .into(ivRecipeImage);
 
-            // todo: convert recipe lines from recipe from string array to a string that can be displayed in
+            // convert recipe lines from recipe from string array to a string that can be displayed in text box
             String recipe_ingredients = "INGREDIENTS";
             for (String ingredient: recipe.getIngredientLines()){
                 recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
             }
-
             tvRecipeIngredientLines.setText(recipe_ingredients);
+
+            // convert filters from string array to a string that can be displayed in text box
+            List<String> recipe_filters_array = recipe.getFilters();
+            if (recipe_filters_array.size()!=0){
+                String recipe_filters = "Filters: " + recipe_filters_array.get(0);
+                for (int i=0; i<recipe_filters_array.size(); i++){
+                    if (i==0){
+                        continue;
+                    }
+                    recipe_filters = recipe_filters + ", " + recipe_filters_array.get(i);
+                }
+                tvRecipeFilters.setText(recipe_filters);
+            }
 
             // todo: populate recipe filters
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
