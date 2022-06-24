@@ -48,7 +48,7 @@ public class YoutubeSearchFragment extends Fragment {
     RecyclerView rvYoutubeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
-    private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
+    private static final String QUERY_FILTER_GLUTEN_FREE = "gluten free";
 
     // required empty constructor
     public YoutubeSearchFragment() {}
@@ -68,7 +68,7 @@ public class YoutubeSearchFragment extends Fragment {
         // Setup any handles to view objects here
         etYoutubeLookup = (EditText) view.findViewById(R.id.etYoutubeLookup);
         ibYoutubeSearch = (ImageButton) view.findViewById(R.id.ibYoutubeSearch);
-        ibYoutubeSearch = (ImageButton) view.findViewById(R.id.ibYoutubeSearchClear);
+        ibYoutubeSearchClear = (ImageButton) view.findViewById(R.id.ibYoutubeSearchClear);
         rvYoutubeSearch = (RecyclerView) view.findViewById(R.id.rvYoutubeSearch);
         checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
         checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
@@ -103,40 +103,43 @@ public class YoutubeSearchFragment extends Fragment {
                 }
                 else{
                     adapter.clear(); // clear adapter, in case there are already results
-//                    String query = etYoutubeLookup.getText().toString();
-//                    // send api request to Youtube
-//                    OkHttpClient client = new OkHttpClient();
-//                    // this builder helps us to creates the request url
-//                    HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
-//                    urlBuilder.addQueryParameter("q", query);
-//                    urlBuilder.addQueryParameter("type", "public");
-//                    urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
-//                    urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
-//                    if (checkboxVegan.isChecked()){
-//                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
-//                    }
-//                    if (checkboxVegetarian.isChecked()){
-//                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
-//                    }
-//                    if (checkboxGlutenFree.isChecked()){
-//                        urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);
-//                    }
-//                    String url = urlBuilder.build().toString();
-//                    //
-//                    Request request = new Request.Builder()
-//                            .url(url)
-//                            .build();
+                    String query = etYoutubeLookup.getText().toString();
+                    // send api request to Youtube: check here https://developers.google.com/youtube/v3/docs/search/listn
+                    OkHttpClient client = new OkHttpClient();
+                    // this builder helps us to creates the request url
+                    HttpUrl.Builder urlBuilder = HttpUrl.parse("https://www.googleapis.com/youtube/v3/search").newBuilder();
+                    urlBuilder.addQueryParameter("part", "snippet"); // required value
+                    urlBuilder.addQueryParameter("maxResults", "20");
+                    urlBuilder.addQueryParameter("order", "relevance");
+                    urlBuilder.addQueryParameter("type", "video");
+                    if (checkboxVegan.isChecked()){
+                        query = query + " " + QUERY_FILTER_VEGAN;
+                    }
+                    if (checkboxVegetarian.isChecked()){
+                        query = query + " " + QUERY_FILTER_VEGETARIAN;
+                    }
+                    if (checkboxGlutenFree.isChecked()){
+                        query = query + " " + QUERY_FILTER_GLUTEN_FREE;
+                    }
+                    urlBuilder.addQueryParameter("q", query);
+                    urlBuilder.addQueryParameter("key", getResources().getString(R.string.youtube_api_key));
+                    String url = urlBuilder.build().toString();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
 
 
-//                    client.newCall(request).enqueue(new Callback() {
-//                        @Override
-//                        public void onFailure(Call call, IOException e) {
-//                            Log.e(TAG, "error in executing okhttp call: "+ e.toString());
-//                        }
-//
-//                        @Override
-//                        public void onResponse(Call call, Response response) throws IOException {
-//                            if (response.isSuccessful()){
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.e(TAG, "error in executing okhttp call: "+ e.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.isSuccessful()){
+                                Log.i(TAG, "url: " + url);
+                                Log.i(TAG, "okhttp call successfully executed");
 //                                String myResponse = response.body().string();
 //                                try {
 //                                    JSONObject responsejson = new JSONObject(myResponse);
@@ -155,14 +158,14 @@ public class YoutubeSearchFragment extends Fragment {
 //                                        adapter.notifyDataSetChanged();
 //                                    }
 //                                });
-//                            }
-//                            else { // response is unsuccessful
-//                                Log.e(TAG, "response unsuccessful: " + response);
-//                            }
-//
-//
-//                        }
-//                    });
+                            }
+                            else { // response is unsuccessful
+                                Log.e(TAG, "response unsuccessful: " + response);
+                            }
+
+
+                        }
+                    });
 
 
 
