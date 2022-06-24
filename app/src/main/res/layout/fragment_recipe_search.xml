@@ -51,9 +51,36 @@
         android:id="@+id/rvRecipeSearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etRecipeLookup" />
+        app:layout_constraintTop_toBottomOf="@+id/llFilters" />
+
+    <LinearLayout
+        android:id="@+id/llFilters"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etRecipeLookup">
+        <CheckBox
+            android:id="@+id/checkboxVegan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegan" />
+
+        <CheckBox
+            android:id="@+id/checkboxVegetarian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegetarian" />
+
+        <CheckBox
+            android:id="@+id/checkboxGlutenFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gluten-free" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
