@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -36,6 +37,9 @@ public class RecipeSearchFragment extends Fragment {
     ImageButton ibRecipeSearch;
     ImageButton ibRecipeSearchClear;
     EditText etRecipeLookup;
+    CheckBox checkboxVegan;
+    CheckBox checkboxVegetarian;
+    CheckBox checkboxGlutenFree;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public RecipeAdapter adapter;
@@ -62,6 +66,9 @@ public class RecipeSearchFragment extends Fragment {
         ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
         ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibRecipeSearchClear);
         rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvRecipeSearch);
+        checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
+        checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
+        checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);
         recipeList = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), recipeList);
 
@@ -70,13 +77,18 @@ public class RecipeSearchFragment extends Fragment {
         // set the layout manager on the recycler view
         rvRecipeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // when user clicks on the x to clear search results
         ibRecipeSearchClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 etRecipeLookup.setText("");
+                checkboxVegan.setChecked(false);
+                checkboxVegetarian.setChecked(false);
+                checkboxGlutenFree.setChecked(false);
                 adapter.clear();
             }
         });
+
         ibRecipeSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +107,15 @@ public class RecipeSearchFragment extends Fragment {
                     urlBuilder.addQueryParameter("type", "public");
                     urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
                     urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
+                    if (checkboxVegan.isChecked()){
+                        urlBuilder.addQueryParameter("health", "vegan");
+                    }
+                    if (checkboxVegetarian.isChecked()){
+                        urlBuilder.addQueryParameter("health", "vegetarian");
+                    }
+                    if (checkboxGlutenFree.isChecked()){
+                        urlBuilder.addQueryParameter("health", "gluten-free");
+                    }
                     String url = urlBuilder.build().toString();
                     //
                     Request request = new Request.Builder()
