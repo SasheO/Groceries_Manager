@@ -3,6 +3,7 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -21,7 +22,7 @@ import com.example.groceriesmanager.R;
 import java.util.List;
 
 public class VideoAdapter extends
-        RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
+        RecyclerView.Adapter<VideoAdapter.ViewHolder>{
     private List<Video> videoList;
     MainActivity context;
     public static final String TAG = "VideoAdapter";
@@ -33,14 +34,27 @@ public class VideoAdapter extends
 
     @NonNull
     @Override
-    public RecipeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public VideoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        // Inflate the custom layout
+        View videoItemView = inflater.inflate(R.layout.item_video_search, parent, false);
+
+        // Return a new holder instance
+        VideoAdapter.ViewHolder viewHolder = new VideoAdapter.ViewHolder(videoItemView);
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecipeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Video video = videoList.get(position);
 
+        holder.bind(video);
+
+        holder.itemView.setClickable(true);
     }
+
 
     @Override
     public int getItemCount() {
@@ -52,13 +66,8 @@ public class VideoAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        // todo: populate
-//        public TextView tvRecipeTitle;
-//        public TextView tvRecipeIngredientLines;
-//        public TextView tvOpenRecipeLink;
-//        public TextView tvRecipeFilters;
-//        public ImageButton ibOpenRecipeLink;
-//        public ImageView ivRecipeImage;
+        public TextView tvVideoeTitle;
+        public ImageView ivVideoThumbnail;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -67,18 +76,17 @@ public class VideoAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
-//            tvRecipeTitle = (TextView) itemView.findViewById(R.id.tvRecipeTitle);
-//            tvRecipeIngredientLines = (TextView) itemView.findViewById(R.id.tvRecipeIngredientLines);
-//            tvOpenRecipeLink = (TextView) itemView.findViewById(R.id.tvOpenRecipeLink);
-//            tvRecipeFilters = (TextView) itemView.findViewById(R.id.tvRecipeFilters);
-//            ibOpenRecipeLink = (ImageButton) itemView.findViewById(R.id.ibOpenRecipeLink);
-//            ivRecipeImage = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
+            tvVideoeTitle = (TextView) itemView.findViewById(R.id.tvVideoTitle);
+            ivVideoThumbnail = (ImageView) itemView.findViewById(R.id.ivVideoThumbnail);
 
-            // todo: populate
         }
 
         public void bind(Video video) {
-            // todo: populate
+            tvVideoeTitle.setText(video.getTitle());
+            // todo: set error and loading default images
+            Glide.with(context)
+                    .load(video.getThumbnail_url())
+                    .into(ivVideoThumbnail);
         }
 
         @Override
