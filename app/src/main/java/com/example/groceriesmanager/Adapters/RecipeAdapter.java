@@ -89,6 +89,7 @@ public class RecipeAdapter extends
 
         public void bind(Recipe recipe) {
             tvRecipeTitle.setText(recipe.getTitle());
+            // todo: set better error and loading default images
             Glide.with(context)
                     .load(recipe.getImage_url())
                     .placeholder(R.drawable.vegetables)

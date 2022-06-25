@@ -140,24 +140,23 @@ public class YoutubeSearchFragment extends Fragment {
                             if (response.isSuccessful()){
                                 Log.i(TAG, "url: " + url);
                                 Log.i(TAG, "okhttp call successfully executed");
-//                                String myResponse = response.body().string();
-//                                try {
-//                                    JSONObject responsejson = new JSONObject(myResponse);
-//                                    JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
-//                                    // todo: add all recipes to the recipe list that will be passed into adapter
-//                                    videoList.addAll(Video.fromJsonArray(recipesJSONArray));
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                    Log.e(TAG, "JSONException: " + e.toString());
-//                                }
-//
-//                                getActivity().runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        // edit the view here
-//                                        adapter.notifyDataSetChanged();
-//                                    }
-//                                });
+                                String myResponse = response.body().string();
+                                try {
+                                    JSONObject responsejson = new JSONObject(myResponse);
+                                    JSONArray videoJSONArray = responsejson.getJSONArray("items");
+                                    videoList.addAll(Video.fromJsonArray(videoJSONArray));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e(TAG, "JSONException: " + e.toString());
+                                }
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        // edit the view here
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                });
                             }
                             else { // response is unsuccessful
                                 Log.e(TAG, "response unsuccessful: " + response);
