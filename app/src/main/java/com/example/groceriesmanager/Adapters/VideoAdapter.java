@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Activities.VideoPlayerActivity;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
@@ -68,6 +70,7 @@ public class VideoAdapter extends
         // for any view that will be set as you render a row
         public TextView tvVideoeTitle;
         public ImageView ivVideoThumbnail;
+        public ConstraintLayout ConstraintLayout;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -78,7 +81,7 @@ public class VideoAdapter extends
             itemView.setOnClickListener(this);
             tvVideoeTitle = (TextView) itemView.findViewById(R.id.tvVideoTitle);
             ivVideoThumbnail = (ImageView) itemView.findViewById(R.id.ivVideoThumbnail);
-
+            ConstraintLayout = (androidx.constraintlayout.widget.ConstraintLayout) itemView.findViewById(R.id.ConstraintLayout);
         }
 
         public void bind(Video video) {
@@ -87,11 +90,24 @@ public class VideoAdapter extends
             Glide.with(context)
                     .load(video.getThumbnail_url())
                     .into(ivVideoThumbnail);
+
+
+
+            ConstraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: implement what happens when user clicks on an item
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    // todo: pass in video id as an intent
+                    intent.putExtra("videoID", video.getVideoID());
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
-            // todo: implement what happens when user clicks on an item
+
         }
 
     }
