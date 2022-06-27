@@ -18,6 +18,7 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
+        String videoID = getIntent().getStringExtra("videoID");
         ImageButton ibExitPlayer = (ImageButton) findViewById(R.id.ibExitPlayer);
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ytPlayer);
 
@@ -28,7 +29,7 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
                                                         YouTubePlayer youTubePlayer, boolean b) {
 
                         // do any work here to cue video, play video, etc.
-                        youTubePlayer.cueVideo("qtzjL2gIqRo"); // todo: get video id from intent
+                        youTubePlayer.cueVideo(videoID);
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,
