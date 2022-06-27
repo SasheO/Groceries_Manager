@@ -12,8 +12,9 @@ import java.util.List;
 public class Video {
     private String thumbnail_url;
     private String title;
-    private String channel;
+    private String channelTitle;
     private String videoID;
+    private String description;
 
     // required empty constructor for Parcel library
     public Video(){}
@@ -22,8 +23,9 @@ public class Video {
         // todo: get the required stuff from the JSONobject
         this.thumbnail_url = jsonObject.getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("medium").getString("url");
         this.title = jsonObject.getJSONObject("snippet").getString("title");
-        this.channel = jsonObject.getJSONObject("snippet").getString("channelTitle");
+        this.channelTitle = jsonObject.getJSONObject("snippet").getString("channelTitle");
         this.videoID = jsonObject.getJSONObject("id").getString("videoId");
+        this.description = jsonObject.getJSONObject("snippet").getString("description");
     }
 
     public String getThumbnail_url() {
@@ -42,12 +44,12 @@ public class Video {
         this.title = title;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getChannelTitle() {
+        return channelTitle;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
+    public void setChannelTitle(String channelTitle) {
+        this.channelTitle = channelTitle;
     }
 
     public String getVideoID() {
@@ -57,6 +59,11 @@ public class Video {
     public void setVideoID(String videoID) {
         this.videoID = videoID;
     }
+
+    public String getDescription() { return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
 
     public static List<Video> fromJsonArray(JSONArray videoJsonArray) throws JSONException {
         List<Video> videoList = new ArrayList<>();

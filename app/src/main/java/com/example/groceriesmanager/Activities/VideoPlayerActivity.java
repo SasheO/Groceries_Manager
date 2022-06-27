@@ -4,12 +4,16 @@ package com.example.groceriesmanager.Activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import org.parceler.Parcels;
 
 public class VideoPlayerActivity extends YouTubeBaseActivity {
 
@@ -18,9 +22,17 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
-        String videoID = getIntent().getStringExtra("videoID");
+        Video video = Parcels.unwrap(getIntent().getParcelableExtra("video"));
         ImageButton ibExitPlayer = (ImageButton) findViewById(R.id.ibExitPlayer);
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ytPlayer);
+        // todo: locate video channel, decription and title text views and populate them
+        TextView tvVideoTitle = (TextView) findViewById(R.id.tvVideoTitle);
+        TextView tvVideoDescription = (TextView) findViewById(R.id.tvVideoDescription);
+        TextView tvChannelTitle = (TextView) findViewById(R.id.tvChannelTitle);
+
+        tvVideoTitle.setText(video.getTitle());
+        tvChannelTitle.setText(video.getChannelTitle());
+        tvVideoDescription.setText(video.getDescription());
 
         youTubePlayerView.initialize(getResources().getString(R.string.youtube_api_key),
                 new YouTubePlayer.OnInitializedListener() {
@@ -29,7 +41,7 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
                                                         YouTubePlayer youTubePlayer, boolean b) {
 
                         // do any work here to cue video, play video, etc.
-                        youTubePlayer.cueVideo(videoID);
+                        youTubePlayer.cueVideo(video.getVideoID());
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,

@@ -2,11 +2,9 @@ package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Activities.VideoPlayerActivity;
-import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class VideoAdapter extends
         // for any view that will be set as you render a row
         public TextView tvVideoeTitle;
         public ImageView ivVideoThumbnail;
-        public ConstraintLayout ConstraintLayout;
+        public ConstraintLayout clVideo;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -81,7 +80,7 @@ public class VideoAdapter extends
             itemView.setOnClickListener(this);
             tvVideoeTitle = (TextView) itemView.findViewById(R.id.tvVideoTitle);
             ivVideoThumbnail = (ImageView) itemView.findViewById(R.id.ivVideoThumbnail);
-            ConstraintLayout = (androidx.constraintlayout.widget.ConstraintLayout) itemView.findViewById(R.id.ConstraintLayout);
+            clVideo = (androidx.constraintlayout.widget.ConstraintLayout) itemView.findViewById(R.id.clVideo);
         }
 
         public void bind(Video video) {
@@ -92,14 +91,14 @@ public class VideoAdapter extends
                     .into(ivVideoThumbnail);
 
 
-
-            ConstraintLayout.setOnClickListener(new View.OnClickListener() {
+            // when user clicks on video this happens
+            clVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // todo: implement what happens when user clicks on an item
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     // todo: pass in video id as an intent
-                    intent.putExtra("videoID", video.getVideoID());
+                    intent.putExtra("video", Parcels.wrap(video));
                     context.startActivity(intent);
                 }
             });
