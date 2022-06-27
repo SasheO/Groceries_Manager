@@ -59,7 +59,6 @@ public class GroceryListFragment extends Fragment {
         ibAddGroceryItem = view.findViewById(R.id.ibAddGroceryItem);
         groceryList = new ArrayList<>();
         queryGroceryList();
-        Log.i(TAG, "grocery list: " + groceryList.toString());
         adapter = new FoodListAdapter(getContext(), groceryList, type);
 
         // set the adapter on the recycler view
