@@ -55,8 +55,6 @@ public class PantryListFragment extends Fragment {
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList, type);
-        Log.i(TAG, "pantry list: " + pantryList.toString());
-
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
