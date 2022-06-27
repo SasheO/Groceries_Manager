@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Activities.VideoPlayerActivity;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
@@ -92,6 +93,10 @@ public class VideoAdapter extends
         @Override
         public void onClick(View v) {
             // todo: implement what happens when user clicks on an item
+            Intent intent = new Intent(context, VideoPlayerActivity.class);
+            // todo: pass in video id as an intent
+//            intent.putExtra("videoId", video.getId());
+            context.startActivity(intent);
         }
 
     }
