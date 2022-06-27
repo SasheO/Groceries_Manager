@@ -22,6 +22,9 @@ import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -55,8 +58,7 @@ public class GroceryListFragment extends Fragment {
         rvGroceryList = (RecyclerView) view.findViewById(R.id.rvGroceryList);
         ibAddGroceryItem = view.findViewById(R.id.ibAddGroceryItem);
         groceryList = new ArrayList<>();
-        User current_user = (User) ParseUser.getCurrentUser();
-        groceryList = current_user.getGroceryList();
+        queryGroceryList();
         Log.i(TAG, "grocery list: " + groceryList.toString());
         adapter = new FoodListAdapter(getContext(), groceryList, type);
 
@@ -96,4 +98,7 @@ public class GroceryListFragment extends Fragment {
 //                    }
 //                }
 //            });
+
+    // todo: populate this function
+    private void queryGroceryList() {}
 }

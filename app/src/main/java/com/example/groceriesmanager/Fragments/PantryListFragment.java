@@ -50,8 +50,7 @@ public class PantryListFragment extends Fragment {
         rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
         btnAddPantryItem = view.findViewById(R.id.btnAddPantryItem);
         pantryList = new ArrayList<>();
-        User current_user = (User) ParseUser.getCurrentUser();
-        pantryList = current_user.getPantryList();
+        queryPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList, type);
         Log.i(TAG, "pantry list: " + pantryList.toString());
 
@@ -91,4 +90,7 @@ public class PantryListFragment extends Fragment {
 //                    }
 //                }
 //            });
+
+    // todo: populate this function
+    private void queryPantryList() {}
 }
