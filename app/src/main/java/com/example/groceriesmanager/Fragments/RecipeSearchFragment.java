@@ -102,7 +102,7 @@ public class RecipeSearchFragment extends Fragment {
                 }
                 else{
                     adapter.clear(); // clear adapter, in case there are already results
-                    String query = etRecipeLookup.getText().toString();
+                    String query = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
                     // send api request to edamam
                     OkHttpClient client = new OkHttpClient();
                     // this builder helps us to creates the request url
@@ -114,7 +114,7 @@ public class RecipeSearchFragment extends Fragment {
                     if (checkboxVegan.isChecked()){
                         urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
                     }
-                    if (checkboxVegetarian.isChecked()){
+                    else if (checkboxVegetarian.isChecked()){ // only add vegetarian if vegan is not already checked
                         urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
                     }
                     if (checkboxGlutenFree.isChecked()){

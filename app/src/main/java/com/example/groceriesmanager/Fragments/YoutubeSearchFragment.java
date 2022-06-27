@@ -103,7 +103,7 @@ public class YoutubeSearchFragment extends Fragment {
                 }
                 else{
                     adapter.clear(); // clear adapter, in case there are already results
-                    String query = etYoutubeLookup.getText().toString();
+                    String query = etYoutubeLookup.getText().toString().trim(); // remove any leading and trailing spaces
                     // send api request to Youtube: check here https://developers.google.com/youtube/v3/docs/search/listn
                     OkHttpClient client = new OkHttpClient();
                     // this builder helps us to creates the request url
@@ -115,13 +115,13 @@ public class YoutubeSearchFragment extends Fragment {
                     if (checkboxVegan.isChecked()){
                         query = query + " " + QUERY_FILTER_VEGAN;
                     }
-                    if (checkboxVegetarian.isChecked()){
+                    else if (checkboxVegetarian.isChecked()){ // only include vegetarian if vegan isn't already checked
                         query = query + " " + QUERY_FILTER_VEGETARIAN;
                     }
                     if (checkboxGlutenFree.isChecked()){
                         query = query + " " + QUERY_FILTER_GLUTEN_FREE;
                     }
-                    urlBuilder.addQueryParameter("q", query);
+                    urlBuilder.addQueryParameter("q", query+ " recipe"); // specify  that you are searchign for recipe
                     urlBuilder.addQueryParameter("key", getResources().getString(R.string.youtube_api_key));
                     String url = urlBuilder.build().toString();
                     Request request = new Request.Builder()
