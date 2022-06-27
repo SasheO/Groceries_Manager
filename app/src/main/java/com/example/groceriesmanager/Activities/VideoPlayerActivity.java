@@ -2,6 +2,8 @@ package com.example.groceriesmanager.Activities;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.groceriesmanager.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -16,6 +18,7 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
 
+        ImageButton ibExitPlayer = (ImageButton) findViewById(R.id.ibExitPlayer);
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ytPlayer);
 
         youTubePlayerView.initialize(getResources().getString(R.string.youtube_api_key),
@@ -33,5 +36,12 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
 
                     }
                 });
+
+        ibExitPlayer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }
