@@ -99,6 +99,28 @@ public class GroceryListFragment extends Fragment {
 //                }
 //            });
 
-    // todo: populate this function
-    private void queryGroceryList() {}
+    private void queryGroceryList() {
+        // specify what type of data we want to query - FoodItem.class
+        ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
+        // include data where post is current post
+        query.whereEqualTo("type", type);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<FoodItem>() {
+            @Override
+            public void done(List<FoodItem> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                }
+                else{
+                    adapter.clear();
+                    groceryList.addAll(objects);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
 }

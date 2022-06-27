@@ -81,6 +81,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                                 Log.i(TAG, "food item saved successfully");
                                 etFoodName.setText("");
                                 etFoodQty.setText("");
+                                finish();
                             }
                         }
                     });
