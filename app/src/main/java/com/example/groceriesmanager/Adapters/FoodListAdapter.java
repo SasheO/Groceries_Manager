@@ -1,6 +1,7 @@
 package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.List;
 import java.util.Objects;
@@ -154,7 +157,17 @@ public class FoodListAdapter extends
                             foodItem.switchList();
                         }
                     }).show();
-
+foodItem.saveInBackground(new SaveCallback() {
+    @Override
+    public void done(ParseException e) {
+        if (e!=null){
+            Log.e(TAG, "error switching food item: " + e.toString());
+        }
+        else{
+            Log.i(TAG, "food item switched lists successfully");
+        }
+    }
+});
                 }
             });
 
