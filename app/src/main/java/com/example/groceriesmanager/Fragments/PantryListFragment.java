@@ -17,6 +17,9 @@ import com.example.groceriesmanager.Activities.AddFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -50,8 +53,7 @@ public class PantryListFragment extends Fragment {
         rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
         btnAddPantryItem = view.findViewById(R.id.btnAddPantryItem);
         pantryList = new ArrayList<>();
-        User current_user = (User) ParseUser.getCurrentUser();
-        pantryList = current_user.getPantryList();
+        queryPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList, type);
         Log.i(TAG, "pantry list: " + pantryList.toString());
 
@@ -91,4 +93,29 @@ public class PantryListFragment extends Fragment {
 //                    }
 //                }
 //            });
+
+    private void queryPantryList() {
+        // specify what type of data we want to query - Post.class
+        ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
+        // include data where post is current post
+        query.whereEqualTo("type", type);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<FoodItem>() {
+            @Override
+            public void done(List<FoodItem> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                }
+                else{
+                    adapter.clear();
+                    pantryList.addAll(objects);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
 }

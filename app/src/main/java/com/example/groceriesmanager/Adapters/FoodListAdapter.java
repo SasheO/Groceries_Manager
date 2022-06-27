@@ -166,4 +166,9 @@ public class FoodListAdapter extends
             // todo: implement what happens when user clicks on an item
         }
     }
+
+    public void clear() {
+        foodItemList.clear();
+        notifyDataSetChanged();
+    }
 }
