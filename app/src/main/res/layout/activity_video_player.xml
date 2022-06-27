@@ -23,11 +23,58 @@
         android:layout_height="42dp"
         android:background="@null"
         android:src="@android:drawable/ic_delete"
+        android:contentDescription="button to exit video player"
         app:layout_constraintBottom_toTopOf="@+id/ytPlayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvVideoTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:contentDescription="video title"
+        android:textSize="20sp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ytPlayer"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Video title" />
+
+    <TextView
+        android:id="@+id/tvChannelTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="video's channel title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvVideoTitle"
+        tools:text="channel title" />
+
+    <TextView
+        android:id="@+id/tvVideoDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="2dp"
+        android:contentDescription="video description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvVideoTitle"
+        tools:text="video descrittion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
