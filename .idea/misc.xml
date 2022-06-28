@@ -14,7 +14,8 @@
         <entry key="app/src/main/res/layout/activity_video_player.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_grocery_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_pantry_list.xml" value="0.1890625" />
-        <entry key="app/src/main/res/layout/fragment_recipe_search.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_recipe_search.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_recipe_search2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/fragment_saved_recipes.xml" value="0.1890625" />
         <entry key="app/src/main/res/layout/fragment_user_profile.xml" value="0.24213836477987422" />
         <entry key="app/src/main/res/layout/fragment_youtube_search.xml" value="0.375" />
