@@ -27,7 +27,7 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * User must sign up/in to use app
 * User can view and edit (add and delete) grocery shopping list on app
     * Each item has a "delete" button and a "bought" button to move item to pantry list
-  * User can move items from grocery shopping list to pantry directly by double tapping
+  * User can move items from grocery shopping list to pantry directly
 * User can view and edit (add and delete) of ingredients in their pantry list
     * Each item has a delete button to remove list from pantry
  * User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
