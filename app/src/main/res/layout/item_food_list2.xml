@@ -3,95 +3,6 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     layout_height="wrap_content"
-    layout_width="match_parent"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="8dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp">
-
-        <TextView
-            android:id="@+id/tvFoodItemName"
-            android:layout_marginEnd="3dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/ivFoodItemPic"
-            android:text="Food name"
-            android:textSize="30sp"
-            tools:text="Food name" />
-
-        <ImageView
-            android:id="@+id/ivFoodItemPic"
-            android:layout_width="110dp"
-            android:layout_height="104dp"
-            android:layout_toLeftOf="@+id/ibFoodItemSwitchList"
-            card_view:srcCompat="@drawable/vegetables" />
-
-        <ImageButton
-            android:id="@+id/ibFoodItemSwitchList"
-            android:layout_width="53dp"
-            android:layout_height="49dp"
-            android:background="@null"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="button to switch item from grocery to pantry list or vice versa"
-            card_view:srcCompat="@android:drawable/stat_notify_sync"
-            card_view:tint="#716868" />
-
-        <ImageButton
-            android:id="@+id/ibFoodItemDelete"
-            android:layout_width="53dp"
-            android:layout_height="49dp"
-            android:layout_below="@+id/ibFoodItemSwitchList"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="4dp"
-            android:background="@null"
-            android:contentDescription="delete button"
-            card_view:srcCompat="@android:drawable/ic_menu_delete"
-            card_view:tint="#716868" />
-
-        <TextView
-            android:id="@+id/tvFoodItemQty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
-            android:layout_below="@+id/tvFoodItemName"
-            android:textSize="20sp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tvFoodItemMeasure"
-            android:layout_marginEnd="3dp"
-            tools:text="2" />
-
-        <TextView
-            android:id="@+id/tvFoodItemMeasure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvFoodItemName"
-            android:textSize="20sp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="3dp"
-            android:layout_toLeftOf="@id/ivFoodItemPic"
-            tools:text="ct" />
-
-    </RelativeLayout>
-
-</androidx.cardview.widget.CardView>
-
-<!--
-
-
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    layout_height="wrap_content"
     layout_width="wrap_content"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -173,5 +84,3 @@
             card_view:srcCompat="@android:drawable/ic_menu_delete" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
-
--->
