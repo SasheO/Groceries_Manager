@@ -76,7 +76,7 @@ public class FoodListAdapter extends
         public TextView tvFoodItemName;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
-        public ImageView ivFoodItemPic;
+//        public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
 
@@ -90,7 +90,7 @@ public class FoodListAdapter extends
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
+//            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
         }

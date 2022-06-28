@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,7 +70,7 @@ public class VideoAdapter extends
         // for any view that will be set as you render a row
         public TextView tvVideoeTitle;
         public ImageView ivVideoThumbnail;
-        public ConstraintLayout clVideo;
+        public LinearLayout llVideo;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -80,7 +81,7 @@ public class VideoAdapter extends
             itemView.setOnClickListener(this);
             tvVideoeTitle = (TextView) itemView.findViewById(R.id.tvVideoTitle);
             ivVideoThumbnail = (ImageView) itemView.findViewById(R.id.ivVideoThumbnail);
-            clVideo = (androidx.constraintlayout.widget.ConstraintLayout) itemView.findViewById(R.id.clVideo);
+            llVideo = (LinearLayout) itemView.findViewById(R.id.llVideo);
         }
 
         public void bind(Video video) {
@@ -92,7 +93,7 @@ public class VideoAdapter extends
 
 
             // when user clicks on video this happens
-            clVideo.setOnClickListener(new View.OnClickListener() {
+            llVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // todo: implement what happens when user clicks on an item

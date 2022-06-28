@@ -1,69 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
         android:id="@+id/etYoutubeLookup"
-        android:layout_width="300dp"
-        android:layout_height="76dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="look up video recipes"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="look up recipes, ingredients, etc."
+        android:layout_toStartOf="@id/ibYoutubeSearch"
+        android:layout_alignParentStart="true"
+        android:inputType="textPersonName" />
 
     <ImageButton
         android:id="@+id/ibYoutubeSearch"
         android:layout_width="48dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="0dp"
+        android:layout_height="45dp"
+        android:layout_toStartOf="@id/ibYoutubeSearchClear"
         android:background="@null"
         android:contentDescription="search recipe"
-        app:layout_constraintBottom_toBottomOf="@+id/etYoutubeLookup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/etYoutubeLookup"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 
     <ImageButton
         android:id="@+id/ibYoutubeSearchClear"
-        android:layout_width="49dp"
-        android:layout_height="58dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
         android:background="@null"
         android:contentDescription="clear previous search"
-        app:layout_constraintBottom_toBottomOf="@+id/ibYoutubeSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ibYoutubeSearch"
-        app:layout_constraintTop_toTopOf="@+id/ibYoutubeSearch"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/ic_delete" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvYoutubeSearch"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llFilters" />
-
     <LinearLayout
         android:id="@+id/llFilters"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etYoutubeLookup">
+        android:layout_below="@id/etYoutubeLookup">
+
         <CheckBox
             android:id="@+id/checkboxVegan"
             android:layout_width="wrap_content"
@@ -83,4 +56,11 @@
             android:text="gluten-free" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvYoutubeSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llFilters"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
