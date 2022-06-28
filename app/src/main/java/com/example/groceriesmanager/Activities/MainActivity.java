@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.groceriesmanager.Fragments.GroceryListFragment;
 import com.example.groceriesmanager.Fragments.PantryListFragment;
 import com.example.groceriesmanager.Fragments.RecipeSearchFragment;
-import com.example.groceriesmanager.Fragments.SavedRecipesFragment;
+import com.example.groceriesmanager.Fragments.UserProfileFragment;
 import com.example.groceriesmanager.Fragments.YoutubeSearchFragment;
 import com.example.groceriesmanager.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public GroceryListFragment groceryListFragment = new GroceryListFragment();
     public PantryListFragment pantryListFragment = new PantryListFragment();
-    public SavedRecipesFragment savedRecipesFragment = new SavedRecipesFragment();
+    public UserProfileFragment savedRecipesFragment = new UserProfileFragment();
     public RecipeSearchFragment recipeSearchFragment = new RecipeSearchFragment();
     public YoutubeSearchFragment youtubeSearchFragment = new YoutubeSearchFragment();
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         // this replaces the fragment housed in frameLayout with a postfragment
                         fragment = pantryListFragment;
                         break;
-                    case R.id.miSavedList:
+                    case R.id.miUserProfile:
                         fragment = savedRecipesFragment;
                         break;
                     case R.id.miRecipeSearch:
@@ -77,43 +77,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            // if user presses logout menu item button
-            case R.id.miLogOut:
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e != null) {
-                            Log.e(TAG, "Error signing out", e);
-                            Toast.makeText(MainActivity.this, "Error signing out", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        Log.i(TAG, "Sign out successful");
-                        goToLoginActivity();
-                        Toast.makeText(MainActivity.this, "Signed out", Toast.LENGTH_SHORT).show();
-                    }
-                    }
-                );
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-}
-
-    private void goToLoginActivity() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
 }
