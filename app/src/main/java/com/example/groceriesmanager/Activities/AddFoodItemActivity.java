@@ -2,7 +2,6 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +17,6 @@ import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.List;
-import java.util.Objects;
 
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
@@ -38,7 +34,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
         spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        ibAddFoodItem = findViewById(R.id.btnAddFoodItem);
+        ibAddFoodItem = findViewById(R.id.ibAddFoodItem);
         ibExitAddFoodItem = findViewById(R.id.ibExitAddFoodItem);
         User current_user = (User) ParseUser.getCurrentUser();
 

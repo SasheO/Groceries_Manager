@@ -27,7 +27,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="59dp"
-        android:contentDescription="Food name"
         android:ellipsize="end"
         android:hint="food name"
         android:maxLines="2"
@@ -60,7 +59,6 @@
         android:layout_width="222dp"
         android:layout_height="45dp"
         android:layout_marginTop="15dp"
-        android:contentDescription="Number text input for food quantity"
         android:ems="10"
         android:inputType="number"
         android:text=""
@@ -68,7 +66,7 @@
         android:layout_below="@id/textView3"/>
 
     <ImageButton
-        android:id="@+id/btnAddFoodItem"
+        android:id="@+id/ibAddFoodItem"
         android:layout_width="85dp"
         android:layout_height="79dp"
         android:layout_marginTop="46dp"
@@ -82,6 +80,7 @@
         android:id="@+id/ibExitAddFoodItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="Exit add food item page"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:background="@null"

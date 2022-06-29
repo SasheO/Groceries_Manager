@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
@@ -76,7 +77,7 @@ public class FoodListAdapter extends
         public TextView tvFoodItemName;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
-//        public ImageView ivFoodItemPic;
+        public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
 
@@ -90,7 +91,7 @@ public class FoodListAdapter extends
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-//            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
+            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
         }
@@ -108,6 +109,10 @@ public class FoodListAdapter extends
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }
+            // todo (stretch): glide the picture if there is one
+            Glide.with(context)
+                    .load(foodItem.getPic().getUrl())
+                    .into(ivFoodItemPic);
 
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -170,8 +175,6 @@ foodItem.saveInBackground(new SaveCallback() {
 });
                 }
             });
-
-            // todo (stretch): glide the picture if there is one
         }
 
         @Override
