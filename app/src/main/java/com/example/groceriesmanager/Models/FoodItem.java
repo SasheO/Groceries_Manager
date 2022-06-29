@@ -78,6 +78,7 @@ public class FoodItem extends ParseObject {
         }
     }
 
+
     public void deleteFood(){
         deleteInBackground(new DeleteCallback() {
             @Override
