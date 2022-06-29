@@ -1,6 +1,7 @@
 package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.example.groceriesmanager.Activities.AddFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
@@ -184,14 +187,16 @@ foodItem.saveInBackground(new SaveCallback() {
                 @Override
                 public void onClick(View v) {
                     // todo: launch activity to edit food item with info already plugged in
+                    Intent intent = new Intent(context, AddFoodItemActivity.class);
+                    intent.putExtra("process", "edit");
+                    intent.putExtra("foodItem", foodItem);
+                    context.startActivity(intent);
                 }
             });
         }
 
         @Override
-        public void onClick(View v) {
-            // todo: implement what happens when user clicks on an item
-        }
+        public void onClick(View v) {}
     }
 
     public void clear() {

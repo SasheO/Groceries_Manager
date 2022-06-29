@@ -18,6 +18,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Objects;
+
 public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
     private EditText etFoodName;
@@ -36,9 +38,8 @@ public class AddFoodItemActivity extends AppCompatActivity {
         etFoodQty = findViewById(R.id.etFoodQty);
         ibAddFoodItem = findViewById(R.id.ibAddFoodItem);
         ibExitAddFoodItem = findViewById(R.id.ibExitAddFoodItem);
-        User current_user = (User) ParseUser.getCurrentUser();
 
-        String type = getIntent().getStringExtra("type");
+        String process = getIntent().getStringExtra("process");
 
 
         // array adapter for rendering items into the spinner
@@ -46,15 +47,26 @@ public class AddFoodItemActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerFoodMeasure.setAdapter(adapter);
 
+        // todo: if intent process is edit, get the food item passed in and set the values in the edit text, etc
+        if (Objects.equals(process, "edit")){
+            FoodItem foodItem = getIntent().getParcelableExtra("foodItem");
+            etFoodName.setText(foodItem.getName());
+            etFoodQty.setText(foodItem.getQuantity());
+            spinnerFoodMeasure.setSelection(adapter.getPosition(foodItem.getMeasure()));
+        }
+
         ibExitAddFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
         ibAddFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
 
@@ -66,35 +78,43 @@ public class AddFoodItemActivity extends AppCompatActivity {
 
                 }
                 else{
-                    FoodItem newFoodItem = new FoodItem();
-                    newFoodItem.setName(foodName.replaceAll("\n", ""));
-                    newFoodItem.setType(type);
-                    newFoodItem.setUser(current_user);
-                    if (foodQty != ""){
-                        newFoodItem.setQuantity(foodQty);
-                        newFoodItem.setMeasure(foodMeasure);
+                    if (Objects.equals(process, "new")){
+                        addFoodItem(foodName, foodQty, foodMeasure, type);
                     }
-                    // update info in parse server
-                    newFoodItem.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!=null){
-                                Log.e(TAG, "error saving food item to server");
-                            }
-                            else{
-                                Log.i(TAG, "food item saved successfully");
-                                etFoodName.setText("");
-                                etFoodQty.setText("");
-                                finish();
-                            }
-                        }
-                    });
+                    else{ // process is edit
+                        // todo: populate. if process is edit,
+                    }
+                }
+        }
+        });
+    }
 
+    private void addFoodItem(String foodName, String foodQty, String foodMeasure, String type){
 
-
+        FoodItem newFoodItem = new FoodItem();
+        newFoodItem.setName(foodName.replaceAll("\n", ""));
+        newFoodItem.setType(type);
+        newFoodItem.setUser(ParseUser.getCurrentUser());
+        if (foodQty != ""){
+            newFoodItem.setQuantity(foodQty);
+            newFoodItem.setMeasure(foodMeasure);
+        }
+        // update info in parse server
+        newFoodItem.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error saving food item to server");
+                }
+                else{
+                    Log.i(TAG, "food item saved successfully");
+                    etFoodName.setText("");
+                    etFoodQty.setText("");
+                    finish();
                 }
             }
         });
-    }
+        }
+
 
 }
