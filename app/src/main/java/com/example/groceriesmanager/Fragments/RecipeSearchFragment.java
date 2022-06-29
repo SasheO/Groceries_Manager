@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
+//import com.example.groceriesmanager.Lemma;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
@@ -47,7 +48,7 @@ public class RecipeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
-
+//    Lemma lemmatizer = new Lemma();
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -103,6 +104,9 @@ public class RecipeSearchFragment extends Fragment {
                 else{
                     adapter.clear(); // clear adapter, in case there are already results
                     String query = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
+                    // todo: lemmatize the query
+//                    query = lemmatizer.lemmatize(query);
+                    Log.i(TAG, query);
                     // send api request to edamam
                     OkHttpClient client = new OkHttpClient();
                     // this builder helps us to creates the request url
