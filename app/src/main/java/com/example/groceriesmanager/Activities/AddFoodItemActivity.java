@@ -26,7 +26,8 @@ public class AddFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
     private EditText etFoodName;
     private EditText etFoodQty;
-    private ImageButton btnAddFoodItem;
+    private ImageButton ibAddFoodItem;
+    private ImageButton ibExitAddFoodItem;
     private static final String TAG = "AddFoodItemActivity";
 
     @Override
@@ -37,7 +38,8 @@ public class AddFoodItemActivity extends AppCompatActivity {
         spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        btnAddFoodItem = findViewById(R.id.btnAddFoodItem);
+        ibAddFoodItem = findViewById(R.id.btnAddFoodItem);
+        ibExitAddFoodItem = findViewById(R.id.ibExitAddFoodItem);
         User current_user = (User) ParseUser.getCurrentUser();
 
         String type = getIntent().getStringExtra("type");
@@ -48,7 +50,13 @@ public class AddFoodItemActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerFoodMeasure.setAdapter(adapter);
 
-        btnAddFoodItem.setOnClickListener(new View.OnClickListener() {
+        ibExitAddFoodItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        ibAddFoodItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String foodName = etFoodName.getText().toString();
