@@ -76,7 +76,7 @@ public class FoodItem extends ParseObject {
     public void setFoodPic(ParseFile image){ put(KEY_FOODPIC, image); }
 
     public void switchList() {
-        if (Objects.equals(getName(), "grocery")){
+        if (Objects.equals(getType(), "grocery")){
             setType("pantry");
         }
         else{
