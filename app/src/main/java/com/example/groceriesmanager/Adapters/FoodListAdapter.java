@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.groceriesmanager.Activities.AddFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Gestures.OnDoubleTapListener;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -182,6 +184,46 @@ foodItem.saveInBackground(new SaveCallback() {
 });
                 }
             });
+
+            // todo double clicking to switch food lists
+            cvFoodItem.setOnTouchListener(new OnDoubleTapListener(context) {
+                @Override
+                public void onDoubleTap(MotionEvent e) {
+                    foodItem.switchList();
+                    String new_list_type;
+                    if (Objects.equals(type, "grocery")){
+                        new_list_type = "pantry";
+                    }
+                    else{
+                        new_list_type = "grocery";
+                    }
+                    Snackbar.make(itemView, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            // the code here runs while snackbar is being shown
+                            foodItemList.remove(foodItem);
+                            notifyDataSetChanged();
+                        }
+                    }).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            foodItem.switchList();
+                        }
+                    }).show();
+                    foodItem.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!=null){
+                                Log.e(TAG, "error switching food item: " + e.toString());
+                            }
+                            else{
+                                Log.i(TAG, "food item switched lists successfully");
+                            }
+                        }
+                    });
+                }
+            });
+
 
             cvFoodItem.setOnClickListener(new View.OnClickListener() {
                 @Override
