@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
@@ -75,6 +77,7 @@ public class FoodListAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvFoodItemName;
+        public CardView cvFoodItem;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
         public ImageView ivFoodItemPic;
@@ -94,6 +97,7 @@ public class FoodListAdapter extends
             ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
+            cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
         }
 
         public void bind(FoodItem foodItem, int position) {
@@ -111,7 +115,7 @@ public class FoodListAdapter extends
             }
             // todo (stretch): glide the picture if there is one
             Glide.with(context)
-                    .load(foodItem.getPic().getUrl())
+                    .load(foodItem.getPic().getUrl()).transform(new CircleCrop())
                     .into(ivFoodItemPic);
 
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +177,13 @@ foodItem.saveInBackground(new SaveCallback() {
         }
     }
 });
+                }
+            });
+
+            cvFoodItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: launch activity to edit food item with info already plugged in
                 }
             });
         }
