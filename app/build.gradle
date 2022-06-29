@@ -61,4 +61,7 @@ dependencies {
 
     // for cardview
     implementation "androidx.cardview:cardview:1.0.0"
+
+    // https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp
+    implementation 'edu.stanford.nlp:stanford-corenlp:3.9.1'
 }
