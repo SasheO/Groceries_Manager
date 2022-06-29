@@ -25,6 +25,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
     private EditText etFoodName;
     private EditText etFoodQty;
     private ImageButton ibAddFoodItem;
+    FoodItem foodItem;
     private ImageButton ibExitAddFoodItem;
     private static final String TAG = "AddFoodItemActivity";
 
@@ -49,7 +50,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
 
         // todo: if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
-            FoodItem foodItem = getIntent().getParcelableExtra("foodItem");
+            foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
             spinnerFoodMeasure.setSelection(adapter.getPosition(foodItem.getMeasure()));
@@ -83,9 +84,35 @@ public class AddFoodItemActivity extends AppCompatActivity {
                     }
                     else{ // process is edit
                         // todo: populate. if process is edit,
+                        editFoodItem(foodName, foodQty, foodMeasure, type);
                     }
                 }
         }
+        });
+    }
+
+    private void editFoodItem(String foodName, String foodQty, String foodMeasure, String type) {
+        foodItem.setName(foodName);
+        if (foodQty != ""){
+            foodItem.setQuantity(foodQty);
+            foodItem.setMeasure(foodMeasure);
+        }
+        else{
+            foodItem.setQuantity("");
+            foodItem.setMeasure("-");
+        }
+
+        foodItem.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error saving edited food item: " + e.toString());
+                    Toast.makeText(AddFoodItemActivity.this, "Could not edit food item", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    finish();
+                }
+            }
         });
     }
 
