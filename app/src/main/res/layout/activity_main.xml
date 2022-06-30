@@ -12,14 +12,18 @@
         android:layout_height="match_parent"
         android:layout_weight="13"></FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <nl.joery.animatedbottombar.AnimatedBottomBar
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="79dp"
+        android:layout_height="wrap_content"
+        app:abb_selectedTabType="text"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorMargin="16dp"
+        app:abb_indicatorHeight="4dp"
+        app:abb_tabs="@menu/menu_main_bottom_navigation"
         android:layout_alignParentBottom="true"
         android:contentDescription="Navigation menu"
-        android:layout_weight="1"
-        app:menu="@menu/menu_main_bottom_navigation" />
+        app:abb_selectedIndex="0"/>
 </LinearLayout>
 
 
