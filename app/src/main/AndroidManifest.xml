@@ -27,7 +27,7 @@
             android:name=".Activities.VideoPlayerActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.AddFoodItemActivity"
+            android:name=".Activities.EditFoodItemActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"

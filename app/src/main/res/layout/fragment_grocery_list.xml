@@ -6,25 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Grocery List"
-            style="@style/FragmentTitleStyle" />
+            style="@style/FragmentTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/ibAddGroceryItem"
+            android:text="Grocery List" />
 
         <ImageButton
             android:id="@+id/ibAddGroceryItem"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
             android:background="@null"
             android:contentDescription="Add new item button"
             app:srcCompat="@android:drawable/ic_input_add" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGroceryList"

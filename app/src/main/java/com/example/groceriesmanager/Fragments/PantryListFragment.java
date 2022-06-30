@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
-import com.example.groceriesmanager.Activities.AddFoodItemActivity;
+import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
-import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -51,7 +50,7 @@ public class PantryListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
-        btnAddPantryItem = view.findViewById(R.id.btnAddPantryItem);
+        btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList, type);
@@ -64,7 +63,7 @@ public class PantryListFragment extends Fragment {
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
+                Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 intent.putExtra("process", "new");
