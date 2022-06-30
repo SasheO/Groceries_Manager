@@ -1,88 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_margin="10dp">
 
-    <ImageView
-        android:id="@+id/ivFoodPic"
+    <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
-        android:layout_height="120dp"
-        android:layout_below="@+id/ibExitAddFoodItem"
+        android:layout_height="wrap_content"
+        android:text="Create Food Item"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        style="@style/FragmentTitleStyle" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="4dp"
-        android:layout_toStartOf="@id/etFoodName"
-        android:visibility="visible"
-        app:srcCompat="@drawable/food_item_holder"
-        tools:srcCompat="@drawable/food_item_holder" />
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:text="Name"
+        style="@style/Label" />
 
     <EditText
         android:id="@+id/etFoodName"
-        android:layout_width="186dp"
-        android:layout_height="194dp"
-        android:layout_below="@+id/ibExitAddFoodItem"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="59dp"
-        android:ellipsize="end"
-        android:hint="food name"
-        android:maxLines="2"
-        android:textSize="40sp"
-        android:visibility="visible" />
-
-    <TextView
-        android:id="@+id/textView3"
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="34dp"
-        android:contentDescription="Amount"
-        android:text="Amount"
-        android:textSize="30sp"
-        android:layout_below="@id/ivFoodPic"
-        tools:text="Amount" />
+        android:layout_alignTop="@id/tvName"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/tvName"
+        android:ellipsize="end"
+        android:contentDescription="food name"
+        android:hint="(required)" />
 
-    <Spinner
-        android:id="@+id/spinnerFoodMeasure"
-        android:layout_width="121dp"
-        android:layout_height="53dp"
-        android:layout_toEndOf="@id/etFoodQty"
-        android:contentDescription="Food measure spinner"
-        android:layout_alignTop="@id/etFoodQty"
-        android:spinnerMode="dropdown" />
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvName"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="18dp"
+        android:text="Amount"
+        style="@style/Label" />
 
     <EditText
         android:id="@+id/etFoodQty"
-        android:layout_width="222dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:inputType="number"
-        android:text=""
-        android:layout_alignStart="@id/textView3"
-        android:layout_below="@id/textView3"/>
-
-    <ImageButton
-        android:id="@+id/ibAddFoodItem"
-        android:layout_width="85dp"
-        android:layout_height="79dp"
-        android:layout_marginTop="46dp"
-        android:background="@color/white"
-        android:contentDescription="Image Button to add food item"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@android:drawable/ic_input_add" />
-
-    <ImageButton
-        android:id="@+id/ibExitAddFoodItem"
+        android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Exit add food item page"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@id/tvAmount"
+        android:layout_toEndOf="@id/tvAmount"
+        android:layout_toStartOf="@id/spinnerFoodMeasure"
+        android:inputType="number"
+        android:ellipsize="end"
+        android:hint="(optional)" />
+    <Spinner
+        android:id="@+id/spinnerFoodMeasure"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:contentDescription="Food measure dropdown"
+        android:layout_alignTop="@id/etFoodQty"
         android:layout_alignParentEnd="true"
-        android:background="@null"
-        app:srcCompat="@android:drawable/ic_delete" />
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/tvCategoryMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAmount"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="24dp"
+        android:text="Selecting a food category is optional, but it will will help us with recipe recommendations, food wastage notifications, and other features!" />
+
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_below="@id/tvCategoryMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        style="@style/Label" />
+
+    <Spinner
+        android:id="@+id/spinnerFoodCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_alignTop="@id/tvCategory"
+        android:layout_toEndOf="@id/tvCategory"
+        android:layout_marginStart="5dp"
+        android:contentDescription="Food category drop down"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:text="cancel" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="save" />
 </RelativeLayout>

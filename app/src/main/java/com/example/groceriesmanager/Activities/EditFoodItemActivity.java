@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
@@ -21,11 +22,13 @@ import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
+    private Spinner spinnerFoodCategory;
     private EditText etFoodName;
     private EditText etFoodQty;
-    private ImageButton ibAddFoodItem;
+    private Button btnSave;
     FoodItem foodItem;
-    private ImageButton ibExitAddFoodItem;
+    private Button btnCancel;
+    private TextView tvTitle;
     private static final String TAG = "EditFoodItemActivity";
 
     @Override
@@ -34,35 +37,43 @@ public class EditFoodItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_food_item);
 
         spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
+        spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        ibAddFoodItem = findViewById(R.id.ibAddFoodItem);
-        ibExitAddFoodItem = findViewById(R.id.ibExitAddFoodItem);
+        btnSave = findViewById(R.id.btnSave);
+        btnCancel = findViewById(R.id.btnCancel);
+        tvTitle = findViewById(R.id.tvTitle);
 
         String process = getIntent().getStringExtra("process");
 
 
-        // array adapter for rendering items into the spinner
-        ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spinnerFoodMeasure.setAdapter(adapter);
+        // array adapter for rendering items into the food measure spinner
+        ArrayAdapter<CharSequence> foodMeasureAdapter = ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
+        foodMeasureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerFoodMeasure.setAdapter(foodMeasureAdapter);
+        // todo: array adapter for rendering items into the food category spinner
+        // todo: make this spinner a dialog box, not a dropdown
+        ArrayAdapter<CharSequence>foodCategoryAdapter=ArrayAdapter.createFromResource(this, R.array.food_categories, android.R.layout.simple_spinner_item);
+        foodCategoryAdapter.setDropDownViewResource(R.layout.spinner_item_food_category);
+        spinnerFoodCategory.setAdapter(foodCategoryAdapter);
 
-        // todo: if intent process is edit, get the food item passed in and set the values in the edit text, etc
+        // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
+            tvTitle.setText("Edit Food Item"); // change title from "create food item"
             foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
-            spinnerFoodMeasure.setSelection(adapter.getPosition(foodItem.getMeasure()));
+            spinnerFoodMeasure.setSelection(foodCategoryAdapter.getPosition(foodItem.getMeasure()));
         }
 
-        ibExitAddFoodItem.setOnClickListener(new View.OnClickListener() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        ibAddFoodItem.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
