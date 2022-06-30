@@ -1,6 +1,5 @@
 package com.example.groceriesmanager.Fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,18 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Activities.AddFoodItemActivity;
+import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
-import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -70,7 +64,7 @@ public class GroceryListFragment extends Fragment {
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
+                Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 intent.putExtra("process", "new");

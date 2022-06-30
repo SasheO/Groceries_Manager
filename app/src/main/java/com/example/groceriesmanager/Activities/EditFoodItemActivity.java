@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.FoodItem;
-import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -20,19 +19,19 @@ import com.parse.SaveCallback;
 
 import java.util.Objects;
 
-public class AddFoodItemActivity extends AppCompatActivity {
+public class EditFoodItemActivity extends AppCompatActivity {
     private Spinner spinnerFoodMeasure;
     private EditText etFoodName;
     private EditText etFoodQty;
     private ImageButton ibAddFoodItem;
     FoodItem foodItem;
     private ImageButton ibExitAddFoodItem;
-    private static final String TAG = "AddFoodItemActivity";
+    private static final String TAG = "EditFoodItemActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_food_item);
+        setContentView(R.layout.activity_edit_food_item);
 
         spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
         etFoodName = findViewById(R.id.etFoodName);
@@ -75,7 +74,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
                 // Toast.makeText(AddFoodItemActivity.this, foodName +": " + String.valueOf(foodQty) + " " + foodMeasure, Toast.LENGTH_LONG).show();
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
-                    Toast.makeText(AddFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
 
                 }
                 else{
@@ -107,7 +106,7 @@ public class AddFoodItemActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e!=null){
                     Log.e(TAG, "error saving edited food item: " + e.toString());
-                    Toast.makeText(AddFoodItemActivity.this, "Could not edit food item", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditFoodItemActivity.this, "Could not edit food item", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     finish();

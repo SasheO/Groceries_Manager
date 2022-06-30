@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.example.groceriesmanager.Activities.AddFoodItemActivity;
+import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Gestures.OnDoubleTapListener;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
@@ -278,7 +277,7 @@ public class FoodListAdapter extends
                 @Override
                 public void onClick(View v) {
                     // todo: launch activity to edit food item with info already plugged in
-                    Intent intent = new Intent(context, AddFoodItemActivity.class);
+                    Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
                     context.startActivity(intent);
