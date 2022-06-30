@@ -1,6 +1,7 @@
 package com.example.groceriesmanager.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,15 +24,17 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    BottomNavigationView bottomNavigationView;
+    AnimatedBottomBar bottomNavigationView; // got AnimateBottomBar class from https://github.com/droppers/animatedbottombar
     // these lines below are necessary to be able to refer to the fragments from another fragment via the activity
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public GroceryListFragment groceryListFragment = new GroceryListFragment();
     public PantryListFragment pantryListFragment = new PantryListFragment();
-    public UserProfileFragment savedRecipesFragment = new UserProfileFragment();
+    public UserProfileFragment userProfileFragment = new UserProfileFragment();
     public RecipeSearchFragment recipeSearchFragment = new RecipeSearchFragment();
     public YoutubeSearchFragment youtubeSearchFragment = new YoutubeSearchFragment();
 
@@ -45,35 +48,39 @@ public class MainActivity extends AppCompatActivity {
         // when you first open the main activity, the grocerylist fragment shows first
         fragmentManager.beginTransaction().replace(R.id.frameLayout, groceryListFragment).commit();
 
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+        bottomNavigationView.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            Fragment fragment;
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
-                switch (item.getItemId()) {// this replaces the fragment housed in frameLayout with a feedfragment
-                    case R.id.miPantryList:
-                        // this replaces the fragment housed in frameLayout with a postfragment
-                        fragment = pantryListFragment;
-                        break;
-                    case R.id.miUserProfile:
-                        fragment = savedRecipesFragment;
-                        break;
-                    case R.id.miRecipeSearch:
-                        fragment = recipeSearchFragment;
-                        break;
-                    case R.id.miYoutubeSearch:
-                        fragment = youtubeSearchFragment;
-                        break;
-                    case R.id.miGroceryList:
-                        fragment = groceryListFragment;
-                        break;
-                    default:
-                        fragment = groceryListFragment;
-                        break;
+            public void onTabSelected(int formertabposition, @Nullable AnimatedBottomBar.Tab formertab, int selectedtabposition, @NonNull AnimatedBottomBar.Tab selectedTab) {
+                if (selectedTab.getId() == R.id.miGroceryList){
+                    fragment = groceryListFragment;
                 }
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
-                return true;
+                if (selectedTab.getId() == R.id.miPantryList){
+                    fragment = pantryListFragment;
+                }
+                if (selectedTab.getId() == R.id.miRecipeSearch){
+                    fragment = recipeSearchFragment;
+                }
+                if (selectedTab.getId() == R.id.miYoutubeSearch){
+                    fragment = youtubeSearchFragment;
+                }
+                if (selectedTab.getId() == R.id.miUserProfile){
+                    fragment = userProfileFragment;
+                }
+                // replace fragment here. the if else chooses which direction the custom animation goes depending on the former and current tab positions
+                if (selectedtabposition < formertabposition){
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.frameLayout, fragment).commit();
+                }
+                else{
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.frameLayout, fragment).commit();
+                }
+            }
+
+            @Override
+            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
             }
         });
+
     }
 
 

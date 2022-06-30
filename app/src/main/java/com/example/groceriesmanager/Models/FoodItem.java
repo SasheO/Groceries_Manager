@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.parse.DeleteCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -22,6 +23,7 @@ public class FoodItem extends ParseObject {
     private static final String KEY_USER = "user";
     private static final String KEY_MEASURE = "measure";
     private static final String KEY_TYPE = "type";
+    private static final String KEY_FOODPIC = "foodpic";
     private static final String TAG = "FoodItem";
 
     public String getName(){
@@ -60,6 +62,9 @@ public class FoodItem extends ParseObject {
             return "dummy type";
         }
     }
+    public ParseFile getPic(){
+        return getParseFile(KEY_FOODPIC);
+    }
 
     public void setName(String name){ put(KEY_NAME, name); }
     public void setUser(ParseUser user){
@@ -68,9 +73,10 @@ public class FoodItem extends ParseObject {
     public void setQuantity(String quantity){ put(KEY_QUANTITY, quantity); }
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
     public void setType(String type){ put(KEY_TYPE, type); }
+    public void setFoodPic(ParseFile image){ put(KEY_FOODPIC, image); }
 
     public void switchList() {
-        if (Objects.equals(getName(), "grocery")){
+        if (Objects.equals(getType(), "grocery")){
             setType("pantry");
         }
         else{

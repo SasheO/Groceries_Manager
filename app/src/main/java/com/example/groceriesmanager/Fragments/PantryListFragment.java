@@ -67,6 +67,7 @@ public class PantryListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), AddFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
+                intent.putExtra("process", "new");
                 startActivity(intent);
                 //                addFoodItemActivityResultLauncher.launch(intent);
             }

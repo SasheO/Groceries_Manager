@@ -4,22 +4,33 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        style="@style/FragmentTitleStyle"
+        android:text="Recipe Search" />
+
     <EditText
         android:id="@+id/etYoutubeLookup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="look up recipes, ingredients, etc."
-        android:layout_toStartOf="@id/ibYoutubeSearch"
         android:layout_alignParentStart="true"
+        android:layout_below="@id/textView"
+        android:layout_toStartOf="@id/ibYoutubeSearch"
+        android:hint="search ingredients, names, etc."
         android:inputType="textPersonName" />
 
     <ImageButton
         android:id="@+id/ibYoutubeSearch"
         android:layout_width="48dp"
         android:layout_height="45dp"
+        android:layout_alignTop="@id/etYoutubeLookup"
         android:layout_toStartOf="@id/ibYoutubeSearchClear"
         android:background="@null"
-        android:contentDescription="search recipe"
+        android:contentDescription="search button"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 
     <ImageButton
@@ -28,6 +39,7 @@
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
         android:background="@null"
+        android:layout_alignTop="@id/ibYoutubeSearch"
         android:contentDescription="clear previous search"
         app:srcCompat="@android:drawable/ic_delete" />
     <LinearLayout
