@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,9 +54,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
         spinnerFoodMeasure.setAdapter(foodMeasureAdapter);
         // todo: array adapter for rendering items into the food category spinner
         // todo: make this spinner a dialog box, not a dropdown
-        ArrayAdapter<CharSequence>foodCategoryAdapter=ArrayAdapter.createFromResource(this, R.array.food_categories, android.R.layout.simple_spinner_item);
-        foodCategoryAdapter.setDropDownViewResource(R.layout.spinner_item_food_category);
-        spinnerFoodCategory.setAdapter(foodCategoryAdapter);
+//        SpinnerAdapter foodCategoryAdapter = new SpinnerAdapter(this, R.array.food_categories);
+//        foodCategoryAdapter.setDropDownViewResource(R.layout.spinner_item_food_category);
+//        spinnerFoodCategory.setAdapter(foodCategoryAdapter);
 
         // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
@@ -63,7 +64,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
-            spinnerFoodMeasure.setSelection(foodCategoryAdapter.getPosition(foodItem.getMeasure()));
+            spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
         }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
