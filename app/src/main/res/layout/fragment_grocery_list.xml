@@ -12,11 +12,10 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="207dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:text="Grocery List"
-            android:textSize="45sp" />
+            style="@style/FragmentTitleStyle" />
 
         <ImageButton
             android:id="@+id/ibAddGroceryItem"

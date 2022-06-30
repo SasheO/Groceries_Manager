@@ -10,7 +10,7 @@
     <item
         android:id="@+id/miPantryList"
         android:icon="@drawable/shelf"
-        android:title="Pantries"
+        android:title="Pantry"
         app:showAsAction="always" />
     <item
         android:id="@+id/miRecipeSearch"
