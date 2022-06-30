@@ -28,7 +28,9 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">50sp</item>
     </style>
-
+    <style name="Label" parent="android:Widget.TextView">
+        <item name="android:textSize">30sp</item>
+    </style>
 
 
 </resources>
