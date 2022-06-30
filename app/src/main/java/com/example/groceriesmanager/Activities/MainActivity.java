@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             Fragment fragment;
             @Override
-            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab selectedTab) {
-                // switch to new tab
+            public void onTabSelected(int formertabposition, @Nullable AnimatedBottomBar.Tab formertab, int selectedtabposition, @NonNull AnimatedBottomBar.Tab selectedTab) {
                 if (selectedTab.getId() == R.id.miGroceryList){
                     fragment = groceryListFragment;
                 }
@@ -68,12 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 if (selectedTab.getId() == R.id.miUserProfile){
                     fragment = userProfileFragment;
                 }
-                fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
+                // replace fragment here. the if else chooses which direction the custom animation goes depending on the former and current tab positions
+                if (selectedtabposition < formertabposition){
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.frameLayout, fragment).commit();
+                }
+                else{
+                    fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).replace(R.id.frameLayout, fragment).commit();
+                }
             }
 
             @Override
             public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
-
             }
         });
 
