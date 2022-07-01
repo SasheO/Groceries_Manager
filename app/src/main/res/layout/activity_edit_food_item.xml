@@ -63,7 +63,7 @@
     <Spinner
         android:id="@+id/spinnerFoodMeasure"
         android:layout_width="wrap_content"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:contentDescription="Food measure dropdown"
         android:layout_alignTop="@id/etFoodQty"
         android:layout_alignParentEnd="true"
@@ -90,12 +90,12 @@
     <Spinner
         android:id="@+id/spinnerFoodCategory"
         android:layout_width="wrap_content"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvCategory"
-        android:layout_toEndOf="@id/tvCategory"
         android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/tvCategory"
         android:contentDescription="Food category drop down"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dialog" />
 
     <Button
         android:id="@+id/btnCancel"

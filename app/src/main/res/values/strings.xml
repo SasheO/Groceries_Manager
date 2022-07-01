@@ -21,7 +21,7 @@
     </string-array>
 
     <string-array name="food_categories">
-        <item></item>
+        <item>--no selection--</item>
         <item>fresh fruits/veggies</item>
         <item>canned food</item>
         <item>grains/legumes</item>
