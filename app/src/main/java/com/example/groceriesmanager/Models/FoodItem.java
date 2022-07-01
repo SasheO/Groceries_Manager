@@ -17,14 +17,14 @@ import java.util.Objects;
 
 @ParseClassName("FoodItem")
 public class FoodItem extends ParseObject {
+    private static final String TAG = "FoodItem";
     // these variables store the name that will be used to send queries to Parse database
     private static final String KEY_NAME = "name";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_USER = "user";
     private static final String KEY_MEASURE = "measure";
     private static final String KEY_TYPE = "type";
-    private static final String KEY_FOODPIC = "foodpic";
-    private static final String TAG = "FoodItem";
+    private static final String KEY_CATEGORY= "foodCategory";
 
     public String getName(){
         try {
@@ -62,8 +62,13 @@ public class FoodItem extends ParseObject {
             return "dummy type";
         }
     }
-    public ParseFile getPic(){
-        return getParseFile(KEY_FOODPIC);
+    public String getFoodCategory(){
+        try {
+            return fetchIfNeeded().getString(KEY_CATEGORY);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return "dummy category";
+        }
     }
 
     public void setName(String name){ put(KEY_NAME, name); }
@@ -73,7 +78,7 @@ public class FoodItem extends ParseObject {
     public void setQuantity(String quantity){ put(KEY_QUANTITY, quantity); }
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
     public void setType(String type){ put(KEY_TYPE, type); }
-    public void setFoodPic(ParseFile image){ put(KEY_FOODPIC, image); }
+    public void setCategory(String category){ put(KEY_CATEGORY, category); }
 
     public void switchList() {
         if (Objects.equals(getType(), "grocery")){

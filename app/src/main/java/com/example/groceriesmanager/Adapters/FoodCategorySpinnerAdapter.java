@@ -64,8 +64,7 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
 
         // Get flag image from drawables folder
         Resources res = context.getResources();
-        String drawableName = (String) textToDrawableName.get(foodCategoryList.get(position));
-//        Log.i(TAG, "drawableName: " + drawableName);
+        String drawableName = (String) textToDrawableName.get(foodCategoryList.get(position)); // the food category names are mapped to the drawable title in textToDrawableName hashmap
         int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
         Drawable drawable = res.getDrawable(resId);
 
@@ -75,7 +74,6 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         }
         else{
             Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodCategoryImage);
-//            ivFoodCategoryImage.setImageDrawable(drawable);
         }
         return row;
     }
