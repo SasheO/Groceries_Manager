@@ -9,15 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.groceriesmanager.Adapters.FoodCategorySpinnerAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
@@ -53,9 +57,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         spinnerFoodMeasure.setAdapter(foodMeasureAdapter);
         // todo: array adapter for rendering items into the food category spinner
         // todo: make this spinner a dialog box, not a dropdown
-        ArrayAdapter<CharSequence>foodCategoryAdapter=ArrayAdapter.createFromResource(this, R.array.food_categories, android.R.layout.simple_spinner_item);
-        foodCategoryAdapter.setDropDownViewResource(R.layout.spinner_item_food_category);
-        spinnerFoodCategory.setAdapter(foodCategoryAdapter);
+        // Our custom Adapter class that we created
+        FoodCategorySpinnerAdapter adapter = new FoodCategorySpinnerAdapter(getApplicationContext(), Arrays.asList(getResources().getStringArray(R.array.food_categories)));
+        adapter.setDropDownViewResource(R.layout.spinner_item_food_category);
+        spinnerFoodCategory.setAdapter(adapter);
 
         // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
@@ -63,7 +68,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
-            spinnerFoodMeasure.setSelection(foodCategoryAdapter.getPosition(foodItem.getMeasure()));
+            spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
         }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -82,26 +87,28 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 String foodQty = etFoodQty.getText().toString();
 
                 String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
-                // Toast.makeText(AddFoodItemActivity.this, foodName +": " + String.valueOf(foodQty) + " " + foodMeasure, Toast.LENGTH_LONG).show();
+                // todo: fix error here. get selected item
+                String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
+                Log.i(TAG, "food category selection: " + foodCategory);
+
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
 
                 }
                 else{
-                    if (Objects.equals(process, "new")){
-                        addFoodItem(foodName, foodQty, foodMeasure, type);
+                    if (Objects.equals(process, "new")){ // is user is creating new food item
+                        addFoodItem(foodName, foodQty, foodMeasure, type, foodCategory);
                     }
                     else{ // process is edit
-                        // todo: populate. if process is edit,
-                        editFoodItem(foodName, foodQty, foodMeasure, type);
+                        editFoodItem(foodName, foodQty, foodMeasure, type, foodCategory);
                     }
                 }
         }
         });
     }
 
-    private void editFoodItem(String foodName, String foodQty, String foodMeasure, String type) {
+    private void editFoodItem(String foodName, String foodQty, String foodMeasure, String type, String foodCategory) {
         foodItem.setName(foodName);
         if (foodQty != ""){
             foodItem.setQuantity(foodQty);
@@ -110,6 +117,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
         else{
             foodItem.setQuantity("");
             foodItem.setMeasure("-");
+        }
+        if (!Objects.equals(foodCategory, "--no selection--")){
+            foodItem.setCategory(foodCategory);
         }
 
         foodItem.saveInBackground(new SaveCallback() {
@@ -126,7 +136,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         });
     }
 
-    private void addFoodItem(String foodName, String foodQty, String foodMeasure, String type){
+    private void addFoodItem(String foodName, String foodQty, String foodMeasure, String type, String foodCategory){
 
         FoodItem newFoodItem = new FoodItem();
         newFoodItem.setName(foodName.replaceAll("\n", ""));
@@ -135,6 +145,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
         if (foodQty != ""){
             newFoodItem.setQuantity(foodQty);
             newFoodItem.setMeasure(foodMeasure);
+        }
+        if (!Objects.equals(foodCategory, "--no selection--")){
+            newFoodItem.setCategory(foodCategory);
         }
         // update info in parse server
         newFoodItem.saveInBackground(new SaveCallback() {
