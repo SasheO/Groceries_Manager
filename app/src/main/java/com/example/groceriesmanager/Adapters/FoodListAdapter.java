@@ -190,7 +190,6 @@ public class FoodListAdapter extends
             cvFoodItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "item clicked", Toast.LENGTH_SHORT).show();
                     // todo: launch activity to edit food item with info already plugged in
                     Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
