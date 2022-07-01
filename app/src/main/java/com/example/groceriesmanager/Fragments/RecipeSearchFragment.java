@@ -93,6 +93,7 @@ public class RecipeSearchFragment extends Fragment {
                 checkboxVegan.setChecked(false);
                 checkboxVegetarian.setChecked(false);
                 checkboxGlutenFree.setChecked(false);
+                tvNoResultsMessage.setVisibility(View.GONE);
                 adapter.clear();
             }
         });
