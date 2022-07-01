@@ -22,11 +22,13 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
     Context context;
     List<String> foodCategoryList;
 
-    public FoodCategorySpinnerAdapter(Context context, List<String> foodCategoryList){
+    // Constructor accepts Context (from MainActivity) and a list of state abbreviations
+    public FoodCategorySpinnerAdapter(Context context, List<String> foodCategoryList) {
         super(context, R.layout.my_selected_item, foodCategoryList);
-        this.foodCategoryList = foodCategoryList;
         this.context = context;
+        this.foodCategoryList = foodCategoryList;
     }
+
     // Override these methods and instead return our custom view (with image and text)
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -37,6 +39,7 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         return getCustomView(position, convertView, parent);
     }
 
+    // Function to return our custom View (View with an image and text)
     public View getCustomView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.spinner_item_food_category, parent, false);
@@ -50,4 +53,26 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
 
         return row;
     }
+
+    // Function to return our custom View (View with an image and text)
+//    public View getCustomView(int position, View convertView, ViewGroup parent) {
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View row = inflater.inflate(R.layout.my_dropdown_item, parent, false);
+//
+//        // Image and TextViews
+//        TextView state = row.findViewById(R.id.text);
+//        ImageView flag = row.findViewById(R.id.img);
+//
+//        // Get flag image from drawables folder
+//        Resources res = context.getResources();
+//        String drawableName = statesList.get(position).toLowerCase(); // tx
+//        int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
+//        Drawable drawable = res.getDrawable(resId);
+//
+//        //Set state abbreviation and state flag
+//        state.setText(statesList.get(position));
+//        flag.setImageDrawable(drawable);
+//
+//        return row;
+//    }
 }

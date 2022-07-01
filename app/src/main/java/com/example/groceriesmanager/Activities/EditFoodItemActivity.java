@@ -13,12 +13,14 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.groceriesmanager.Adapters.FoodCategorySpinnerAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
@@ -54,9 +56,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         spinnerFoodMeasure.setAdapter(foodMeasureAdapter);
         // todo: array adapter for rendering items into the food category spinner
         // todo: make this spinner a dialog box, not a dropdown
-//        SpinnerAdapter foodCategoryAdapter = new SpinnerAdapter(this, R.array.food_categories);
-//        foodCategoryAdapter.setDropDownViewResource(R.layout.spinner_item_food_category);
-//        spinnerFoodCategory.setAdapter(foodCategoryAdapter);
+        // Our custom Adapter class that we created
+        FoodCategorySpinnerAdapter adapter = new FoodCategorySpinnerAdapter(getApplicationContext(), Arrays.asList(getResources().getStringArray(R.array.food_categories)));
+        adapter.setDropDownViewResource(R.layout.spinner_item_food_category);
+        spinnerFoodCategory.setAdapter(adapter);
 
         // if intent process is edit, get the food item passed in and set the values in the edit text, etc
         if (Objects.equals(process, "edit")){
