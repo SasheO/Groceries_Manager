@@ -14,32 +14,32 @@
         android:text="Recipe Search" />
 
     <EditText
-        android:id="@+id/etYoutubeLookup"
+        android:id="@+id/etRecipeLookup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@id/textView"
-        android:layout_toStartOf="@id/ibYoutubeSearch"
+        android:layout_toStartOf="@id/ibRecipeSearch"
         android:hint="search ingredients, names, etc."
         android:inputType="textPersonName" />
 
     <ImageButton
-        android:id="@+id/ibYoutubeSearch"
+        android:id="@+id/ibRecipeSearch"
         android:layout_width="48dp"
         android:layout_height="45dp"
-        android:layout_alignTop="@id/etYoutubeLookup"
-        android:layout_toStartOf="@id/ibYoutubeSearchClear"
+        android:layout_alignTop="@id/etRecipeLookup"
+        android:layout_toStartOf="@id/ibRecipeSearchClear"
         android:background="@null"
         android:contentDescription="search button"
         app:srcCompat="@android:drawable/ic_search_category_default" />
 
     <ImageButton
-        android:id="@+id/ibYoutubeSearchClear"
+        android:id="@+id/ibRecipeSearchClear"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
         android:background="@null"
-        android:layout_alignTop="@id/ibYoutubeSearch"
+        android:layout_alignTop="@id/ibRecipeSearch"
         android:contentDescription="clear previous search"
         app:srcCompat="@android:drawable/ic_delete" />
     <LinearLayout
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/etYoutubeLookup">
+        android:layout_below="@id/etRecipeLookup">
 
         <CheckBox
             android:id="@+id/checkboxVegan"
@@ -69,10 +69,20 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvYoutubeSearch"
+        android:id="@+id/rvRecipeSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/llFilters"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/tvNoResultsMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/rvRecipeSearch"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="167dp"
+        android:visibility="gone"
+        android:text="No results for this search." />
 
 </RelativeLayout>

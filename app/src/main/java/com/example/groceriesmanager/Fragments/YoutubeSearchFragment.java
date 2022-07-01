@@ -14,9 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Adapters.RecipeAdapter;
 import com.example.groceriesmanager.Adapters.VideoAdapter;
-import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
 
@@ -66,10 +64,10 @@ public class YoutubeSearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        etYoutubeLookup = (EditText) view.findViewById(R.id.etYoutubeLookup);
-        ibYoutubeSearch = (ImageButton) view.findViewById(R.id.ibYoutubeSearch);
-        ibYoutubeSearchClear = (ImageButton) view.findViewById(R.id.ibYoutubeSearchClear);
-        rvYoutubeSearch = (RecyclerView) view.findViewById(R.id.rvYoutubeSearch);
+        etYoutubeLookup = (EditText) view.findViewById(R.id.etRecipeLookup);
+        ibYoutubeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
+        ibYoutubeSearchClear = (ImageButton) view.findViewById(R.id.ibRecipeSearchClear);
+        rvYoutubeSearch = (RecyclerView) view.findViewById(R.id.rvRecipeSearch);
         checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
         checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
         checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);

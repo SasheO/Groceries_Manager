@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ public class RecipeSearchFragment extends Fragment {
     CheckBox checkboxVegan;
     CheckBox checkboxVegetarian;
     CheckBox checkboxGlutenFree;
+    TextView tvNoResultsMessage;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public RecipeAdapter adapter;
@@ -66,13 +68,15 @@ public class RecipeSearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        etRecipeLookup = (EditText) view.findViewById(R.id.etYoutubeLookup);
-        ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibYoutubeSearch);
-        ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibYoutubeSearchClear);
-        rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvYoutubeSearch);
+        etRecipeLookup = (EditText) view.findViewById(R.id.etRecipeLookup);
+        ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
+        ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibRecipeSearchClear);
+        rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvRecipeSearch);
         checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
         checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
         checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);
+        tvNoResultsMessage = view.findViewById(R.id.tvNoResultsMessage);
+        tvNoResultsMessage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), recipeList);
 
@@ -156,6 +160,12 @@ public class RecipeSearchFragment extends Fragment {
                                     public void run() {
                                         // edit the view here
                                         adapter.notifyDataSetChanged();
+                                        if (recipeList.size()==0){
+                                            tvNoResultsMessage.setVisibility(View.VISIBLE);
+                                        }
+                                        else{
+                                            tvNoResultsMessage.setVisibility(View.GONE);
+                                        }
                                     }
                                 });
                             }
