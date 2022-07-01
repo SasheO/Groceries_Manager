@@ -20,7 +20,6 @@ public class Video {
     public Video(){}
 
     public Video(JSONObject jsonObject) throws JSONException {
-        // todo: get the required stuff from the JSONobject
         this.thumbnail_url = jsonObject.getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("medium").getString("url");
         this.title = jsonObject.getJSONObject("snippet").getString("title");
         this.channelTitle = jsonObject.getJSONObject("snippet").getString("channelTitle");

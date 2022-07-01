@@ -86,7 +86,6 @@ public class VideoAdapter extends
 
         public void bind(Video video) {
             tvVideoeTitle.setText(video.getTitle());
-            // todo: set error and loading default images
             Glide.with(context)
                     .load(video.getThumbnail_url())
                     .into(ivVideoThumbnail);
@@ -96,9 +95,7 @@ public class VideoAdapter extends
             llVideo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: implement what happens when user clicks on an item
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
-                    // todo: pass in video id as an intent
                     intent.putExtra("video", Parcels.wrap(video));
                     context.startActivity(intent);
                 }

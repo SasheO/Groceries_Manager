@@ -30,7 +30,6 @@ public class ParseApplication extends Application {
 
 
         // Set applicationId and server based on the values in the Back4App settings.
-        // todo: set client key and server
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.application_id))
                 .clientKey(getString(R.string.client_key))

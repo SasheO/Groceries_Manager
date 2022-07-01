@@ -21,7 +21,6 @@ public class Recipe {
     public Recipe(){}
 
     public Recipe(JSONObject jsonObject) throws JSONException {
-        // todo: use get set to create a recipe
         this.image_url = jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url");
         this.title = jsonObject.getJSONObject("recipe").getString("label");
         this.hyperlink_url = jsonObject.getJSONObject("recipe").getString("url");

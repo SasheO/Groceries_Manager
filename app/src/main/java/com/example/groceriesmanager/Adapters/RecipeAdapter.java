@@ -89,11 +89,9 @@ public class RecipeAdapter extends
 
         public void bind(Recipe recipe) {
             tvRecipeTitle.setText(recipe.getTitle());
-            // todo: set better error and loading default images
+            // todo: set error and loading default images
             Glide.with(context)
                     .load(recipe.getImage_url())
-                    .placeholder(R.drawable.vegetables)
-                    .error(R.drawable.vegetables)
                     .into(ivRecipeImage);
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box
@@ -116,7 +114,6 @@ public class RecipeAdapter extends
                 tvRecipeFilters.setText(recipe_filters);
             }
 
-            // todo: populate recipe filters
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +136,7 @@ public class RecipeAdapter extends
 
         @Override
         public void onClick(View v) {
-            // todo: implement what happens when user clicks on an item
+            // todo: implement what happens when user clicks on a recipe
         }
 
     }
