@@ -92,12 +92,21 @@ public class PantryListFragment extends Fragment {
     }
 
     private void suggestRecipes() {
+        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        String userQuery = "";
+
+        if(adapter.selected.size() == 0){
         // todo: implement the logic here, change it from random search to smart searc
         // check which is which in pantry list
         // main for suggestions are grains/legumes, protein, veggies, canned food in that order
         int index = (int)(Math.random() * pantryList.size());
-        String userQuery = pantryList.get(index).getName();
-        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        userQuery = pantryList.get(index).getName();
+        }
+        else{
+            for (FoodItem foodItem: adapter.selected){
+                userQuery = userQuery + foodItem.getName() + " ";
+            }
+        }
         RecipeSearchFragment fragmentDemo = RecipeSearchFragment.newInstance(userQuery);
         ft.replace(R.id.frameLayout, fragmentDemo);
         ft.commit();

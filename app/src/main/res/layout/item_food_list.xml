@@ -16,6 +16,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/rlFoodItem"
         android:background="@color/pale_blue"
         android:layout_centerVertical="true" >
 
