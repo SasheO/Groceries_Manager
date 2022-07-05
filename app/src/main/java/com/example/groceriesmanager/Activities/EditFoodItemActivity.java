@@ -89,34 +89,50 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 Log.i(TAG, "food category selection: " + foodCategory);
 
 
+
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
 
                 }
                 else{
+                    // using foodstruct so we do not need to keep altering the function signature
+                    FoodStruct foodStruct = new FoodStruct();
+                    foodStruct.foodCategory = foodCategory;
+                    foodStruct.foodName = foodName;
+                    foodStruct.foodQty = foodQty;
+                    foodStruct.foodMeasure = foodMeasure;
+                    foodStruct.type = type;
                     if (Objects.equals(process, "new")){ // is user is creating new food item
-                        addFoodItem(foodName, foodQty, foodMeasure, type, foodCategory);
+                        addFoodItem(foodStruct);
                     }
                     else{ // process is edit
-                        editFoodItem(foodName, foodQty, foodMeasure, type, foodCategory);
+                        editFoodItem(foodStruct);
                     }
                 }
         }
         });
     }
 
-    private void editFoodItem(String foodName, String foodQty, String foodMeasure, String type, String foodCategory) {
-        foodItem.setName(foodName);
-        if (foodQty != ""){
-            foodItem.setQuantity(foodQty);
-            foodItem.setMeasure(foodMeasure);
+    class FoodStruct{
+        public String foodName;
+        public String foodQty;
+        public String foodMeasure;
+        public String type;
+        public String foodCategory;
+    };
+
+    private void editFoodItem(FoodStruct foodStruct) {
+        foodItem.setName(foodStruct.foodName.replaceAll("\n", ""));
+        if (!Objects.equals(foodStruct.foodQty, "")){
+            foodItem.setQuantity(foodStruct.foodQty);
+            foodItem.setMeasure(foodStruct.foodMeasure);
         }
         else{
             foodItem.setQuantity("");
             foodItem.setMeasure("-");
         }
-        if (!Objects.equals(foodCategory, "--no selection--")){
-            foodItem.setCategory(foodCategory);
+        if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
+            foodItem.setCategory(foodStruct.foodCategory);
         }
 
         foodItem.saveInBackground(new SaveCallback() {
@@ -133,18 +149,18 @@ public class EditFoodItemActivity extends AppCompatActivity {
         });
     }
 
-    private void addFoodItem(String foodName, String foodQty, String foodMeasure, String type, String foodCategory){
+    private void addFoodItem(FoodStruct foodStruct){
 
         FoodItem newFoodItem = new FoodItem();
-        newFoodItem.setName(foodName.replaceAll("\n", ""));
-        newFoodItem.setType(type);
+        newFoodItem.setName(foodStruct.foodName.replaceAll("\n", ""));
+        newFoodItem.setType(foodStruct.type);
         newFoodItem.setUser(ParseUser.getCurrentUser());
-        if (foodQty != ""){
-            newFoodItem.setQuantity(foodQty);
-            newFoodItem.setMeasure(foodMeasure);
+        if (!Objects.equals(foodStruct.foodQty, "")){
+            newFoodItem.setQuantity(foodStruct.foodQty);
+            newFoodItem.setMeasure(foodStruct.foodMeasure);
         }
-        if (!Objects.equals(foodCategory, "--no selection--")){
-            newFoodItem.setCategory(foodCategory);
+        if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
+            newFoodItem.setCategory(foodStruct.foodCategory);
         }
         // update info in parse server
         newFoodItem.saveInBackground(new SaveCallback() {
