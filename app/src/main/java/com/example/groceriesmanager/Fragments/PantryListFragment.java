@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -25,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PantryListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     RecyclerView rvPantryList;
     ImageButton btnAddPantryItem;
+    FloatingActionButton fabtnSuggestRecipes;
     List<FoodItem> pantryList;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
@@ -51,6 +53,7 @@ public class PantryListFragment extends Fragment {
         // Setup any handles to view objects here
         rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
         btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
+        fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(getContext(), pantryList, type);
@@ -59,6 +62,12 @@ public class PantryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                suggestRecipes();
+            }
+        });
 
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +82,12 @@ public class PantryListFragment extends Fragment {
         });
     }
 
+    private void suggestRecipes() {
+        // todo: implement the logic here
+        // check which is which in pantry list
+        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
+    }
+
 //    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(
 //            new ActivityResultContracts.StartActivityForResult(),
 //            new ActivityResultCallback<ActivityResult>() {
@@ -84,7 +99,6 @@ public class PantryListFragment extends Fragment {
 //                        Intent data_passed_back = result.getData();
 //                        // Get the data passed from EditActivity
 //                        // String editedString = data.getExtras().getString("newString");
-//                        // todo: get food item from grocery list and pass it in
 //                        FoodItem newFoodItem = data_passed_back.getParcelableExtra("newFoodItem");
 ////                        groceryList.add(0, newFoodItem);
 ////                        adapter.notifyDataSetChanged();

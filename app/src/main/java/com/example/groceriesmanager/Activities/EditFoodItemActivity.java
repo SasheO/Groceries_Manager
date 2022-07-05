@@ -55,8 +55,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> foodMeasureAdapter = ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
         foodMeasureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerFoodMeasure.setAdapter(foodMeasureAdapter);
-        // todo: array adapter for rendering items into the food category spinner
-        // todo: make this spinner a dialog box, not a dropdown
         // Our custom Adapter class that we created
         FoodCategorySpinnerAdapter adapter = new FoodCategorySpinnerAdapter(getApplicationContext(), Arrays.asList(getResources().getStringArray(R.array.food_categories)));
         adapter.setDropDownViewResource(R.layout.spinner_item_food_category);
@@ -87,7 +85,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 String foodQty = etFoodQty.getText().toString();
 
                 String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
-                // todo: fix error here. get selected item
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
                 Log.i(TAG, "food category selection: " + foodCategory);
 

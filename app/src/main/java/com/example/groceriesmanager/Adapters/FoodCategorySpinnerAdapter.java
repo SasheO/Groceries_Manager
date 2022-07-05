@@ -35,7 +35,8 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         this.foodCategoryList = foodCategoryList;
         textToDrawableName.put("other", "food_item_holder");
         textToDrawableName.put("--no selection--", "food_item_holder");
-        textToDrawableName.put("fresh fruits/veggies", "fresh_fruit");
+        textToDrawableName.put("fresh fruits", "fresh_fruit");
+        textToDrawableName.put("fresh vegetables", "fresh_fruit");
         textToDrawableName.put("canned food", "canned_food");
         // todo: edit these to the actual picture
         textToDrawableName.put("grains/legumes", "food_item_holder");

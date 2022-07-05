@@ -61,8 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (username.length() == 0) {
                     Toast.makeText(RegisterActivity.this, "please choose a username", Toast.LENGTH_LONG).show();
                 }
-                // todo: check if no one else has this username
-                // todo: check if there is a password
+                else if (password.length() == 0){
+                    Toast.makeText(RegisterActivity.this, "please type a password", Toast.LENGTH_LONG).show();
+                }
                 else {
                     // create grocery and pantry list for the new user
 
