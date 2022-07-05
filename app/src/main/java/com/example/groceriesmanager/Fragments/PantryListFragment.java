@@ -65,7 +65,6 @@ public class PantryListFragment extends Fragment {
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: implement the logic in the function below
                 suggestRecipes();
             }
         });
@@ -84,7 +83,9 @@ public class PantryListFragment extends Fragment {
     }
 
     private void suggestRecipes() {
-        // todo: populate this with logic
+        // todo: implement the logic here
+        // check which is which in pantry list
+        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
     }
 
 //    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(

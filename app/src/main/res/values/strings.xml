@@ -22,7 +22,8 @@
 
     <string-array name="food_categories">
         <item>--no selection--</item>
-        <item>fresh fruits/veggies</item>
+        <item>fresh fruits</item>
+        <item>fresh vegetables</item>
         <item>canned food</item>
         <item>grains/legumes</item>
         <item>protein</item>
