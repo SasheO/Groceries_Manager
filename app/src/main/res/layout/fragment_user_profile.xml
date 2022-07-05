@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivProfilePic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/ivProfilePic"
         android:contentDescription="Username"
         android:textStyle="italic"
         tools:text="Username" />
@@ -32,13 +32,13 @@
         android:layout_height="wrap_content"
         android:contentDescription="Log out button"
         android:layout_below="@+id/tvProfileUsername"
-        android:layout_toEndOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/ivProfilePic"
         android:text="log out" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/imageView2"
+        android:layout_below="@+id/ivProfilePic"
         android:contentDescription="scroll bar"
         android:layout_margin="5dp">
         <LinearLayout
@@ -46,22 +46,34 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvMyRecipes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Recipes" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvMyRecipes"/>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvSavedRecipes"
                 android:layout_width="86dp"
                 android:layout_height="15dp"
                 android:text="Saved Recipes" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvSavedRecipes"/>
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tvSavedVideos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saved Videos" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvSavedVideos"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
