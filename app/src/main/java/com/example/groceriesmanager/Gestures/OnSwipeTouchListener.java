@@ -5,7 +5,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-// gotten from https://gist.github.com/nesquena/ed58f34791da00da9751
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
     private GestureDetector gestureDetector;
@@ -26,6 +25,24 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         @Override
         public boolean onDown(MotionEvent e) {
             return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            onClick();
+            return super.onSingleTapUp(e);
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            onDoubleClick();
+            return super.onDoubleTap(e);
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            onLongClick();
+            super.onLongPress(e);
         }
 
         // Determines the fling velocity and then fires the appropriate swipe event accordingly
@@ -69,5 +86,17 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
     }
 
     public void onSwipeDown() {
+    }
+
+    public void onClick() {
+
+    }
+
+    public void onDoubleClick() {
+
+    }
+
+    public void onLongClick() {
+
     }
 }
