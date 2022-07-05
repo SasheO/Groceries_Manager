@@ -79,7 +79,7 @@ public class FoodListAdapter extends
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvFoodItemName;
@@ -96,7 +96,7 @@ public class FoodListAdapter extends
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
-            itemView.setOnClickListener(this);
+            itemView.setOnTouchListener(this);
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
@@ -289,8 +289,11 @@ public class FoodListAdapter extends
 
         }
 
+
         @Override
-        public void onClick(View v) {}
+        public boolean onTouch(View v, MotionEvent event) {
+            return false;
+        }
     }
 
 
