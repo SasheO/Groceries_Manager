@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,7 +65,6 @@ public class FoodListAdapter extends
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the data model based on position
-//        Post post = postList.get(position);
         FoodItem foodItem = foodItemList.get(position);
 
         holder.bind(foodItem, position);
@@ -89,6 +89,8 @@ public class FoodListAdapter extends
         public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
+        private float x_food_item_coordinate;
+        private float y_food_item_coordinate;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -124,50 +126,79 @@ public class FoodListAdapter extends
 //                    .load(foodItem.getPic().getUrl()).transform(new CircleCrop())
 //                    .into(ivFoodItemPic);
 
-            ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
+
+            cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
-                public void onClick(View v) {
-                    foodItemList.remove(foodItem);
-                    notifyDataSetChanged();
-                    Snackbar.make(v, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                public void onClick() {
+                    super.onClick();
+                    // your on click here
+                    Intent intent = new Intent(context, EditFoodItemActivity.class);
+                    intent.putExtra("process", "edit");
+                    intent.putExtra("foodItem", foodItem);
+                    context.startActivity(intent);
+                }
+                @Override
+                public void onLongClick(){
+                    Snackbar.make(itemView, "Are you sure you want to delete " + foodItem.getName()+"?", Snackbar.LENGTH_INDEFINITE).setAction("Yes!", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            foodItemList.add(position, foodItem);
-                            notifyDataSetChanged();
-                        }
-                    }).addCallback(new Snackbar.Callback(){
-                        @Override
-                        public void onDismissed(Snackbar snackbar, int event) {
-                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-                                 foodItem.deleteFood();
-                            }
+                            deleteFoodItem(foodItem, itemView, position);
                         }
                     }).show();
+                }
+                @Override
+                public void onSwipeLeft() {
+                    super.onSwipeLeft();
+                    // your swipe left here.
+                    if (Objects.equals(foodItem.getType(), "pantry")){
+                        switchFoodItemList(foodItem, itemView);
+                    }
 
                 }
+                @Override
+                public void onSwipeRight() {
+                    super.onSwipeRight();
+                    // your swipe right here.
+                    if (Objects.equals(foodItem.getType(), "grocery")){
+                        switchFoodItemList(foodItem, itemView);
+                    }
 
+                }
             });
 
-            ibFoodItemSwitchList.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            }
+
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return false;
+        }
+
+        }
+
+
+    public void clear() {
+        foodItemList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void switchFoodItemList(FoodItem foodItem, View itemView){
                     foodItem.switchList();
-                    String new_list_type;
+        String new_list_type;
                     if (Objects.equals(type, "grocery")){
                         new_list_type = "pantry";
                     }
                     else{
                         new_list_type = "grocery";
                     }
-                    Snackbar.make(v, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
+                    Snackbar.make(itemView, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
                         @Override
                         public void onDismissed(Snackbar snackbar, int event) {
                             // the code here runs while snackbar is being shown
                             foodItemList.remove(foodItem);
                             notifyDataSetChanged();
                         }
-                        }).setAction("UNDO", new View.OnClickListener() {
+                    }).setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             foodItem.switchList();
@@ -185,120 +216,25 @@ public class FoodListAdapter extends
                         }
                     });
                 }
-            });
 
-            cvFoodItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, EditFoodItemActivity.class);
-                    intent.putExtra("process", "edit");
-                    intent.putExtra("foodItem", foodItem);
-                    context.startActivity(intent);
-                }
-            });
+    public void deleteFoodItem(FoodItem foodItem, View itemView, Integer position){
+                    foodItemList.remove(foodItem);
+                    notifyDataSetChanged();
+                    Snackbar.make(itemView, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            foodItemList.add(position, foodItem);
+                            notifyDataSetChanged();
+                        }
+                    }).addCallback(new Snackbar.Callback(){
+                        @Override
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
+                                foodItem.deleteFood();
+                            }
+                        }
+                    }).show();
 
-            // double clicking to switch food lists
-            // todo: move switch item functionality to a function since it is repeated here and switch button icon
-//            cvFoodItem.setOnTouchListener(new OnDoubleTapListener(context) {
-//                @Override
-//                public void onDoubleTap(MotionEvent e) {
-//                    Toast.makeText(context, "item double clicked", Toast.LENGTH_SHORT).show();
-//                    foodItem.switchList();
-//                    String new_list_type;
-//                    if (Objects.equals(type, "grocery")){
-//                        new_list_type = "pantry";
-//                    }
-//                    else{
-//                        new_list_type = "grocery";
-//                    }
-//                    Snackbar.make(itemView, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-//                        @Override
-//                        public void onDismissed(Snackbar snackbar, int event) {
-//                            // the code here runs while snackbar is being shown
-//                            foodItemList.remove(foodItem);
-//                            notifyDataSetChanged();
-//                        }
-//                    }).setAction("UNDO", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            foodItem.switchList();
-//                        }
-//                    }).show();
-//                    foodItem.saveInBackground(new SaveCallback() {
-//                        @Override
-//                        public void done(ParseException e) {
-//                            if (e!=null){
-//                                Log.e(TAG, "error switching food item: " + e.toString());
-//                            }
-//                            else{
-//                                Log.i(TAG, "food item switched lists successfully");
-//                            }
-//                        }
-//                    });
-//                }
-//            });
-
-            // swipe to delete item. ensure that swipe shows in app
-            // todo: make swipe show phsyically
-            // todo: move delete item functionality to a function since it is repeated here and delete button icon
-//            cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
-//                @Override
-//                public void onSwipeLeft() {
-//                    Toast.makeText(context, "item swiped", Toast.LENGTH_SHORT).show();
-//                    foodItemList.remove(foodItem);
-//                    notifyDataSetChanged();
-//                    Snackbar.make(itemView, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            foodItemList.add(position, foodItem);
-//                            notifyDataSetChanged();
-//                        }
-//                    }).addCallback(new Snackbar.Callback(){
-//                        @Override
-//                        public void onDismissed(Snackbar snackbar, int event) {
-//                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-//                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-//                                foodItem.deleteFood();
-//                            }
-//                        }
-//                    }).show();
-//                }
-//
-//                @Override
-//                public void onSwipeRight() {
-//                    foodItemList.remove(foodItem);
-//                    notifyDataSetChanged();
-//                    Snackbar.make(itemView, foodItem.getName() + " deleted!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            foodItemList.add(position, foodItem);
-//                            notifyDataSetChanged();
-//                        }
-//                    }).addCallback(new Snackbar.Callback(){
-//                        @Override
-//                        public void onDismissed(Snackbar snackbar, int event) {
-//                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-//                                // the code in here runs if Snackbar closed on its own i.e. the user does not click UNDO button to restore just deleted item
-//                                foodItem.deleteFood();
-//                            }
-//                        }
-//                    }).show();
-//                }
-//            });
-
-
-        }
-
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            return false;
-        }
-    }
-
-
-    public void clear() {
-        foodItemList.clear();
-        notifyDataSetChanged();
     }
 }
