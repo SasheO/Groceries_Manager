@@ -126,42 +126,44 @@ public class FoodListAdapter extends
 //                    .into(ivFoodItemPic);
 
 
-            cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
+//            cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
+//
+//                @Override
+//                public void onClick() {
+//                    super.onClick();
+//                    // your on click here
+//                    Intent intent = new Intent(context, EditFoodItemActivity.class);
+//                    intent.putExtra("process", "edit");
+//                    intent.putExtra("foodItem", foodItem);
+//                    context.startActivity(intent);
+//                }
+//
+//
+//                @Override
+//                public void onLongClick() {
+//                    super.onLongClick();
+//                    // your on onLongClick here
+//                }
+//
+//
+//                @Override
+//                public void onSwipeLeft() {
+//                    super.onSwipeLeft();
+//                    // your swipe left here.
+//
+//
+//                }
+//
+//
+//                @Override
+//                public void onSwipeRight() {
+//                    super.onSwipeRight();
+//                    // your swipe right here.
+//                }
+//            });
 
-                @Override
-                public void onClick() {
-                    super.onClick();
-                    // your on click here
-                    Intent intent = new Intent(context, EditFoodItemActivity.class);
-                    intent.putExtra("process", "edit");
-                    intent.putExtra("foodItem", foodItem);
-                    context.startActivity(intent);
-                }
+            }
 
-
-                @Override
-                public void onLongClick() {
-                    super.onLongClick();
-                    // your on onLongClick here
-                }
-
-
-                @Override
-                public void onSwipeLeft() {
-                    super.onSwipeLeft();
-                    // your swipe left here.
-
-                }
-
-
-                @Override
-                public void onSwipeRight() {
-                    super.onSwipeRight();
-                    // your swipe right here.
-                }
-            });
-
-        }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

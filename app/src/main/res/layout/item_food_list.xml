@@ -52,6 +52,7 @@
             android:background="@null"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:visibility="gone"
             android:contentDescription="button to switch item from grocery to pantry list or vice versa"
             card_view:srcCompat="@android:drawable/stat_notify_sync"
             card_view:tint="#716868" />
@@ -59,6 +60,7 @@
         <ImageButton
             android:id="@+id/ibFoodItemDelete"
             android:layout_width="53dp"
+            android:visibility="gone"
             android:layout_height="49dp"
             android:layout_below="@+id/ibFoodItemSwitchList"
             android:layout_alignParentEnd="true"
