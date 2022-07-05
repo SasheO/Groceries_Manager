@@ -78,12 +78,15 @@ public class PantryListFragment extends Fragment {
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
-                // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", type);
-                intent.putExtra("process", "new");
-                startActivity(intent);
-                //                addFoodItemActivityResultLauncher.launch(intent);
+                if (pantryList.size() >= 30){
+                    Toast.makeText(currentActivity, "Pantry list at maximum capacity. Delete old items to add new.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("process", "new");
+                    startActivity(intent);
+                }
             }
         });
     }

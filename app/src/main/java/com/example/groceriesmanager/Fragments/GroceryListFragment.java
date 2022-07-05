@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -64,12 +65,15 @@ public class GroceryListFragment extends Fragment {
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
-                // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", type);
-                intent.putExtra("process", "new");
-                startActivity(intent);
-//                addFoodItemActivityResultLauncher.launch(intent);
+                if (groceryList.size() >= 30){
+                    Toast.makeText(getContext(), "Grocery list at maximum capacity. Delete old items to add new.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("process", "new");
+                    startActivity(intent);
+                }
             }
         });
     }
