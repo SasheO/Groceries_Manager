@@ -7,21 +7,18 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
-import com.example.groceriesmanager.Gestures.OnDoubleTapListener;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
@@ -59,6 +56,7 @@ public class FoodListAdapter extends
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(foodItemView);
 
+
         return viewHolder;
     }
 
@@ -89,8 +87,6 @@ public class FoodListAdapter extends
         public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
-        private float x_food_item_coordinate;
-        private float y_food_item_coordinate;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -150,7 +146,7 @@ public class FoodListAdapter extends
                 public void onSwipeLeft() {
                     super.onSwipeLeft();
                     // your swipe left here.
-                    if (Objects.equals(foodItem.getType(), "pantry")){
+                    if (Objects.equals(type, "pantry")){
                         switchFoodItemList(foodItem, itemView);
                     }
 
@@ -159,7 +155,7 @@ public class FoodListAdapter extends
                 public void onSwipeRight() {
                     super.onSwipeRight();
                     // your swipe right here.
-                    if (Objects.equals(foodItem.getType(), "grocery")){
+                    if (Objects.equals(type, "grocery")){
                         switchFoodItemList(foodItem, itemView);
                     }
 

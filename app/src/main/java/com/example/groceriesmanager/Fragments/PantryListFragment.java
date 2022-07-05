@@ -8,11 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
@@ -34,9 +38,11 @@ public class PantryListFragment extends Fragment {
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
+    private MainActivity currentActivity;
 
     // required empty constructor
     public PantryListFragment() {}
+    public PantryListFragment(MainActivity currentActivity) {this.currentActivity = currentActivity;}
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -56,7 +62,7 @@ public class PantryListFragment extends Fragment {
         fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
         pantryList = new ArrayList<>();
         queryPantryList();
-        adapter = new FoodListAdapter(getContext(), pantryList, type);
+        adapter = new FoodListAdapter(currentActivity, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -72,7 +78,7 @@ public class PantryListFragment extends Fragment {
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
+                Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 intent.putExtra("process", "new");
@@ -83,28 +89,16 @@ public class PantryListFragment extends Fragment {
     }
 
     private void suggestRecipes() {
-        // todo: implement the logic here
+        // todo: implement the logic here, change it from random search to smart searc
         // check which is which in pantry list
         // main for suggestions are grains/legumes, protein, veggies, canned food in that order
+        int index = (int)(Math.random() * pantryList.size());
+        String userQuery = pantryList.get(index).getName();
+        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        RecipeSearchFragment fragmentDemo = RecipeSearchFragment.newInstance(userQuery);
+        ft.replace(R.id.frameLayout, fragmentDemo);
+        ft.commit();
     }
-
-//    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    // If the user comes back to this activity from EditActivity
-//                    // with no error or cancellation
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Intent data_passed_back = result.getData();
-//                        // Get the data passed from EditActivity
-//                        // String editedString = data.getExtras().getString("newString");
-//                        FoodItem newFoodItem = data_passed_back.getParcelableExtra("newFoodItem");
-////                        groceryList.add(0, newFoodItem);
-////                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//            });
 
     private void queryPantryList() {
         // specify what type of data we want to query - Post.class

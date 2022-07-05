@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +47,7 @@ public class RecipeSearchFragment extends Fragment {
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public RecipeAdapter adapter;
+    String userQuery;
     RecyclerView rvRecipeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
@@ -54,6 +56,14 @@ public class RecipeSearchFragment extends Fragment {
 
     // required empty constructor
     public RecipeSearchFragment() {}
+
+    public static RecipeSearchFragment newInstance(String userQuery) {
+        RecipeSearchFragment fragmentDemo = new RecipeSearchFragment();
+        Bundle args = new Bundle();
+        args.putString("userQuery", userQuery);
+        fragmentDemo.setArguments(args);
+        return fragmentDemo;
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -80,10 +90,18 @@ public class RecipeSearchFragment extends Fragment {
         recipeList = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), recipeList);
 
+        // in case user is opening this from pantryListFragment
+        userQuery = getArguments().getString("userQuery", "");
+
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvRecipeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (!Objects.equals(userQuery, "")){
+            searchRecipes(userQuery);
+            etRecipeLookup.setText(userQuery);
+        }
 
         // when user clicks on the x to clear search results
         ibRecipeSearchClear.setOnClickListener(new View.OnClickListener() {
@@ -101,88 +119,92 @@ public class RecipeSearchFragment extends Fragment {
         ibRecipeSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // check if user has typed in something already
                 String userQuery = etRecipeLookup.getText().toString();
+                // check if user has already typed in something
                 if (userQuery.replaceAll("\\s", "").length() == 0){
                     Toast.makeText(getContext(), "type in something!", Toast.LENGTH_LONG).show();
                 }
-                else{
-                    adapter.clear(); // clear adapter, in case there are already results
-                    String query = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
-                    // todo: lemmatize the query
-//                    query = lemmatizer.lemmatize(query);
-                    Log.i(TAG, query);
-                    // send api request to edamam
-                    OkHttpClient client = new OkHttpClient();
-                    // this builder helps us to creates the request url
-                    HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
-                    urlBuilder.addQueryParameter("q", query);
-                    urlBuilder.addQueryParameter("type", "public");
-                    urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
-                    urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
-                    if (checkboxVegan.isChecked()){
-                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
-                    }
-                    else if (checkboxVegetarian.isChecked()){ // only add vegetarian if vegan is not already checked
-                        urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
-                    }
-                    if (checkboxGlutenFree.isChecked()){
-                        urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);
-                    }
-                    String url = urlBuilder.build().toString();
-                    //
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .build();
-
-
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            Log.e(TAG, "error in executing okhttp call: "+ e.toString());
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            if (response.isSuccessful()){
-                                String myResponse = response.body().string();
-                                try {
-                                    JSONObject responsejson = new JSONObject(myResponse);
-                                    JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
-                                    // todo: add all recipes to the recipe list that will be passed into adapter
-                                    recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Log.e(TAG, "JSONException: " + e.toString());
-                                }
-
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        // edit the view here
-                                        adapter.notifyDataSetChanged();
-                                        if (recipeList.size()==0){
-                                            tvNoResultsMessage.setVisibility(View.VISIBLE);
-                                        }
-                                        else{
-                                            tvNoResultsMessage.setVisibility(View.GONE);
-                                        }
-                                    }
-                                });
-                            }
-                            else { // response is unsuccessful
-                                Log.e(TAG, "response unsuccessful: " + response);
-                            }
-
-
-                        }
-                    });
-
-
-
+                else {
+                    userQuery = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
+                    searchRecipes(userQuery);
                 }
             }
         });
+
+    }
+
+    public void searchRecipes(String query){
+        // check if user has typed in something already
+            adapter.clear(); // clear adapter, in case there are already results
+            // todo: lemmatize the query
+//                    query = lemmatizer.lemmatize(query);
+            // send api request to edamam
+            OkHttpClient client = new OkHttpClient();
+            // this builder helps us to creates the request url
+            HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
+            urlBuilder.addQueryParameter("q", query);
+            urlBuilder.addQueryParameter("type", "public");
+            urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
+            urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
+            if (checkboxVegan.isChecked()){
+                urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
+            }
+            else if (checkboxVegetarian.isChecked()){ // only add vegetarian if vegan is not already checked
+                urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
+            }
+            if (checkboxGlutenFree.isChecked()){
+                urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);
+            }
+            String url = urlBuilder.build().toString();
+            //
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "error in executing okhttp call: "+ e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()){
+                        String myResponse = response.body().string();
+                        try {
+                            JSONObject responsejson = new JSONObject(myResponse);
+                            JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
+                            // todo: add all recipes to the recipe list that will be passed into adapter
+                            recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "JSONException: " + e.toString());
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // edit the view here
+                                adapter.notifyDataSetChanged();
+                                if (recipeList.size()==0){
+                                    tvNoResultsMessage.setVisibility(View.VISIBLE);
+                                }
+                                else{
+                                    tvNoResultsMessage.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                    else { // response is unsuccessful
+                        Log.e(TAG, "response unsuccessful: " + response);
+                    }
+
+
+                }
+            });
+
+
 
 
     }
