@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Models.FoodItem;
@@ -34,6 +35,7 @@ public class PantryListFragment extends Fragment {
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
+    private MainActivity currentActivity;
 
     // required empty constructor
     public PantryListFragment() {}
@@ -56,7 +58,7 @@ public class PantryListFragment extends Fragment {
         fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
         pantryList = new ArrayList<>();
         queryPantryList();
-        adapter = new FoodListAdapter(getContext(), pantryList, type);
+        adapter = new FoodListAdapter(currentActivity, pantryList, type);
         // set the adapter on the recycler view
         rvPantryList.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -72,7 +74,7 @@ public class PantryListFragment extends Fragment {
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
+                Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
                 // todo: put extra that indicates that this is a new grocery list item
                 intent.putExtra("type", type);
                 intent.putExtra("process", "new");
@@ -83,9 +85,11 @@ public class PantryListFragment extends Fragment {
     }
 
     private void suggestRecipes() {
+        int index = (int)(Math.random() * pantryList.size());
         // todo: implement the logic here
         // check which is which in pantry list
         // main for suggestions are grains/legumes, protein, veggies, canned food in that order
+
     }
 
 //    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(

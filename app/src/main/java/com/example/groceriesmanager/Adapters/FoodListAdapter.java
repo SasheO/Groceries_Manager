@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +55,7 @@ public class FoodListAdapter extends
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(foodItemView);
+
 
         return viewHolder;
     }
@@ -143,7 +146,7 @@ public class FoodListAdapter extends
                 public void onSwipeLeft() {
                     super.onSwipeLeft();
                     // your swipe left here.
-                    if (Objects.equals(foodItem.getType(), "pantry")){
+                    if (Objects.equals(type, "pantry")){
                         switchFoodItemList(foodItem, itemView);
                     }
 
@@ -152,7 +155,7 @@ public class FoodListAdapter extends
                 public void onSwipeRight() {
                     super.onSwipeRight();
                     // your swipe right here.
-                    if (Objects.equals(foodItem.getType(), "grocery")){
+                    if (Objects.equals(type, "grocery")){
                         switchFoodItemList(foodItem, itemView);
                     }
 
