@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,6 +47,7 @@ public class RecipeSearchFragment extends Fragment {
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public RecipeAdapter adapter;
+    String userQuery;
     RecyclerView rvRecipeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
@@ -54,6 +56,14 @@ public class RecipeSearchFragment extends Fragment {
 
     // required empty constructor
     public RecipeSearchFragment() {}
+
+    public static RecipeSearchFragment newInstance(String userQuery) {
+        RecipeSearchFragment fragmentDemo = new RecipeSearchFragment();
+        Bundle args = new Bundle();
+        args.putString("userQuery", userQuery);
+        fragmentDemo.setArguments(args);
+        return fragmentDemo;
+    }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -80,10 +90,18 @@ public class RecipeSearchFragment extends Fragment {
         recipeList = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), recipeList);
 
+        // in case user is opening this from pantryListFragment
+        userQuery = getArguments().getString("userQuery", "");
+
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvRecipeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (!Objects.equals(userQuery, "")){
+            searchRecipes(userQuery);
+            etRecipeLookup.setText(userQuery);
+        }
 
         // when user clicks on the x to clear search results
         ibRecipeSearchClear.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +125,7 @@ public class RecipeSearchFragment extends Fragment {
                     Toast.makeText(getContext(), "type in something!", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    userQuery = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
                     searchRecipes(userQuery);
                 }
             }
@@ -114,14 +133,11 @@ public class RecipeSearchFragment extends Fragment {
 
     }
 
-    public void searchRecipes(String userQuery){
+    public void searchRecipes(String query){
         // check if user has typed in something already
-            etRecipeLookup.setText(userQuery);
             adapter.clear(); // clear adapter, in case there are already results
-            String query = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
             // todo: lemmatize the query
 //                    query = lemmatizer.lemmatize(query);
-            Log.i(TAG, query);
             // send api request to edamam
             OkHttpClient client = new OkHttpClient();
             // this builder helps us to creates the request url

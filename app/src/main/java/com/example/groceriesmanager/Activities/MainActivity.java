@@ -29,13 +29,13 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    AnimatedBottomBar bottomNavigationView; // got AnimateBottomBar class from https://github.com/droppers/animatedbottombar
+    public AnimatedBottomBar bottomNavigationView; // got AnimateBottomBar class from https://github.com/droppers/animatedbottombar
     // these lines below are necessary to be able to refer to the fragments from another fragment via the activity
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public GroceryListFragment groceryListFragment = new GroceryListFragment();
-    public PantryListFragment pantryListFragment = new PantryListFragment();
+    public PantryListFragment pantryListFragment = new PantryListFragment(MainActivity.this);
     public UserProfileFragment userProfileFragment = new UserProfileFragment();
-    public RecipeSearchFragment recipeSearchFragment = new RecipeSearchFragment();
+    public RecipeSearchFragment recipeSearchFragment = RecipeSearchFragment.newInstance("");
     public YoutubeSearchFragment youtubeSearchFragment = new YoutubeSearchFragment();
 
 
@@ -77,7 +77,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab tab) {
+            public void onTabReselected(int i, @NonNull AnimatedBottomBar.Tab selectedTab) {
+                if (selectedTab.getId() == R.id.miGroceryList){
+                    fragment = groceryListFragment;
+                }
+                if (selectedTab.getId() == R.id.miPantryList){
+                    fragment = pantryListFragment;
+                }
+                if (selectedTab.getId() == R.id.miRecipeSearch){
+                    fragment = recipeSearchFragment;
+                }
+                if (selectedTab.getId() == R.id.miYoutubeSearch){
+                    fragment = youtubeSearchFragment;
+                }
+                if (selectedTab.getId() == R.id.miUserProfile){
+                    fragment = userProfileFragment;
+                }
+                fragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit();
             }
         });
 
