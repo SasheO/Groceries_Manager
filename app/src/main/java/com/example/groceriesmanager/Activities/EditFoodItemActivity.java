@@ -86,7 +86,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
                 String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
-                Log.i(TAG, "food category selection: " + foodCategory);
 
 
 

@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +39,7 @@ public class FoodListAdapter extends
     public static final String TAG = "FoodListAdapter";
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
+    public List<FoodItem> selected = new ArrayList<>();
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
@@ -87,6 +90,7 @@ public class FoodListAdapter extends
         public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
+        public RelativeLayout rlFoodItem;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -102,6 +106,7 @@ public class FoodListAdapter extends
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
             cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
+            rlFoodItem = (RelativeLayout) itemView.findViewById(R.id.rlFoodItem);
         }
 
         public void bind(FoodItem foodItem, int position) {
@@ -133,32 +138,17 @@ public class FoodListAdapter extends
                     intent.putExtra("foodItem", foodItem);
                     context.startActivity(intent);
                 }
-                @Override
                 public void onLongClick(){
-                    Snackbar.make(itemView, "Are you sure you want to delete " + foodItem.getName()+"?", Snackbar.LENGTH_INDEFINITE).setAction("Yes!", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            deleteFoodItem(foodItem, itemView, position);
+                    if(Objects.equals(foodItem.getType(), "pantry")){
+                        if (!selected.contains(foodItem)){
+                            selected.add(foodItem);
+                            rlFoodItem.setBackgroundColor(context.getResources().getColor(R.color.highlighted_blue));
                         }
-                    }).show();
-                }
-                @Override
-                public void onSwipeLeft() {
-                    super.onSwipeLeft();
-                    // your swipe left here.
-                    if (Objects.equals(type, "pantry")){
-                        switchFoodItemList(foodItem, itemView);
+                        else{
+                            selected.remove(foodItem);
+                            rlFoodItem.setBackgroundColor(context.getResources().getColor(R.color.pale_blue));
+                        }
                     }
-
-                }
-                @Override
-                public void onSwipeRight() {
-                    super.onSwipeRight();
-                    // your swipe right here.
-                    if (Objects.equals(type, "grocery")){
-                        switchFoodItemList(foodItem, itemView);
-                    }
-
                 }
             });
 

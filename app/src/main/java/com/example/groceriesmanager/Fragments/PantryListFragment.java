@@ -78,23 +78,35 @@ public class PantryListFragment extends Fragment {
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
-                // todo: put extra that indicates that this is a new grocery list item
-                intent.putExtra("type", type);
-                intent.putExtra("process", "new");
-                startActivity(intent);
-                //                addFoodItemActivityResultLauncher.launch(intent);
+                if (pantryList.size() >= 30){
+                    Toast.makeText(currentActivity, "Pantry list at maximum capacity. Delete old items to add new.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Intent intent = new Intent(currentActivity, EditFoodItemActivity.class);
+                    intent.putExtra("type", type);
+                    intent.putExtra("process", "new");
+                    startActivity(intent);
+                }
             }
         });
     }
 
     private void suggestRecipes() {
+        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        String userQuery = "";
+
+        if(adapter.selected.size() == 0){
         // todo: implement the logic here, change it from random search to smart searc
         // check which is which in pantry list
         // main for suggestions are grains/legumes, protein, veggies, canned food in that order
         int index = (int)(Math.random() * pantryList.size());
-        String userQuery = pantryList.get(index).getName();
-        FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
+        userQuery = pantryList.get(index).getName();
+        }
+        else{
+            for (FoodItem foodItem: adapter.selected){
+                userQuery = userQuery + foodItem.getName() + " ";
+            }
+        }
         RecipeSearchFragment fragmentDemo = RecipeSearchFragment.newInstance(userQuery);
         ft.replace(R.id.frameLayout, fragmentDemo);
         ft.commit();
