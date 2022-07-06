@@ -3,9 +3,11 @@ package com.example.groceriesmanager.Models;
 import android.util.Log;
 
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -33,6 +35,8 @@ public class Recipe extends ParseObject {
     private static final String KEY_USER = "user";
     private static final String KEY_HYPERLINK_URL = "hyperlink_url";
     private static final String KEY_INGREDIENT_LINES = "ingredientLines";
+    private static final String KEY_TYPE = "type";
+    public boolean Saved = false;
 
     public Recipe(){}
 
@@ -114,6 +118,10 @@ public class Recipe extends ParseObject {
         }
     }
 
+    public String getType(){
+        return getString(KEY_TYPE);
+    }
+
     public void setImage_url(String image_url) {
         put(KEY_IMAGE_URL, image_url);
     }
@@ -131,6 +139,9 @@ public class Recipe extends ParseObject {
     }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
+    }
+    public void setType(String type){
+        put(KEY_TYPE, type);
     }
 
 

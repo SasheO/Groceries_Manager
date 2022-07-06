@@ -26,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeAdapter extends
@@ -151,29 +152,38 @@ public class RecipeAdapter extends
 
                 }
                 public void onDoubleClick(){
-                    // todo: check if recipe
-                    recipe.setUser(ParseUser.getCurrentUser());
-                    recipe.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!= null){
-                                Log.e(TAG, "error saving recipe to server:" + e.toString());
-                            }
-                            else {
-                                Log.i(TAG, "recipe saved successffully");
-                            }
-                        }
-                    });
-                    Toast.makeText(context, "double click", Toast.LENGTH_LONG).show();
+                    updateSavedRecipesWithCurrentRecipe(recipe);
                 }
             });
         }
 
         @Override
-        public void onClick(View v) {
-            // todo: implement what happens when user clicks on a recipe
-        }
+        public void onClick(View v) {}
 
+    }
+
+    private void updateSavedRecipesWithCurrentRecipe(Recipe recipe) {
+        // todo: check if recipe is already saved, remove from server if is
+//        if (Recipe.isSaved(recipe)){
+//            Log.i(TAG, "recipe already in server");
+//        }
+//        else{
+            recipe.setUser(ParseUser.getCurrentUser());
+            recipe.setType("saved");
+            recipe.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!= null){
+                        Log.e(TAG, "error saving recipe to server:" + e.toString());
+                        Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.i(TAG, "recipe saved successffully");
+                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+//        }
     }
 
     public void clear() {

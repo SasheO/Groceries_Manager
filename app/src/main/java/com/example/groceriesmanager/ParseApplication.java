@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
-//import com.example.groceriesmanager.Models.SavedRecipe;
 import com.example.groceriesmanager.Models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;

@@ -150,6 +150,7 @@ public class FoodListAdapter extends
                         }
                     }
                 }
+                // todo: reimplement switch list and delete here
             });
 
             }
