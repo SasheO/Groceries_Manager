@@ -94,14 +94,15 @@
                 android:layout_width="match_parent"
                 android:id="@+id/rlSavedRecipes"
                 android:layout_height="50dp">
+
                 <TextView
                     android:id="@+id/tvSavedRecipes"
                     style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/ibExpandSavedRecipes"
                     android:layout_alignParentStart="true"
-                    android:text="My Recipes" />
+                    android:layout_toStartOf="@+id/ibExpandSavedRecipes"
+                    android:text="Saved Recipes" />
 
                 <ImageButton
                     android:id="@+id/ibExpandSavedRecipes"
@@ -125,14 +126,15 @@
                 android:layout_width="match_parent"
                 android:id="@+id/rlSavedVideos"
                 android:layout_height="50dp">
+
                 <TextView
                     android:id="@+id/tvSavedVideos"
                     style="@style/Label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/ibExpandSavedVideos"
                     android:layout_alignParentStart="true"
-                    android:text="My Recipes" />
+                    android:layout_toStartOf="@+id/ibExpandSavedVideos"
+                    android:text="Saved Videos" />
 
                 <ImageButton
                     android:id="@+id/ibExpandSavedVideos"
