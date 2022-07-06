@@ -3,36 +3,37 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-import java.util.Objects;
 
-public class RecipeAdapter extends
-        RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
+public class EdamamRecipeAdapter extends
+        RecyclerView.Adapter<EdamamRecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
     MainActivity context;
     public static final String TAG = "RecipeAdapter";
 
     // constructor to set context
-    public RecipeAdapter(Context context, List<Recipe> recipeList) {
+    public EdamamRecipeAdapter(Context context, List<Recipe> recipeList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
     }
@@ -46,7 +47,7 @@ public class RecipeAdapter extends
         View recipeItemView = inflater.inflate(R.layout.item_recipe_search, parent, false);
 
         // Return a new holder instance
-        RecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
+        EdamamRecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
 
         return viewHolder;
     }
@@ -149,6 +150,31 @@ public class RecipeAdapter extends
                 }
                 public void onLongClick(){
                     // todo: set on long click
+
+
+
+                    // inflate the layout of the popup window
+//                    LayoutInflater inflater = LayoutInflater.from(context);
+//                    View popupView = inflater.inflate(R.layout.popup_save_recipe, null);
+//
+//                    // create the popup window
+//                    int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                    boolean focusable = true; // lets taps outside the popup also dismiss it
+//                    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+//
+//                    // show the popup window
+//                    // which view you pass in doesn't matter, it is only used for the window tolken
+//                    popupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
+//
+//                    // dismiss the popup window when touched
+////                    popupView.setOnTouchListener(new View.OnTouchListener() {
+////                        @Override
+////                        public boolean onTouch(View v, MotionEvent event) {
+////                            popupWindow.dismiss();
+////                            return true;
+////                        }
+////                    });
                 }
             });
         }
