@@ -39,41 +39,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ivProfilePic"
-        android:contentDescription="scroll bar"
-        android:layout_margin="5dp">
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="scroll bar">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tvMyRecipes"
-                android:layout_width="wrap_content"
+                style="@style/Label"
+                android:clickable="true"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/tvExpandMyRecipes"
+                android:layout_alignParentStart="true"
                 android:text="My Recipes" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/rvMyRecipes"/>
 
             <TextView
-                android:id="@+id/tvSavedRecipes"
-                android:layout_width="86dp"
-                android:layout_height="15dp"
-                android:text="Saved Recipes" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/rvSavedRecipes"/>
-
-            <TextView
-                android:id="@+id/tvSavedVideos"
+                android:clickable="true"
+                android:id="@+id/tvExpandMyRecipes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Saved Videos" />
+                android:text="expand"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMyRecipes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/rvSavedVideos"/>
+                android:visibility="gone"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvSavedRecipes"
+                    style="@style/Label"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/tvExpandSavedRecipes"
+                    android:layout_alignParentStart="true"
+                    android:text="My Recipes" />
+
+                <TextView
+                    android:clickable="true"
+                    android:id="@+id/tvExpandSavedRecipes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="expand"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSavedRecipes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvSavedVideos"
+                    style="@style/Label"
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/tvExpandSavedVideos"
+                    android:layout_alignParentStart="true"
+                    android:text="My Recipes" />
+
+                <TextView
+                    android:clickable="true"
+                    android:id="@+id/tvExpandSavedVideos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="expand"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSavedVideos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
