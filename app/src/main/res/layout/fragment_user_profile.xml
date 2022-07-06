@@ -64,13 +64,15 @@
 
             <ImageButton
                 android:id="@+id/ibCreateNewRecipe"
-                android:layout_width="50do"
+                android:layout_width="50dp"
+                android:visibility="visible"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/ibExpandMyRecipes"
                 android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@android:drawable/ic_input_add" />
+
             <ImageButton
                 android:id="@+id/ibExpandMyRecipes"
                 android:layout_width="30dp"
@@ -79,7 +81,7 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:scaleType="fitXY"
-                tools:src="@drawable/expand_arrow" />
+                android:src="@drawable/expand_arrow" />
         </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -109,7 +111,8 @@
                     android:layout_centerVertical="true"
                     android:background="@null"
                     android:scaleType="fitXY"
-                    tools:src="@drawable/expand_arrow" />
+                    android:src="@drawable/expand_arrow"
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -139,7 +142,8 @@
                     android:layout_centerVertical="true"
                     android:background="@null"
                     android:scaleType="fitXY"
-                    tools:src="@drawable/expand_arrow" />
+                    android:src="@drawable/expand_arrow"
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView

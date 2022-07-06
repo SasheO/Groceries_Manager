@@ -1,6 +1,7 @@
 package com.example.groceriesmanager.Fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +62,9 @@ public class UserProfileFragment extends Fragment {
         rvMyRecipes = (RecyclerView) view.findViewById(R.id.rvMyRecipes);
         rvSavedRecipes = (RecyclerView) view.findViewById(R.id.rvSavedRecipes);
         rvSavedVideos = (RecyclerView) view.findViewById(R.id.rvSavedVideos);
+        ibExpandSavedVideos = (ImageButton) view.findViewById(R.id.ibExpandSavedVideos);
+        ibExpandSavedRecipes = (ImageButton) view.findViewById(R.id.ibExpandSavedRecipes);
+        ibExpandMyRecipes = (ImageButton) view.findViewById(R.id.ibExpandMyRecipes);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
 
@@ -88,40 +92,55 @@ public class UserProfileFragment extends Fragment {
         rlMyRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uri;
                 if (rvMyRecipes.getVisibility() == View.GONE){
                     rvMyRecipes.setVisibility(View.VISIBLE);
-                    // todo: set the image resource
+                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
                 }
                 else{
                     rvMyRecipes.setVisibility(View.GONE);
-                    // todo: set the image resource
+                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
                 }
+                // set image resource
+                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+                Drawable res = getResources().getDrawable(imageResource);
+                ibExpandMyRecipes.setImageDrawable(res);
             }
         });
         rlSavedRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uri;
                 if (rvSavedRecipes.getVisibility() == View.GONE){
                     rvSavedRecipes.setVisibility(View.VISIBLE);
-                    // todo: set the image resource
+                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
                 }
                 else{
                     rvSavedRecipes.setVisibility(View.GONE);
-                    // todo: set the image resource
+                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
                 }
+                // set image resource
+                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+                Drawable res = getResources().getDrawable(imageResource);
+                ibExpandSavedRecipes.setImageDrawable(res);
             }
         });
         rlSavedVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uri;
                 if (rvSavedVideos.getVisibility() == View.GONE){
                     rvSavedVideos.setVisibility(View.VISIBLE);
-                    // todo: set the image resource
+                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
                 }
                 else {
                     rvSavedVideos.setVisibility(View.GONE);
-                    // todo: set the image resource
+                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
                 }
+                // set image resource
+                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+                Drawable res = getResources().getDrawable(imageResource);
+                ibExpandSavedVideos.setImageDrawable(res);
             }
         });
 
