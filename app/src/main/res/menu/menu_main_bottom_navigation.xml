@@ -13,6 +13,11 @@
         android:title="Pantry"
         app:showAsAction="always" />
     <item
+        android:id="@+id/miUserProfile"
+        android:icon="@drawable/user_outline"
+        android:title="Me"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/miRecipeSearch"
         android:icon="@drawable/pot"
         android:title="Recipes"
@@ -21,10 +26,5 @@
         android:id="@+id/miYoutubeSearch"
         android:icon="@android:drawable/ic_media_play"
         android:title="YouTube"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/miUserProfile"
-        android:icon="@drawable/user_outline"
-        android:title="Me"
         app:showAsAction="always" />
 </menu>

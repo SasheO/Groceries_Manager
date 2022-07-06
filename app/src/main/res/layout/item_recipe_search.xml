@@ -11,6 +11,7 @@
     card_view:cardElevation="8dp">
 
     <RelativeLayout
+        android:id="@+id/rlRecipeSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,9 +39,9 @@
             android:id="@+id/tvRecipeFilters"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ivRecipeImage"
-            android:layout_marginStart="3dp"
             android:layout_below="@+id/tvRecipeTitle"
+            android:layout_marginStart="3dp"
+            android:layout_toEndOf="@+id/ivRecipeImage"
             android:contentDescription="Recipe filters"
             tools:text="Recipe Filters appear here" />
 
@@ -56,20 +57,20 @@
             android:id="@+id/tvOpenRecipeLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvRecipeIngredientLines"
             android:clickable="true"
             android:contentDescription="Open recipe link"
-            android:layout_below="@id/tvRecipeIngredientLines"
-            android:text="Open Recipe Link"/>
+            android:text="Open Recipe Link" />
 
         <ImageButton
             android:id="@+id/ibOpenRecipeLink"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_below="@id/tvRecipeIngredientLines"
+            android:layout_toEndOf="@id/tvOpenRecipeLink"
             android:background="@null"
             android:contentDescription="open recipe link button"
             android:scaleType="fitXY"
-            android:layout_toEndOf="@id/tvOpenRecipeLink"
-            android:layout_below="@id/tvRecipeIngredientLines"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
             card_view:tint="#121111" />
 

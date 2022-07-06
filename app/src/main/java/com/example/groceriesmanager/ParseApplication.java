@@ -3,6 +3,7 @@ package com.example.groceriesmanager;
 import android.app.Application;
 
 import com.example.groceriesmanager.Models.FoodItem;
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -18,6 +19,7 @@ public class ParseApplication extends Application {
         // register all classes that inherit parse
         ParseObject.registerSubclass(FoodItem.class);
         ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Recipe.class);
 
         // Use for monitoring Parse network traffic
         OkHttpClient.Builder builder = new OkHttpClient.Builder();

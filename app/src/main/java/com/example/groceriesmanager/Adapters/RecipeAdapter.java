@@ -8,17 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
@@ -71,6 +75,7 @@ public class RecipeAdapter extends
         public TextView tvRecipeFilters;
         public ImageButton ibOpenRecipeLink;
         public ImageView ivRecipeImage;
+        public RelativeLayout rlRecipeSearch;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -85,6 +90,7 @@ public class RecipeAdapter extends
             tvRecipeFilters = (TextView) itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = (ImageButton) itemView.findViewById(R.id.ibOpenRecipeLink);
             ivRecipeImage = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
+            rlRecipeSearch = (RelativeLayout) itemView.findViewById(R.id.rlRecipeSearch);
         }
 
         public void bind(Recipe recipe) {
@@ -130,6 +136,13 @@ public class RecipeAdapter extends
                     Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);
+                }
+            });
+
+            rlRecipeSearch.setOnTouchListener(new OnSwipeTouchListener(context) {
+                @Override
+                public void onLongClick(){
+                    // todo: display menu asking to save recipe with no option
                 }
             });
         }
