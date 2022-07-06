@@ -38,26 +38,31 @@ public class Recipe extends ParseObject {
 
     public Recipe(JSONObject jsonObject) throws JSONException {
         this.image_url = jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url");
+        put(KEY_IMAGE_URL, jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url"));
         this.title = jsonObject.getJSONObject("recipe").getString("label");
+        put(KEY_TITLE, jsonObject.getJSONObject("recipe").getString("label"));
         this.hyperlink_url = jsonObject.getJSONObject("recipe").getString("url");
+        put(KEY_HYPERLINK_URL, jsonObject.getJSONObject("recipe").getString("url"));
         JSONArray ingredientLinesJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredientLines");
         this.ingredientLines = new ArrayList<>();
         for (int i=0;i<ingredientLinesJSONArray.length();i++){
-            this.ingredientLines.add(ingredientLinesJSONArray.getString(i));
+            ingredientLines.add(ingredientLinesJSONArray.getString(i));
         }
-        this.filters = new ArrayList<>();
+        put(KEY_INGREDIENT_LINES, this.ingredientLines);
+       this.filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
             if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGAN)){
-                this.filters.add(KEY_FILTER_VEGAN);
+                filters.add(KEY_FILTER_VEGAN);
             }
             if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGETARIAN)){
-                this.filters.add(KEY_FILTER_VEGETARIAN);
+                filters.add(KEY_FILTER_VEGETARIAN);
             }
             if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_GLUTEN_FREE)){
-                this.filters.add(KEY_FILTER_GLUTEN_FREE);
+                filters.add(KEY_FILTER_GLUTEN_FREE);
             }
         }
+        put(KEY_FILTERS, this.filters);
     }
 
     public String getImage_url() {
@@ -110,19 +115,19 @@ public class Recipe extends ParseObject {
     }
 
     public void setImage_url(String image_url) {
-        this.image_url = image_url;
+        put(KEY_IMAGE_URL, image_url);
     }
     public void setTitle(String title) {
-        this.title = title;
+        put(KEY_TITLE, title);
     }
     public void setFilters(List<String> filters) {
-        this.filters = filters;
+        put(KEY_FILTERS, filters);
     }
     public void setHyperlink_url(String hyperlink_url) {
-        this.hyperlink_url = hyperlink_url;
+        put(KEY_HYPERLINK_URL, hyperlink_url);
     }
     public void setIngredientLines(List<String> ingredientLines) {
-        this.ingredientLines = ingredientLines;
+        put(KEY_INGREDIENT_LINES, ingredientLines);
     }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
