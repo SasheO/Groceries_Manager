@@ -51,26 +51,35 @@
             android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/rlMyRecipes"
+            android:layout_height="50dp">
             <TextView
                 android:id="@+id/tvMyRecipes"
                 style="@style/Label"
-                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/tvExpandMyRecipes"
+                android:layout_toStartOf="@+id/ibCreateNewRecipe"
                 android:layout_alignParentStart="true"
                 android:text="My Recipes" />
 
-            <TextView
-                android:clickable="true"
-                android:id="@+id/tvExpandMyRecipes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="expand"
+            <ImageButton
+                android:id="@+id/ibCreateNewRecipe"
+                android:layout_width="50do"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/ibExpandMyRecipes"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@android:drawable/ic_input_add" />
+            <ImageButton
+                android:id="@+id/ibExpandMyRecipes"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
-                />
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:scaleType="fitXY"
+                tools:src="@drawable/expand_arrow" />
         </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -81,26 +90,26 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/rlSavedRecipes"
+                android:layout_height="50dp">
                 <TextView
                     android:id="@+id/tvSavedRecipes"
                     style="@style/Label"
-                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/tvExpandSavedRecipes"
+                    android:layout_toStartOf="@+id/ibExpandSavedRecipes"
                     android:layout_alignParentStart="true"
                     android:text="My Recipes" />
 
-                <TextView
-                    android:clickable="true"
-                    android:id="@+id/tvExpandSavedRecipes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="expand"
-                    android:layout_centerVertical="true"
+                <ImageButton
+                    android:id="@+id/ibExpandSavedRecipes"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
-                    />
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/expand_arrow" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -111,26 +120,26 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:id="@+id/rlSavedVideos"
+                android:layout_height="50dp">
                 <TextView
                     android:id="@+id/tvSavedVideos"
                     style="@style/Label"
-                    android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/tvExpandSavedVideos"
+                    android:layout_toStartOf="@+id/ibExpandSavedVideos"
                     android:layout_alignParentStart="true"
                     android:text="My Recipes" />
 
-                <TextView
-                    android:clickable="true"
-                    android:id="@+id/tvExpandSavedVideos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="expand"
-                    android:layout_centerVertical="true"
+                <ImageButton
+                    android:id="@+id/ibExpandSavedVideos"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
-                    />
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    tools:src="@drawable/expand_arrow" />
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
