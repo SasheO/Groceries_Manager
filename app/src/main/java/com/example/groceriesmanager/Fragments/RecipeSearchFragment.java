@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Adapters.EdamamRecipeAdapter;
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
 //import com.example.groceriesmanager.Lemma;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
@@ -46,7 +46,7 @@ public class RecipeSearchFragment extends Fragment {
     TextView tvNoResultsMessage;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
-    public EdamamRecipeAdapter adapter;
+    public RecipeAdapter adapter;
     String userQuery;
     RecyclerView rvRecipeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
@@ -88,7 +88,7 @@ public class RecipeSearchFragment extends Fragment {
         tvNoResultsMessage = view.findViewById(R.id.tvNoResultsMessage);
         tvNoResultsMessage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
-        adapter = new EdamamRecipeAdapter(getContext(), recipeList);
+        adapter = new RecipeAdapter(getContext(), recipeList);
 
         // in case user is opening this from pantryListFragment
         userQuery = getArguments().getString("userQuery", "");
