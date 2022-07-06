@@ -14,14 +14,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Adapters.FoodListAdapter;
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
+import com.example.groceriesmanager.Models.FoodItem;
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class UserProfileFragment extends Fragment {
     TextView tvProfileUsername;
@@ -35,7 +46,11 @@ public class UserProfileFragment extends Fragment {
     ImageButton ibExpandMyRecipes;
     ImageButton ibExpandSavedRecipes;
     ImageButton ibExpandSavedVideos;
+    public List<Recipe> savedRecipes;
+    public List<Recipe> userRecipes;
     private static final String TAG = "UserProfileFragment";
+    public RecipeAdapter savedRecipeAdapter;
+    public RecipeAdapter userRecipeAdapter;
 
     // required empty constructor
     public UserProfileFragment() {}
@@ -67,6 +82,24 @@ public class UserProfileFragment extends Fragment {
         ibExpandMyRecipes = (ImageButton) view.findViewById(R.id.ibExpandMyRecipes);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
+
+        savedRecipes = new ArrayList<>();
+        userRecipes = new ArrayList<>();
+
+        queryRecipes("saved");
+        queryRecipes("user");
+
+        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes);
+        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes);
+
+        // set the adapter on the recycler view
+        rvSavedRecipes.setAdapter(savedRecipeAdapter);
+        // set the layout manager on the recycler view
+        rvSavedRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));// set the adapter on the recycler view
+        // set the adapter on the recycler view
+        rvMyRecipes.setAdapter(userRecipeAdapter);
+        // set the layout manager on the recycler view
+        rvMyRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,4 +183,37 @@ public class UserProfileFragment extends Fragment {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
     }
+    public void queryRecipes(String type) {
+        // specify what type of data we want to query - FoodItem.class
+        // include data where post is current post
+        ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+        query.whereEqualTo("type", type);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Recipe>() {
+            @Override
+            public void done(List<Recipe> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving saved recipes: " + e.toString());
+                }
+                else{
+                    if (Objects.equals(type, "saved")){
+                        savedRecipeAdapter.clear();
+                        savedRecipes.addAll(objects);
+                        savedRecipeAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        userRecipeAdapter.clear();
+                        userRecipes.addAll(objects);
+                        userRecipeAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+
+    }
+
 }

@@ -3,16 +3,15 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,17 +22,21 @@ import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class EdamamRecipeAdapter extends
-        RecyclerView.Adapter<EdamamRecipeAdapter.ViewHolder>{
+public class RecipeAdapter extends
+        RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
     MainActivity context;
     public static final String TAG = "RecipeAdapter";
 
     // constructor to set context
-    public EdamamRecipeAdapter(Context context, List<Recipe> recipeList) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
     }
@@ -47,7 +50,7 @@ public class EdamamRecipeAdapter extends
         View recipeItemView = inflater.inflate(R.layout.item_recipe_search, parent, false);
 
         // Return a new holder instance
-        EdamamRecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
+        RecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
 
         return viewHolder;
     }
@@ -148,41 +151,41 @@ public class EdamamRecipeAdapter extends
                     // your on click here
 
                 }
-                public void onLongClick(){
-                    // todo: set on long click
-
-
-
-                    // inflate the layout of the popup window
-//                    LayoutInflater inflater = LayoutInflater.from(context);
-//                    View popupView = inflater.inflate(R.layout.popup_save_recipe, null);
-//
-//                    // create the popup window
-//                    int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//                    int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//                    boolean focusable = true; // lets taps outside the popup also dismiss it
-//                    final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-//
-//                    // show the popup window
-//                    // which view you pass in doesn't matter, it is only used for the window tolken
-//                    popupWindow.showAtLocation(itemView, Gravity.CENTER, 0, 0);
-//
-//                    // dismiss the popup window when touched
-////                    popupView.setOnTouchListener(new View.OnTouchListener() {
-////                        @Override
-////                        public boolean onTouch(View v, MotionEvent event) {
-////                            popupWindow.dismiss();
-////                            return true;
-////                        }
-////                    });
+                public void onDoubleClick(){
+                    updateSavedRecipesWithCurrentRecipe(recipe);
                 }
             });
         }
 
         @Override
-        public void onClick(View v) {
-            // todo: implement what happens when user clicks on a recipe
-        }
+        public void onClick(View v) {}
+
+    }
+
+    private void updateSavedRecipesWithCurrentRecipe(Recipe recipe) {
+        // todo: check if recipe is already saved, remove from server if is
+//        if (Recipe.isSaved(recipe)){
+//            Log.i(TAG, "recipe already in server");
+//        recipe.deleteRecipe();
+//        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
+//        }
+//        else{
+            recipe.setUser(ParseUser.getCurrentUser());
+            recipe.setType("saved");
+            recipe.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e!= null){
+                        Log.e(TAG, "error saving recipe to server:" + e.toString());
+                        Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.i(TAG, "recipe saved successffully");
+                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+//        }
 
     }
 
