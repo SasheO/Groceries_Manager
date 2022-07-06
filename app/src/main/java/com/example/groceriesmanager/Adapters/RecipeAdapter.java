@@ -166,6 +166,8 @@ public class RecipeAdapter extends
         // todo: check if recipe is already saved, remove from server if is
 //        if (Recipe.isSaved(recipe)){
 //            Log.i(TAG, "recipe already in server");
+//        recipe.deleteRecipe();
+//        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
 //        }
 //        else{
             recipe.setUser(ParseUser.getCurrentUser());
@@ -184,6 +186,7 @@ public class RecipeAdapter extends
                 }
             });
 //        }
+
     }
 
     public void clear() {
