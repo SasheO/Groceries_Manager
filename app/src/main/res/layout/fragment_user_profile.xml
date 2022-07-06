@@ -65,13 +65,13 @@
             <ImageButton
                 android:id="@+id/ibCreateNewRecipe"
                 android:layout_width="50dp"
-                android:visibility="visible"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/ibExpandMyRecipes"
                 android:background="@null"
                 android:scaleType="fitXY"
-                android:src="@android:drawable/ic_input_add" />
+                android:src="@android:drawable/ic_input_add"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/ibExpandMyRecipes"
