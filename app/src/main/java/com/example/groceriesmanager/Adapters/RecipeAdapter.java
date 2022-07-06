@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -141,8 +142,13 @@ public class RecipeAdapter extends
 
             rlRecipeSearch.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
+                public void onClick() {
+                    super.onClick();
+                    // your on click here
+
+                }
                 public void onLongClick(){
-                    // todo: display menu asking to save recipe with no option
+                    // todo: set on long click
                 }
             });
         }

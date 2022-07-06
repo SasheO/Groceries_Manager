@@ -2,6 +2,12 @@ package com.example.groceriesmanager.Models;
 
 import android.util.Log;
 
+import com.parse.DeleteCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Recipe {
+@ParseClassName("Recipe")
+public class SavedRecipe extends ParseObject {
     private String image_url;
     private String title;
     private List<String> filters;
@@ -20,11 +27,16 @@ public class Recipe {
     private static final String KEY_FILTER_VEGAN = "Vegan";
     private static final String KEY_FILTER_VEGETARIAN = "Vegetarian";
     private static final String KEY_FILTER_GLUTEN_FREE = "Gluten-Free";
+    private static final String KEY_IMAGE_URL = "image_url";
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_FILTERS = "filters";
+    private static final String KEY_USER = "user";
+    private static final String KEY_HYPERLINK_URL = "hyperlink_url";
+    private static final String KEY_INGREDIENT_LINES = "ingredientLines";
 
+    public SavedRecipe(){}
 
-    public Recipe(){}
-
-    public Recipe(JSONObject jsonObject) throws JSONException {
+    public SavedRecipe(JSONObject jsonObject) throws JSONException {
         this.image_url = jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url");
         this.title = jsonObject.getJSONObject("recipe").getString("label");
         this.hyperlink_url = jsonObject.getJSONObject("recipe").getString("url");
@@ -49,44 +61,73 @@ public class Recipe {
     }
 
     public String getImage_url() {
-        return image_url;
+        try {
+            return fetchIfNeeded().getString(KEY_IMAGE_URL);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return image_url;
+        }
+    }
+
+
+    public String getTitle() {
+        try {
+            return fetchIfNeeded().getString(KEY_TITLE);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return title;
+        }
+    }
+
+
+    public List<String> getFilters() {
+        try {
+            return fetchIfNeeded().getList(KEY_FILTERS);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return filters;
+        }
+    }
+
+
+    public String getHyperlink_url() {
+        try {
+            return fetchIfNeeded().getString(KEY_HYPERLINK_URL);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return hyperlink_url;
+        }
+    }
+
+
+    public List<String> getIngredientLines() {
+        try {
+            return fetchIfNeeded().getList(KEY_INGREDIENT_LINES);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return ingredientLines;
+        }
     }
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
-    public List<String> getFilters() {
-        return filters;
-    }
-
     public void setFilters(List<String> filters) {
         this.filters = filters;
     }
-
-    public String getHyperlink_url() {
-        return hyperlink_url;
-    }
-
     public void setHyperlink_url(String hyperlink_url) {
         this.hyperlink_url = hyperlink_url;
     }
-
-    public List<String> getIngredientLines() {
-        return ingredientLines;
-    }
-
     public void setIngredientLines(List<String> ingredientLines) {
         this.ingredientLines = ingredientLines;
     }
+    public void setUser(ParseUser user){
+        put(KEY_USER, user);
+    }
+
 
     public static List<Recipe> fromJsonArray(JSONArray recipeJsonArray) throws JSONException {
         List<Recipe> recipeList = new ArrayList<>();
@@ -95,6 +136,21 @@ public class Recipe {
         }
         return recipeList;
 
+    }
+
+    public void deleteRecipe(){
+        deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error deleting recipe in database: " + e.toString());
+                }
+                else
+                {
+                    Log.i(TAG, "recipe deleted");
+                }
+            }
+        });
     }
 
 }
