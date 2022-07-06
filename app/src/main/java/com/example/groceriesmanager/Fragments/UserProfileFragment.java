@@ -18,10 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Activities.LoginActivity;
-import com.example.groceriesmanager.Activities.MainActivity;
-import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
-import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
@@ -69,17 +66,17 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
-        tvProfileUsername = (TextView) view.findViewById(R.id.tvProfileUsername);
-        btnLogout = (Button) view.findViewById(R.id.btnLogout);
-        rlMyRecipes = (RelativeLayout) view.findViewById(R.id.rlMyRecipes);
-        rlSavedRecipes = (RelativeLayout) view.findViewById(R.id.rlSavedRecipes);
-        rlSavedVideos = (RelativeLayout) view.findViewById(R.id.rlSavedVideos);
-        rvMyRecipes = (RecyclerView) view.findViewById(R.id.rvMyRecipes);
-        rvSavedRecipes = (RecyclerView) view.findViewById(R.id.rvSavedRecipes);
-        rvSavedVideos = (RecyclerView) view.findViewById(R.id.rvSavedVideos);
-        ibExpandSavedVideos = (ImageButton) view.findViewById(R.id.ibExpandSavedVideos);
-        ibExpandSavedRecipes = (ImageButton) view.findViewById(R.id.ibExpandSavedRecipes);
-        ibExpandMyRecipes = (ImageButton) view.findViewById(R.id.ibExpandMyRecipes);
+        tvProfileUsername = view.findViewById(R.id.tvProfileUsername);
+        btnLogout = view.findViewById(R.id.btnLogout);
+        rlMyRecipes = view.findViewById(R.id.rlMyRecipes);
+        rlSavedRecipes = view.findViewById(R.id.rlSavedRecipes);
+        rlSavedVideos = view.findViewById(R.id.rlSavedVideos);
+        rvMyRecipes = view.findViewById(R.id.rvMyRecipes);
+        rvSavedRecipes = view.findViewById(R.id.rvSavedRecipes);
+        rvSavedVideos = view.findViewById(R.id.rvSavedVideos);
+        ibExpandSavedVideos = view.findViewById(R.id.ibExpandSavedVideos);
+        ibExpandSavedRecipes = view.findViewById(R.id.ibExpandSavedRecipes);
+        ibExpandMyRecipes = view.findViewById(R.id.ibExpandMyRecipes);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
 
@@ -128,11 +125,11 @@ public class UserProfileFragment extends Fragment {
                 String uri;
                 if (rvMyRecipes.getVisibility() == View.GONE){
                     rvMyRecipes.setVisibility(View.VISIBLE);
-                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/collapse_arrow";
                 }
                 else{
                     rvMyRecipes.setVisibility(View.GONE);
-                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/expand_arrow";
                 }
                 // set image resource
                 int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -146,11 +143,11 @@ public class UserProfileFragment extends Fragment {
                 String uri;
                 if (rvSavedRecipes.getVisibility() == View.GONE){
                     rvSavedRecipes.setVisibility(View.VISIBLE);
-                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/collapse_arrow";
                 }
                 else{
                     rvSavedRecipes.setVisibility(View.GONE);
-                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/expand_arrow";
                 }
                 // set image resource
                 int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
@@ -164,11 +161,11 @@ public class UserProfileFragment extends Fragment {
                 String uri;
                 if (rvSavedVideos.getVisibility() == View.GONE){
                     rvSavedVideos.setVisibility(View.VISIBLE);
-                    uri = "@drawable/collapse_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/collapse_arrow";
                 }
                 else {
                     rvSavedVideos.setVisibility(View.GONE);
-                    uri = "@drawable/expand_arrow";  // where myresource (without the extension) is the file
+                    uri = "@drawable/expand_arrow";
                 }
                 // set image resource
                 int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
