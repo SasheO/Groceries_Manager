@@ -121,13 +121,13 @@ public class EditRecipeActivity extends AppCompatActivity {
                     }
 
                     if (checkboxVegetarian.isChecked()){
-                        filtersList.add("vegetarian");
+                        filtersList.add(getResources().getString(R.string.vegetarian));
                     }
                     if (checkboxVegan.isChecked()){
-                        filtersList.add("vegan");
+                        filtersList.add(getResources().getString(R.string.vegan));
                     }
                     if (checkboxGlutenFree.isChecked()){
-                        filtersList.add("gluten-free");
+                        filtersList.add(getResources().getString(R.string.gluten_free));
                     }
                     if (filtersList.size()!=0){
                         newUserRecipe.setFilters(filtersList);

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Groceries Manager</string>
+    <string name="vegan">Vegan</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="gluten_free">Gluten-Free</string>
     <string-array name="food_measures">
         <item>-</item>
         <item>ct</item>
@@ -30,5 +33,11 @@
         <item>beverages/dairy</item>
         <item>spices/sauces</item>
         <item>other</item>
+    </string-array>
+
+    <string-array name="user_profile_settings">
+        <item></item>
+        <item>Account Settings</item>
+        <item>Log Out</item>
     </string-array>
 </resources>
