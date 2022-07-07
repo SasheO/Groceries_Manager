@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
@@ -38,7 +39,6 @@ import java.util.Objects;
 
 public class UserProfileFragment extends Fragment {
     TextView tvProfileUsername;
-    Button btnLogout;
     RelativeLayout rlMyRecipes;
     RelativeLayout rlSavedRecipes;
     RelativeLayout rlSavedVideos;
@@ -74,7 +74,6 @@ public class UserProfileFragment extends Fragment {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         tvProfileUsername = view.findViewById(R.id.tvProfileUsername);
-        btnLogout = view.findViewById(R.id.btnLogout);
         rlMyRecipes = view.findViewById(R.id.rlMyRecipes);
         rlSavedRecipes = view.findViewById(R.id.rlSavedRecipes);
         rlSavedVideos = view.findViewById(R.id.rlSavedVideos);
@@ -106,7 +105,7 @@ public class UserProfileFragment extends Fragment {
             settingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinnerExpandSettings.setAdapter(settingsAdapter);
-
+        spinnerExpandSettings.setSelection(0);
 
         // set the adapter on the recycler view
         rvSavedRecipes.setAdapter(savedRecipeAdapter);
@@ -129,6 +128,31 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // todo: implement log out and open account settings
+                final Intent intent;
+                switch(position){
+                    case 1:
+                        intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                        startActivity(intent);
+                        spinnerExpandSettings.setSelection(0);
+                        break;
+                    case 2:
+                        ParseUser.logOutInBackground(new LogOutCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e != null) {
+                                    Log.e(TAG, "Error signing out", e);
+                                    Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Log.i(TAG, "Sign out successful");
+                                goToLoginActivity();
+                                Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+
+                }
             }
 
             @Override
@@ -137,26 +161,6 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e != null) {
-                            Log.e(TAG, "Error signing out", e);
-                            Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        Log.i(TAG, "Sign out successful");
-                        goToLoginActivity();
-                        Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    }
-                   }
-                );
-            }
-        });
 
         rlMyRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
