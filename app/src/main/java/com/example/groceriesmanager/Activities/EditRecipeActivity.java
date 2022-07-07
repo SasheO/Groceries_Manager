@@ -1,20 +1,22 @@
 package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.groceriesmanager.Adapters.FoodListAdapter;
+import com.example.groceriesmanager.Adapters.RecipeTextItemAdapter;
 import com.example.groceriesmanager.Models.Recipe;
+import com.example.groceriesmanager.Models.RecipeTextItem;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -38,9 +40,13 @@ public class EditRecipeActivity extends AppCompatActivity {
     private RecyclerView rvProcedure;
     private Button btnCancel;
     private Button btnSave;
-    List<String> ingredientList;
-    List<String> procedureList;
+    List<String> ingredientListStr;
+    List<String> procedureListStr;
     List<String> filtersList;
+    List<RecipeTextItem> ingredientList;
+    List<RecipeTextItem> procedureList;
+    public RecipeTextItemAdapter ingredientAdapter;
+    public RecipeTextItemAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
 
     @Override
@@ -62,11 +68,20 @@ public class EditRecipeActivity extends AppCompatActivity {
         etAddIngredient = findViewById(R.id.etAddIngredient);
         etAddProcedure = findViewById(R.id.etAddProcedure);
 
-        ingredientList = new ArrayList<>();
-        procedureList = new ArrayList<>();
+        ingredientListStr = new ArrayList<>();
+        procedureListStr = new ArrayList<>();
         filtersList = new ArrayList<>();
 
-        // todo: set recycler view adapters etc. here
+        //set recycler view adapters etc. here
+        ingredientAdapter = new RecipeTextItemAdapter(ingredientList);
+        procedureAdapter = new RecipeTextItemAdapter(procedureList);
+
+        // set the adapter on the recycler view
+        rvIngredients.setAdapter(ingredientAdapter);
+        rvProcedure.setAdapter(procedureAdapter);
+        // set the layout manager on the recycler view
+        rvIngredients.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
+        rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +123,12 @@ public class EditRecipeActivity extends AppCompatActivity {
                         newUserRecipe.setFilters(filtersList);
                     }
 
-                    if (ingredientList.size()!=0){
-                        newUserRecipe.setIngredientLines(ingredientList);
+                    if (ingredientListStr.size()!=0){
+                        newUserRecipe.setIngredientLines(ingredientListStr);
                     }
 
-                    if (procedureList.size()!=0){
-                        newUserRecipe.setProcedure(procedureList);
+                    if (procedureListStr.size()!=0){
+                        newUserRecipe.setProcedure(procedureListStr);
                     }
 
                     newUserRecipe.saveInBackground(new SaveCallback() {
@@ -138,7 +153,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String step = etAddProcedure.getText().toString().trim();
                 if (!Objects.equals(step, "")){
-                    procedureList.add(step);
+                    procedureListStr.add(step);
                     etAddProcedure.setText("");
                     // todo: notify dataset changed when adapter is set
                 }
@@ -150,7 +165,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String ingredient = etAddIngredient.getText().toString().trim();
                 if (!Objects.equals(ingredient, "")){
-                    ingredientList.add(ingredient);
+                    ingredientListStr.add(ingredient);
                     etAddIngredient.setText("");
                     // todo: notify dataset changed when adapter is set
                 }
