@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -66,6 +67,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         filtersList = new ArrayList<>();
 
         // todo: set recycler view adapters etc. here
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
