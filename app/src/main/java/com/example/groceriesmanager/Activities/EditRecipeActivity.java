@@ -49,7 +49,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     List<String> filtersList;
     List<FoodItem> ingredientList;
     public IngredientAdapter ingredientAdapter;
-    public IngredientAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
 
     @Override
@@ -106,7 +105,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: check if required fields are filled then save in server
                 String title = etRecipeTitle.getText().toString().trim();
                 if (Objects.equals(title, "")){
                     Toast.makeText(EditRecipeActivity.this, "Type in a Recipe title.", Toast.LENGTH_LONG).show();
@@ -168,11 +166,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                     procedureListStr.add(step);
                     procedureAdapter.notifyDataSetChanged();
                     etAddProcedure.setText("");
-                    // todo: notify dataset changed when adapter is set
-//                    RecipeTextItem item = new RecipeTextItem();
-//                    item.text = step;
-//                    procedureList.add(item);
-//                    procedureAdapter.notifyDataSetChanged();
+                    // todo: make procedure editable and deletable
                 }
             }
         });
@@ -186,7 +180,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
                 if (!Objects.equals(ingredientName, "")){
-                    // todo: notify dataset changed when adapter is set
                     FoodItem ingredient = new FoodItem();
 
                     if (!Objects.equals(ingredientQuantity, "")){
