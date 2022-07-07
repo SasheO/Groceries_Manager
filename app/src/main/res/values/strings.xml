@@ -31,4 +31,10 @@
         <item>spices/sauces</item>
         <item>other</item>
     </string-array>
+
+    <string-array name="user_profile_settings">
+        <item></item>
+        <item>Account Settings</item>
+        <item>Log Out</item>
+    </string-array>
 </resources>

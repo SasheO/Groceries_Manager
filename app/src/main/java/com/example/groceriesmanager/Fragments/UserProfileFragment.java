@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +49,7 @@ public class UserProfileFragment extends Fragment {
     ImageButton ibCreateNewRecipe;
     ImageButton ibExpandSavedRecipes;
     ImageButton ibExpandSavedVideos;
+    Spinner spinnerExpandSettings;
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
     private static final String TAG = "UserProfileFragment";
@@ -80,6 +85,7 @@ public class UserProfileFragment extends Fragment {
         ibExpandSavedRecipes = view.findViewById(R.id.ibExpandSavedRecipes);
         ibExpandMyRecipes = view.findViewById(R.id.ibExpandMyRecipes);
         ibCreateNewRecipe = view.findViewById(R.id.ibCreateNewRecipe);
+        spinnerExpandSettings = view.findViewById(R.id.spinnerExpandSettings);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
 
@@ -91,6 +97,16 @@ public class UserProfileFragment extends Fragment {
 
         savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes);
         userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes);
+
+        // spinner adapter for account dropdown
+        List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
+        ArrayAdapter<CharSequence> settingsAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.user_profile_settings, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+            settingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerExpandSettings.setAdapter(settingsAdapter);
+
 
         // set the adapter on the recycler view
         rvSavedRecipes.setAdapter(savedRecipeAdapter);
@@ -106,6 +122,18 @@ public class UserProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditRecipeActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        spinnerExpandSettings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // todo: implement log out and open account settings
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 

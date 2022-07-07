@@ -26,6 +26,16 @@
         android:contentDescription="Username"
         android:textStyle="italic"
         tools:text="Username" />
+
+    <Spinner
+        android:id="@+id/spinnerExpandSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvProfileUsername"
+        android:layout_alignBottom="@id/tvProfileUsername"
+        android:layout_alignParentEnd="true"
+        />
+
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
@@ -155,4 +165,6 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+
+
 </RelativeLayout>
