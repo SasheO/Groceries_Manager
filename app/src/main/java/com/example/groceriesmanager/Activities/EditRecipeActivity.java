@@ -7,10 +7,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Adapters.IngredientAdapter;
@@ -40,6 +42,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     private RecyclerView rvProcedure;
     private Button btnCancel;
     private Button btnSave;
+    private Spinner spinnerIngredientMeasure;
+    private EditText etIngredientQty;
     List<String> ingredientListStr;
     List<String> procedureListStr;
     List<String> filtersList;
@@ -67,12 +71,19 @@ public class EditRecipeActivity extends AppCompatActivity {
         rvProcedure = findViewById(R.id.rvProcedure);
         etAddIngredient = findViewById(R.id.etAddIngredient);
         etAddProcedure = findViewById(R.id.etAddProcedure);
+        etIngredientQty = findViewById(R.id.etIngredientQty);
+        spinnerIngredientMeasure = findViewById(R.id.spinnerIngredientMeasure);
 
         ingredientListStr = new ArrayList<>();
         procedureListStr = new ArrayList<>();
         ingredientList = new ArrayList<>();
         procedureList = new ArrayList<>();
         filtersList = new ArrayList<>();
+
+        // array adapter for rendering items into the ingredient measure spinner
+        ArrayAdapter<CharSequence> foodMeasureAdapter = ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
+        foodMeasureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerIngredientMeasure.setAdapter(foodMeasureAdapter);
 
         //set recycler view adapters etc. here
         ingredientAdapter = new IngredientAdapter(ingredientList);
@@ -170,11 +181,21 @@ public class EditRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ingredientStr = etAddIngredient.getText().toString().trim();
+                String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
+                String ingredientQuantity = etIngredientQty.getText().toString().trim();
+
                 if (!Objects.equals(ingredientStr, "")){
-                    ingredientListStr.add(ingredientStr);
-                    etAddIngredient.setText("");
                     // todo: notify dataset changed when adapter is set
                     Ingredient ingredient = new Ingredient();
+
+                    if (!Objects.equals(ingredientQuantity, "")){
+                        ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientStr;
+                        ingredient.setMeasure(ingredientMeasure);
+                        ingredient.setQuantity(ingredientQuantity);
+                    }
+
+                    ingredientListStr.add(ingredientStr);
+                    etAddIngredient.setText("");
                     ingredient.setFood(ingredientStr);
                     ingredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
