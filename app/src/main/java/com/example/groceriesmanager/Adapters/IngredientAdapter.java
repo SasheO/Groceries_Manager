@@ -10,19 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Models.Recipe;
-import com.example.groceriesmanager.Models.RecipeTextItem;
+import com.example.groceriesmanager.Models.Ingredient;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
 
-public class RecipeTextItemAdapter extends RecyclerView.Adapter<RecipeTextItemAdapter.ViewHolder> {
+public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
 
     // Store a member variable for the contacts
-    private List<RecipeTextItem> itemList;
+    private List<Ingredient> itemList;
 
     // Pass in the contact array into the constructor
-    public RecipeTextItemAdapter(List<RecipeTextItem> items) {
+    public IngredientAdapter(List<Ingredient> items) {
         itemList = items;
     }
 
@@ -33,7 +32,7 @@ public class RecipeTextItemAdapter extends RecyclerView.Adapter<RecipeTextItemAd
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View itemView = inflater.inflate(R.layout.item_recipe_text, parent, false);
+        View itemView = inflater.inflate(R.layout.item_ingredient, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(itemView);
@@ -42,7 +41,7 @@ public class RecipeTextItemAdapter extends RecyclerView.Adapter<RecipeTextItemAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RecipeTextItem item = itemList.get(position);
+        Ingredient item = itemList.get(position);
         holder.bind(item);
     }
 
@@ -76,8 +75,12 @@ public class RecipeTextItemAdapter extends RecyclerView.Adapter<RecipeTextItemAd
             // todo: edit using function
         }
 
-        public void bind(RecipeTextItem item) {
-            tvText.setText(item.text);
+        public void bind(Ingredient item) {
+            String text = item.getFood();
+            if (item.getQuantity()!=null){
+                text = item.getQuantity() + " " + item.getMeasure() + text;
+            }
+            tvText.setText(text);
 
             // todo: set click listener for delete and edit buttons
             ibEdit.setOnClickListener(new View.OnClickListener() {

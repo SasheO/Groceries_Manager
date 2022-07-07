@@ -13,10 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.groceriesmanager.Adapters.FoodListAdapter;
-import com.example.groceriesmanager.Adapters.RecipeTextItemAdapter;
+import com.example.groceriesmanager.Adapters.IngredientAdapter;
 import com.example.groceriesmanager.Models.Recipe;
-import com.example.groceriesmanager.Models.RecipeTextItem;
+import com.example.groceriesmanager.Models.Ingredient;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -43,10 +42,10 @@ public class EditRecipeActivity extends AppCompatActivity {
     List<String> ingredientListStr;
     List<String> procedureListStr;
     List<String> filtersList;
-    List<RecipeTextItem> ingredientList;
-    List<RecipeTextItem> procedureList;
-    public RecipeTextItemAdapter ingredientAdapter;
-    public RecipeTextItemAdapter procedureAdapter;
+    List<Ingredient> ingredientList;
+    List<Ingredient> procedureList;
+    public IngredientAdapter ingredientAdapter;
+    public IngredientAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
 
     @Override
@@ -75,8 +74,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         filtersList = new ArrayList<>();
 
         //set recycler view adapters etc. here
-        ingredientAdapter = new RecipeTextItemAdapter(ingredientList);
-        procedureAdapter = new RecipeTextItemAdapter(procedureList);
+        ingredientAdapter = new IngredientAdapter(ingredientList);
+        procedureAdapter = new IngredientAdapter(procedureList);
 
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
@@ -158,10 +157,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                     procedureListStr.add(step);
                     etAddProcedure.setText("");
                     // todo: notify dataset changed when adapter is set
-                    RecipeTextItem item = new RecipeTextItem();
-                    item.text = step;
-                    procedureList.add(item);
-                    procedureAdapter.notifyDataSetChanged();
+//                    RecipeTextItem item = new RecipeTextItem();
+//                    item.text = step;
+//                    procedureList.add(item);
+//                    procedureAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -174,10 +173,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                     ingredientListStr.add(ingredient);
                     etAddIngredient.setText("");
                     // todo: notify dataset changed when adapter is set
-                    RecipeTextItem item = new RecipeTextItem();
-                    item.text = ingredient;
-                    ingredientList.add(item);
-                    ingredientAdapter.notifyDataSetChanged();
+//                    RecipeTextItem item = new RecipeTextItem();
+//                    item.text = ingredient;
+//                    ingredientList.add(item);
+//                    ingredientAdapter.notifyDataSetChanged();
                 }
             }
         });
