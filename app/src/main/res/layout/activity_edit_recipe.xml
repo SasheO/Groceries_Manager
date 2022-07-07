@@ -103,12 +103,31 @@
 
         <EditText
             android:id="@+id/etAddIngredient"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rvIngredients"
             android:layout_toEndOf="@+id/ibAddIngredient"
             android:ems="10"
             android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/etIngredientQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/etAddIngredient"
+            android:layout_alignTop="@+id/etAddIngredient"
+            android:layout_toStartOf="@+id/spinnerFoodMeasure"
+            android:hint="Amount"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <Spinner
+            android:id="@+id/spinnerFoodMeasure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/etAddIngredient"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="Food measure dropdown"
+            android:spinnerMode="dropdown" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvIngredients"
@@ -171,5 +190,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:text="Save" />
+
+
     </RelativeLayout>
 </ScrollView>

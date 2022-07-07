@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Adapters.IngredientAdapter;
+import com.example.groceriesmanager.Models.Procedure;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Ingredient;
 import com.example.groceriesmanager.R;
@@ -43,7 +44,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     List<String> procedureListStr;
     List<String> filtersList;
     List<Ingredient> ingredientList;
-    List<Ingredient> procedureList;
+    List<Procedure> procedureList;
     public IngredientAdapter ingredientAdapter;
     public IngredientAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
@@ -75,14 +76,14 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         //set recycler view adapters etc. here
         ingredientAdapter = new IngredientAdapter(ingredientList);
-        procedureAdapter = new IngredientAdapter(procedureList);
+//        procedureAdapter = new ProcedureAdapter(procedureList);
 
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
-        rvProcedure.setAdapter(procedureAdapter);
+//        rvProcedure.setAdapter(procedureAdapter);
         // set the layout manager on the recycler view
         rvIngredients.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
-        rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
+//        rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -168,15 +169,15 @@ public class EditRecipeActivity extends AppCompatActivity {
         ibAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ingredient = etAddIngredient.getText().toString().trim();
-                if (!Objects.equals(ingredient, "")){
-                    ingredientListStr.add(ingredient);
+                String ingredientStr = etAddIngredient.getText().toString().trim();
+                if (!Objects.equals(ingredientStr, "")){
+                    ingredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
                     // todo: notify dataset changed when adapter is set
-//                    RecipeTextItem item = new RecipeTextItem();
-//                    item.text = ingredient;
-//                    ingredientList.add(item);
-//                    ingredientAdapter.notifyDataSetChanged();
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setFood(ingredientStr);
+                    ingredientList.add(ingredient);
+                    ingredientAdapter.notifyDataSetChanged();
                 }
             }
         });

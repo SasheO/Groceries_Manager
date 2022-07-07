@@ -57,7 +57,7 @@
         android:layout_alignTop="@id/tvAmount"
         android:layout_toEndOf="@id/tvAmount"
         android:layout_toStartOf="@id/spinnerFoodMeasure"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:ellipsize="end"
         android:hint="(optional)" />
     <Spinner
