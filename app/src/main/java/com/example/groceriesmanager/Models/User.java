@@ -11,7 +11,7 @@ import java.util.List;
 public class User extends ParseUser {
     private static final String KEY_DIETFILTERS = "dietFilters";
     public void setDietFilters(List<String> dietFilters){put(KEY_DIETFILTERS, dietFilters);}
-    public List<FoodItem> getDietFilters(){
+    public List<String> getDietFilters(){
         if (getList(KEY_DIETFILTERS) == null){
             return new ArrayList<>();
         }

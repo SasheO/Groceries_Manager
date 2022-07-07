@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Groceries Manager</string>
+    <string name="vegan">Vegan</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="gluten_free">Gluten-Free</string>
     <string-array name="food_measures">
         <item>-</item>
         <item>ct</item>
