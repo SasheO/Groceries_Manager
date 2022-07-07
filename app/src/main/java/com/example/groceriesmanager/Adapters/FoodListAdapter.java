@@ -151,8 +151,32 @@ public class FoodListAdapter extends
                     }
                 }
                 // todo: reimplement switch list and delete here
-            });
 
+                @Override
+                public void onSwipeLeft() {
+                    super.onSwipeLeft();
+                    // your swipe left here.
+                    if (Objects.equals(foodItem.getType(), "pantry")){
+                        switchFoodItemList(foodItem, itemView);
+                    }
+
+                }
+                @Override
+                public void onSwipeRight() {
+                    super.onSwipeRight();
+                    // your swipe right here.
+                    if (Objects.equals(foodItem.getType(), "grocery")){
+                        switchFoodItemList(foodItem, itemView);
+                    }
+
+                }
+            });
+            ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteFoodItem(foodItem, itemView, position);
+                }
+            });
             }
 
 
