@@ -114,8 +114,7 @@
             android:id="@+id/rvIngredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvIngredientsLabel"
-            android:visibility="gone" />
+            android:layout_below="@id/tvIngredientsLabel" />
 
         <TextView
             android:id="@+id/tvProcedureLabel"
@@ -141,8 +140,7 @@
             android:id="@+id/rvProcedure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvProcedureLabel"
-            android:visibility="gone" />
+            android:layout_below="@id/tvProcedureLabel" />
 
         <EditText
             android:id="@+id/etAddProcedure"

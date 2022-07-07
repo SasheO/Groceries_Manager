@@ -70,6 +70,8 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         ingredientListStr = new ArrayList<>();
         procedureListStr = new ArrayList<>();
+        ingredientList = new ArrayList<>();
+        procedureList = new ArrayList<>();
         filtersList = new ArrayList<>();
 
         //set recycler view adapters etc. here
@@ -156,6 +158,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                     procedureListStr.add(step);
                     etAddProcedure.setText("");
                     // todo: notify dataset changed when adapter is set
+                    RecipeTextItem item = new RecipeTextItem();
+                    item.text = step;
+                    procedureList.add(item);
+                    procedureAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -168,6 +174,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                     ingredientListStr.add(ingredient);
                     etAddIngredient.setText("");
                     // todo: notify dataset changed when adapter is set
+                    RecipeTextItem item = new RecipeTextItem();
+                    item.text = ingredient;
+                    ingredientList.add(item);
+                    ingredientAdapter.notifyDataSetChanged();
                 }
             }
         });

@@ -91,6 +91,7 @@ public class RecipeTextItemAdapter extends RecyclerView.Adapter<RecipeTextItemAd
                 @Override
                 public void onClick(View v) {
                     itemList.remove(item);
+                    // todo: also delete this from the string list that is sent to the server
                     notifyDataSetChanged();
                 }
             });
