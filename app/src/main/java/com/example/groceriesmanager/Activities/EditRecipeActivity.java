@@ -17,8 +17,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Adapters.IngredientAdapter;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
-import com.example.groceriesmanager.Models.Ingredient;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -47,7 +47,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     List<String> ingredientListStr;
     List<String> procedureListStr;
     List<String> filtersList;
-    List<Ingredient> ingredientList;
+    List<FoodItem> ingredientList;
     public IngredientAdapter ingredientAdapter;
     public IngredientAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
@@ -187,7 +187,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                 if (!Objects.equals(ingredientName, "")){
                     // todo: notify dataset changed when adapter is set
-                    Ingredient ingredient = new Ingredient();
+                    FoodItem ingredient = new FoodItem();
 
                     if (!Objects.equals(ingredientQuantity, "")){
                         ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
@@ -200,7 +200,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                     ingredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
-                    ingredient.setFood(ingredientName);
+                    ingredient.setName(ingredientName);
                     ingredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
                 }

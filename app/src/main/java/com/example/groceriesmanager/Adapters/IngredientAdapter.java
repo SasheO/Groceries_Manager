@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Models.Ingredient;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
@@ -18,10 +18,10 @@ import java.util.List;
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
 
     // Store a member variable for the contacts
-    private List<Ingredient> itemList;
+    private List<FoodItem> itemList;
 
     // Pass in the contact array into the constructor
-    public IngredientAdapter(List<Ingredient> items) {
+    public IngredientAdapter(List<FoodItem> items) {
         itemList = items;
     }
 
@@ -41,7 +41,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Ingredient item = itemList.get(position);
+        FoodItem item = itemList.get(position);
         holder.bind(item);
     }
 
@@ -75,8 +75,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             // todo: edit using function
         }
 
-        public void bind(Ingredient item) {
-            String name = item.getFood();
+        public void bind(FoodItem item) {
+            String name = item.getName();
             if (item.getQuantity()!=null){
                 name = item.getQuantity() + " " + item.getMeasure() + " " + name;
             }
