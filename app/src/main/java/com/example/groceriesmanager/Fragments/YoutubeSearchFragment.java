@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Adapters.VideoAdapter;
+import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +49,8 @@ public class YoutubeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten free";
+    User currentUser;
+    List<String> dietFilters;
 
     // required empty constructor
     public YoutubeSearchFragment() {}
@@ -78,6 +82,19 @@ public class YoutubeSearchFragment extends Fragment {
         rvYoutubeSearch.setAdapter(adapter);
         // set the layout manager on the recycler view
         rvYoutubeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        currentUser = (User) ParseUser.getCurrentUser();
+        dietFilters = currentUser.getDietFilters();
+
+        if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
+            checkboxGlutenFree.setChecked(true);
+        }
+        if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
+            checkboxVegan.setChecked(true);
+        }
+        if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
+            checkboxVegetarian.setChecked(true);
+        }
 
         // when user clicks on the x to clear search results
         ibYoutubeSearchClear.setOnClickListener(new View.OnClickListener() {
