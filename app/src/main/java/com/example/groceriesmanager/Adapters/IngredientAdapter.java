@@ -76,11 +76,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
 
         public void bind(Ingredient item) {
-            String text = item.getFood();
+            String name = item.getFood();
             if (item.getQuantity()!=null){
-                text = item.getQuantity() + " " + item.getMeasure() + text;
+                name = item.getQuantity() + " " + item.getMeasure() + " " + name;
             }
-            tvText.setText(text);
+            tvText.setText(name);
 
             // todo: set click listener for delete and edit buttons
             ibEdit.setOnClickListener(new View.OnClickListener() {

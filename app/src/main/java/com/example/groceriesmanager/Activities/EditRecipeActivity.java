@@ -180,23 +180,27 @@ public class EditRecipeActivity extends AppCompatActivity {
         ibAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ingredientStr = etAddIngredient.getText().toString().trim();
+                String ingredientName = etAddIngredient.getText().toString().trim();;
+                String ingredientStr;
                 String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
-                if (!Objects.equals(ingredientStr, "")){
+                if (!Objects.equals(ingredientName, "")){
                     // todo: notify dataset changed when adapter is set
                     Ingredient ingredient = new Ingredient();
 
                     if (!Objects.equals(ingredientQuantity, "")){
-                        ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientStr;
+                        ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
                         ingredient.setMeasure(ingredientMeasure);
                         ingredient.setQuantity(ingredientQuantity);
+                    }
+                    else{
+                        ingredientStr = ingredientName;
                     }
 
                     ingredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
-                    ingredient.setFood(ingredientStr);
+                    ingredient.setFood(ingredientName);
                     ingredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
                 }
