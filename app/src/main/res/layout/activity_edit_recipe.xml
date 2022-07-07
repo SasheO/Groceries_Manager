@@ -1,13 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.EditRecipeActivity"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activities.EditRecipeActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Recipe activity"/>
+    android:layout_height="match_parent">
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/tvRecipeTitleLabel"
+            style="@style/Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Recipe Name:" />
+
+        <EditText
+            android:id="@+id/etRecipeTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="required"
+            android:layout_toEndOf="@+id/tvRecipeTitleLabel"
+            android:maxLines="1" />
+        <TextView
+            android:id="@+id/tvLinkLabel"
+            style="@style/Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvRecipeTitleLabel"
+            android:text="Add Link:" />
+
+        <EditText
+            android:id="@+id/etLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="optional"
+            android:layout_alignBottom="@+id/tvLinkLabel"
+            android:layout_toEndOf="@+id/tvLinkLabel"
+            android:maxLines="1" />
+
+        <LinearLayout
+            android:id="@+id/llTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLinkLabel">
+
+            <TextView
+                android:id="@+id/tvTagLabel"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Tags:" />
+
+            <CheckBox
+                android:id="@+id/checkboxVegan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Vegan" />
+
+            <CheckBox
+                android:id="@+id/checkboxVegetarian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Vegetarian" />
+
+            <CheckBox
+                android:id="@+id/checkboxGlutenFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Gluten-free" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvIngredientsLabel"
+            style="@style/Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llTag"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:text="Ingredients" />
+
+        <ImageButton
+            android:id="@+id/ibAddIngredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/etAddIngredient"
+            android:layout_toEndOf="@+id/tvIngredientsLabel"
+            android:background="@null"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <EditText
+            android:id="@+id/etAddIngredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rvIngredients"
+            android:layout_toEndOf="@+id/ibAddIngredient"
+            android:ems="10"
+            android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/etIngredientQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/etAddIngredient"
+            android:layout_alignTop="@+id/etAddIngredient"
+            android:layout_toStartOf="@+id/spinnerIngredientMeasure"
+            android:hint="Amount"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <Spinner
+            android:id="@+id/spinnerIngredientMeasure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/etAddIngredient"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="Food measure dropdown"
+            android:spinnerMode="dropdown" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvIngredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvIngredientsLabel" />
+
+        <TextView
+            android:id="@+id/tvProcedureLabel"
+            style="@style/Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etAddIngredient"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:text="Steps" />
+
+
+        <ImageButton
+            android:id="@+id/ibAddProcedure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/etAddProcedure"
+            android:layout_alignParentStart="true"
+            android:background="@null"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <ListView
+            android:id="@+id/lvProcedure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProcedureLabel" />
+
+        <EditText
+            android:id="@+id/etAddProcedure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lvProcedure"
+            android:layout_toEndOf="@+id/ibAddProcedure"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minLines="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCancel"
+            android:layout_below="@id/etAddProcedure"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etAddProcedure"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="Save" />
+
+
+    </RelativeLayout>
+</ScrollView>

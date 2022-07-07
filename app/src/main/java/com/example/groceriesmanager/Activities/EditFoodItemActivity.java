@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
@@ -40,7 +38,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_food_item);
 
-        spinnerFoodMeasure = findViewById(R.id.spinnerFoodMeasure);
+        spinnerFoodMeasure = findViewById(R.id.spinnerIngredientMeasure);
         spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);

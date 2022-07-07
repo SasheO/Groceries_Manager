@@ -56,12 +56,12 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tvAmount"
         android:layout_toEndOf="@id/tvAmount"
-        android:layout_toStartOf="@id/spinnerFoodMeasure"
-        android:inputType="number"
+        android:layout_toStartOf="@id/spinnerIngredientMeasure"
+        android:inputType="numberDecimal"
         android:ellipsize="end"
         android:hint="(optional)" />
     <Spinner
-        android:id="@+id/spinnerFoodMeasure"
+        android:id="@+id/spinnerIngredientMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Food measure dropdown"

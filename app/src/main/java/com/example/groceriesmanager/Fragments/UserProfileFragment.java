@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
 import com.example.groceriesmanager.Models.Recipe;
@@ -41,6 +42,7 @@ public class UserProfileFragment extends Fragment {
     RecyclerView rvSavedRecipes;
     RecyclerView rvSavedVideos;
     ImageButton ibExpandMyRecipes;
+    ImageButton ibCreateNewRecipe;
     ImageButton ibExpandSavedRecipes;
     ImageButton ibExpandSavedVideos;
     public List<Recipe> savedRecipes;
@@ -77,6 +79,7 @@ public class UserProfileFragment extends Fragment {
         ibExpandSavedVideos = view.findViewById(R.id.ibExpandSavedVideos);
         ibExpandSavedRecipes = view.findViewById(R.id.ibExpandSavedRecipes);
         ibExpandMyRecipes = view.findViewById(R.id.ibExpandMyRecipes);
+        ibCreateNewRecipe = view.findViewById(R.id.ibCreateNewRecipe);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
 
@@ -97,6 +100,14 @@ public class UserProfileFragment extends Fragment {
         rvMyRecipes.setAdapter(userRecipeAdapter);
         // set the layout manager on the recycler view
         rvMyRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        ibCreateNewRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), EditRecipeActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,7 +10,7 @@
         <entry key="app/src/main/res/layout/activity_add_food_item2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/activity_edit_food_item.xml" value="0.21822916666666667" />
         <entry key="app/src/main/res/layout/activity_edit_food_item2.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_edit_recipe.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_edit_recipe.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -29,9 +29,12 @@
         <entry key="app/src/main/res/layout/item_food_category.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/item_food_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_food_list2.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_ingredient.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/item_procedure.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/item_recipe.xml" value="0.15975103734439833" />
         <entry key="app/src/main/res/layout/item_recipe_search.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_recipe_search2.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/layout/item_recipe_text.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_video_search.xml" value="0.20316622691292877" />
         <entry key="app/src/main/res/layout/item_video_search2.xml" value="0.20208333333333334" />
         <entry key="app/src/main/res/layout/item_youtube_video.xml" value="0.40260416666666665" />

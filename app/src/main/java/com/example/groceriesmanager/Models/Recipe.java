@@ -36,6 +36,7 @@ public class Recipe extends ParseObject {
     private static final String KEY_HYPERLINK_URL = "hyperlink_url";
     private static final String KEY_INGREDIENT_LINES = "ingredientLines";
     private static final String KEY_TYPE = "type";
+    private static final String KEY_PROCEDURE = "procedure";
     public boolean Saved = false;
 
     public Recipe(){}
@@ -118,6 +119,15 @@ public class Recipe extends ParseObject {
         }
     }
 
+    public List<String> getProcedure() {
+        try {
+            return fetchIfNeeded().getList(KEY_PROCEDURE);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return new ArrayList<>();
+        }
+    }
+
     public String getType(){
         return getString(KEY_TYPE);
     }
@@ -142,6 +152,9 @@ public class Recipe extends ParseObject {
     }
     public void setType(String type){
         put(KEY_TYPE, type);
+    }
+    public void setProcedure(List<String> procedure){
+        put(KEY_PROCEDURE, procedure);
     }
 
 
