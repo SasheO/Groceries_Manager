@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Adapters.IngredientAdapter;
-import com.example.groceriesmanager.Models.Procedure;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Ingredient;
 import com.example.groceriesmanager.R;
@@ -39,7 +39,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     private ImageButton ibAddIngredient;
     private ImageButton ibAddProcedure;
     private RecyclerView rvIngredients;
-    private RecyclerView rvProcedure;
+    private ListView lvProcedure;
     private Button btnCancel;
     private Button btnSave;
     private Spinner spinnerIngredientMeasure;
@@ -48,7 +48,6 @@ public class EditRecipeActivity extends AppCompatActivity {
     List<String> procedureListStr;
     List<String> filtersList;
     List<Ingredient> ingredientList;
-    List<Procedure> procedureList;
     public IngredientAdapter ingredientAdapter;
     public IngredientAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
@@ -68,7 +67,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
         rvIngredients = findViewById(R.id.rvIngredients);
-        rvProcedure = findViewById(R.id.rvProcedure);
+        lvProcedure = findViewById(R.id.lvProcedure);
         etAddIngredient = findViewById(R.id.etAddIngredient);
         etAddProcedure = findViewById(R.id.etAddProcedure);
         etIngredientQty = findViewById(R.id.etIngredientQty);
@@ -77,7 +76,6 @@ public class EditRecipeActivity extends AppCompatActivity {
         ingredientListStr = new ArrayList<>();
         procedureListStr = new ArrayList<>();
         ingredientList = new ArrayList<>();
-        procedureList = new ArrayList<>();
         filtersList = new ArrayList<>();
 
         // array adapter for rendering items into the ingredient measure spinner
@@ -85,16 +83,17 @@ public class EditRecipeActivity extends AppCompatActivity {
         foodMeasureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerIngredientMeasure.setAdapter(foodMeasureAdapter);
 
-        //set recycler view adapters etc. here
-        ingredientAdapter = new IngredientAdapter(ingredientList);
-//        procedureAdapter = new ProcedureAdapter(procedureList);
+        // array adapter for rendering items into procedure list
+        ArrayAdapter<String> procedureAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, procedureListStr);
+        lvProcedure.setAdapter(procedureAdapter);
 
+        // recycler view adapter for ingredients
+        ingredientAdapter = new IngredientAdapter(ingredientList);
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
-//        rvProcedure.setAdapter(procedureAdapter);
         // set the layout manager on the recycler view
         rvIngredients.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
-//        rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +166,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 String step = etAddProcedure.getText().toString().trim();
                 if (!Objects.equals(step, "")){
                     procedureListStr.add(step);
+                    procedureAdapter.notifyDataSetChanged();
                     etAddProcedure.setText("");
                     // todo: notify dataset changed when adapter is set
 //                    RecipeTextItem item = new RecipeTextItem();
