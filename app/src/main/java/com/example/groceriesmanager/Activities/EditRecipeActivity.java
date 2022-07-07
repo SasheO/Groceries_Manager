@@ -51,7 +51,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         ingredientList = new ArrayList<>();
         procedureList = new ArrayList<>();
 
-        // todo: set recycler view adapters etc.
+        // todo: set recycler view adapters etc. here
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
