@@ -127,31 +127,30 @@ public class UserProfileFragment extends Fragment {
         spinnerExpandSettings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // todo: implement log out and open account settings
-                final Intent intent;
-                switch(position){
-                    case 1:
-                        intent = new Intent(getActivity(), AccountSettingsActivity.class);
-                        startActivity(intent);
-                        spinnerExpandSettings.setSelection(0);
-                        break;
-                    case 2:
-                        ParseUser.logOutInBackground(new LogOutCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if(e != null) {
-                                    Log.e(TAG, "Error signing out", e);
-                                    Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                                Log.i(TAG, "Sign out successful");
-                                goToLoginActivity();
-                                Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                // todo: implement better way of identifying which item is selected
+                String selection = spinnerExpandSettings.getItemAtPosition(position).toString();
+                if (Objects.equals(selection, "Log Out")){
+                    ParseUser.logOutInBackground(new LogOutCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e != null) {
+                                Log.e(TAG, "Error signing out", e);
+                                Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
+                                return;
                             }
-                        });
-                        return;
 
+                            Log.i(TAG, "Sign out successful");
+                            goToLoginActivity();
+                            Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    });
+                }
+                else if (Objects.equals(selection, "Account Settings")){
+                    Intent intent;
+                    intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                    startActivity(intent);
+                    spinnerExpandSettings.setSelection(0);
                 }
             }
 
