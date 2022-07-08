@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -22,8 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
-import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
-import com.example.groceriesmanager.Adapters.SavedRecipeAdapter;
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
@@ -53,8 +53,8 @@ public class UserProfileFragment extends Fragment {
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
     private static final String TAG = "UserProfileFragment";
-    public SavedRecipeAdapter savedRecipeAdapter;
-    public SavedRecipeAdapter userRecipeAdapter;
+    public RecipeAdapter savedRecipeAdapter;
+    public RecipeAdapter userRecipeAdapter;
 
     // required empty constructor
     public UserProfileFragment() {}
@@ -94,8 +94,8 @@ public class UserProfileFragment extends Fragment {
         queryRecipes("saved");
         queryRecipes("user");
 
-        savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
-        userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
+        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes, new ArrayList<>());
+        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes, new ArrayList<>());
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
@@ -120,7 +120,6 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditRecipeActivity.class);
-                intent.putExtra("process", "new");
                 startActivity(intent);
             }
         });

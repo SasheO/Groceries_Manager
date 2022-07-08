@@ -15,8 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
+import com.example.groceriesmanager.Adapters.RecipeAdapter;
 //import com.example.groceriesmanager.Lemma;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
@@ -52,7 +53,7 @@ public class RecipeSearchFragment extends Fragment {
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public static List<Recipe> savedRecipesList;
-    public RecipeSearchAdapter adapter;
+    public RecipeAdapter adapter;
     String userQuery;
     RecyclerView rvRecipeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
@@ -97,7 +98,7 @@ public class RecipeSearchFragment extends Fragment {
         tvNoResultsMessage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
         savedRecipesList = new ArrayList<>();
-        adapter = new RecipeSearchAdapter(getContext(), recipeList, savedRecipesList);
+        adapter = new RecipeAdapter(getContext(), recipeList, savedRecipesList);
 
         currentUser = (User) ParseUser.getCurrentUser();
         dietFilters = currentUser.getDietFilters();

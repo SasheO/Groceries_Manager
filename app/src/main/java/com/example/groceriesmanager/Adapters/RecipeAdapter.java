@@ -21,22 +21,24 @@ import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RecipeSearchAdapter extends
-        RecyclerView.Adapter<RecipeSearchAdapter.ViewHolder>{
+public class RecipeAdapter extends
+        RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
     private List<Recipe> savedRecipesList;
     MainActivity context;
-    public static final String TAG = "RecipeSearchAdapter";
+    public static final String TAG = "RecipeAdapter";
 
     // constructor to set context
-    public RecipeSearchAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
@@ -51,7 +53,7 @@ public class RecipeSearchAdapter extends
         View recipeItemView = inflater.inflate(R.layout.item_recipe_search, parent, false);
 
         // Return a new holder instance
-        RecipeSearchAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
+        RecipeAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
 
         return viewHolder;
     }
@@ -105,7 +107,7 @@ public class RecipeSearchAdapter extends
             tvRecipeTitle.setText(recipe.getTitle());
             // todo: set error and loading default images
             Glide.with(context)
-                    .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
+                    .load(recipe.getImage_url())
                     .into(ivRecipeImage);
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box

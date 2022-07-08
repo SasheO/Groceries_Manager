@@ -31,7 +31,7 @@ public class FoodItem extends ParseObject {
             return fetchIfNeeded().getString(KEY_NAME);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return "dummy name";
         }
     }
     public String getQuantity() {
@@ -39,7 +39,7 @@ public class FoodItem extends ParseObject {
             return fetchIfNeeded().getString(KEY_QUANTITY);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return "dummy qty";
         }
     }
     public ParseUser getUser() {
@@ -51,7 +51,7 @@ public class FoodItem extends ParseObject {
             return fetchIfNeeded().getString(KEY_MEASURE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return "dummy measure";
         }
     }
     public String getType(){
@@ -59,7 +59,7 @@ public class FoodItem extends ParseObject {
             return fetchIfNeeded().getString(KEY_TYPE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return "dummy type";
         }
     }
     public String getFoodCategory(){
@@ -67,7 +67,7 @@ public class FoodItem extends ParseObject {
             return fetchIfNeeded().getString(KEY_CATEGORY);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return "dummy category";
         }
     }
 

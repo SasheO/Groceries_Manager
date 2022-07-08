@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvRecipeTitle"
             android:layout_marginStart="3dp"
-            android:layout_toEndOf="@id/ivRecipeImage"
+            android:layout_toEndOf="@+id/ivRecipeImage"
             android:contentDescription="Recipe filters"
             tools:text="Recipe Filters appear here" />
 
@@ -60,7 +60,7 @@
             android:id="@+id/tvRecipeIngredientLines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivRecipeImage"
+            android:layout_below="@+id/ivRecipeImage"
             android:contentDescription="Text view of ingredient lines"
             tools:text="Ingredient lines appear here" />
 
