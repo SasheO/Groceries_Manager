@@ -264,6 +264,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
 
     public void editIngredient(FoodItem ingredient, int ingredientListPosition){
+        FoodItem ingredient_editing = recipeIngredientList.get(ingredientListPosition);
         String name = ingredient.getName();
         String quantity = ingredient.getQuantity();
         String measure = ingredient.getMeasure();
@@ -280,21 +281,29 @@ public class EditRecipeActivity extends AppCompatActivity {
                 String quantity = etIngredientQty.getText().toString();
                 String measure = spinnerIngredientMeasure.getSelectedItem().toString();
 
-                FoodItem ingredient_editing = recipeIngredientList.get(ingredientListPosition);
-                ingredient_editing.setName(name);
-                if (!Objects.equals(quantity, "")){
-                    ingredient_editing.setQuantity(quantity);
-                    ingredient_editing.setMeasure(measure);
-                }
-                else{
-                    ingredient_editing.setQuantity(null);
-                    ingredient_editing.setMeasure(null);
-                }
+                    try {
+                        if (ingredient.hasSameId(ingredient_editing)){
+                            ingredient_editing.setName(name);
+                            if (!Objects.equals(quantity, "")){
+                                ingredient_editing.setQuantity(quantity);
+                                ingredient_editing.setMeasure(measure);
+                            }
+                            else{
+                                ingredient_editing.setQuantity(null);
+                                ingredient_editing.setMeasure(null);
+                            }
 
-                ingredientAdapter.notifyDataSetChanged();
-                etIngredientQty.setText("");
-                etAddIngredient.setText("");
-                spinnerIngredientMeasure.setSelection(0);
+                            ingredientAdapter.notifyDataSetChanged();
+                            etIngredientQty.setText("");
+                            etAddIngredient.setText("");
+                            spinnerIngredientMeasure.setSelection(0);
+                        }
+                }
+                catch (Exception e){
+                        Log.e(TAG, "error editing ingredient: " + e.toString());
+                    return;
+                }
+                    return;
             }
         });
     }
