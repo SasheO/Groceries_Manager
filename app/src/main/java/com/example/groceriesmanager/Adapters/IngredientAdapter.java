@@ -75,31 +75,29 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            // todo: edit using function
         }
 
         public void bind(FoodItem item) {
+            boolean isBeingEdited = false;
             String name = item.getName();
             if (item.getQuantity()!=null){
                 name = item.getQuantity() + " " + item.getMeasure() + " " + name;
             }
             tvText.setText(name);
 
-            // todo: set click listener for delete and edit buttons
             ibEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: edit using function
                     context.editIngredient(item, itemList.indexOf(item));
+
                 }
             });
 
             ibDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemList.remove(item);
-                    // todo: also delete this from the string list that is sent to the server
-                    notifyDataSetChanged();
+                    // todo: check if item is being edited. if it is, display a message that you cannot delete it.
+                    context.deleteIngredient(item);
                 }
             });
         }

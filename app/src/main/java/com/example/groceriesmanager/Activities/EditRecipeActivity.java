@@ -301,6 +301,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
                 catch (Exception e){
                         Log.e(TAG, "error editing ingredient: " + e.toString());
+                        Toast.makeText(EditRecipeActivity.this, "error editing ingredient", Toast.LENGTH_SHORT).show();
                     return;
                 }
                     return;
@@ -308,5 +309,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         });
     }
 
-
+    public void deleteIngredient(FoodItem ingredient){
+        recipeIngredientList.remove(ingredient);
+        ingredient.deleteFood();
+        ingredientAdapter.notifyDataSetChanged();
+    }
 }
