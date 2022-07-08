@@ -23,17 +23,20 @@ import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SavedRecipeAdapter extends
         RecyclerView.Adapter<SavedRecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
     MainActivity context;
+    String type;
     public static final String TAG = "SavedRecipeAdapter";
 
     // constructor to set context
-    public SavedRecipeAdapter(Context context, List<Recipe> recipeList) {
+    public SavedRecipeAdapter(Context context, List<Recipe> recipeList, String type) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
+        this.type = type;
     }
 
     @NonNull
@@ -164,11 +167,12 @@ public class SavedRecipeAdapter extends
                     context.startActivity(intent);
                 }
                 public void onLongClick(){
-                    // todo: edit user recipes only
-                    Intent intent = new Intent(context, EditRecipeActivity.class);
-                    intent.putExtra("recipe", recipe);
-                    intent.putExtra("process", "edit");
-                    context.startActivity(intent);
+                    if (Objects.equals(type, "user")){ // so you can only edit user recipes, not those saved from online
+                        Intent intent = new Intent(context, EditRecipeActivity.class);
+                        intent.putExtra("recipe", recipe);
+                        intent.putExtra("process", "edit");
+                        context.startActivity(intent);
+                    }
                 }
             });
         }

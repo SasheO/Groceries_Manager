@@ -94,8 +94,8 @@ public class UserProfileFragment extends Fragment {
         queryRecipes("saved");
         queryRecipes("user");
 
-        savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes);
-        userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes);
+        savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
+        userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
