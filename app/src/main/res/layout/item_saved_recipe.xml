@@ -70,10 +70,22 @@
             android:id="@+id/ivRecipeImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:visibility="gone"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@id/ibSavedRecipeDelete"
+            android:visibility="gone"
             tools:srcCompat="@drawable/fresh_fruit" />
+
+        <ImageButton
+            android:id="@+id/ibSavedRecipeDelete"
+            android:layout_width="53dp"
+            android:layout_height="49dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
+            android:background="@null"
+            android:contentDescription="delete button"
+            card_view:srcCompat="@android:drawable/ic_menu_delete"
+            card_view:tint="#716868" />
 
 
     </RelativeLayout>

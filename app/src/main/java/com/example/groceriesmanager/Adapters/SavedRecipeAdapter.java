@@ -79,6 +79,7 @@ public class SavedRecipeAdapter extends
         public ImageButton ibOpenRecipeLink;
         public ImageView ivRecipeImage;
         public RelativeLayout rlRecipeSearch;
+        public ImageButton ibSavedRecipeDelete;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -94,6 +95,7 @@ public class SavedRecipeAdapter extends
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
             ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
             rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
+            ibSavedRecipeDelete = itemView.findViewById(R.id.ibSavedRecipeDelete);
         }
 
         public void bind(Recipe recipe) {
@@ -136,6 +138,16 @@ public class SavedRecipeAdapter extends
                 tvOpenRecipeLink.setVisibility(View.VISIBLE);
                 ibOpenRecipeLink.setVisibility(View.VISIBLE);
             }
+
+            ibSavedRecipeDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: unsave recipe
+                    recipe.deleteInBackground();
+                    recipeList.remove(recipe);
+                    notifyDataSetChanged();
+                }
+            });
 
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
