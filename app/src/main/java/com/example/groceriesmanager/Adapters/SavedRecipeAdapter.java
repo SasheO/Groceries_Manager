@@ -11,12 +11,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
+import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
@@ -69,7 +71,7 @@ public class SavedRecipeAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView tvRecipeTitle;
-        public TextView tvRecipeIngredientLines;
+//        public TextView tvRecipeIngredientLines;
         public TextView tvOpenRecipeLink;
         public TextView tvRecipeFilters;
         public ImageButton ibOpenRecipeLink;
@@ -84,7 +86,7 @@ public class SavedRecipeAdapter extends
             super(itemView);
             itemView.setOnClickListener(this);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
-            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientLines);
+//            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientLines);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
@@ -96,11 +98,11 @@ public class SavedRecipeAdapter extends
             tvRecipeTitle.setText(recipe.getTitle());
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box
-            String recipe_ingredients = "INGREDIENTS";
-            for (String ingredient: recipe.getIngredientLines()){
-                recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
-            }
-            tvRecipeIngredientLines.setText(recipe_ingredients);
+//            String recipe_ingredients = "INGREDIENTS";
+//            for (String ingredient: recipe.getIngredientLines()){
+//                recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
+//            }
+//            tvRecipeIngredientLines.setText(recipe_ingredients);
 
             // convert filters from string array to a string that can be displayed in text box
             List<String> recipe_filters_array = recipe.getFilters();
@@ -150,6 +152,16 @@ public class SavedRecipeAdapter extends
                     Uri uri = Uri.parse(recipe.getHyperlink_url()); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     context.startActivity(intent);
+                }
+            });
+
+            rlRecipeSearch.setOnTouchListener(new OnSwipeTouchListener(context){
+                @Override
+                public void onClick() {
+                    super.onClick();
+                    // your on click here
+                    Toast.makeText(context, "clicked", Toast.LENGTH_LONG).show();
+
                 }
             });
         }

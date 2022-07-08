@@ -36,20 +36,20 @@
             android:contentDescription="Recipe filters"
             tools:text="Recipe Filters appear here" />
 
-        <TextView
+        <!--TextView
             android:id="@+id/tvRecipeIngredientLines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvRecipeFilters"
             android:layout_toStartOf="@id/ivRecipeImage"
             android:contentDescription="Text view of ingredient lines"
-            tools:text="Ingredient lines appear here" />
+            tools:text="Ingredient lines appear here" /-->
 
         <TextView
             android:id="@+id/tvOpenRecipeLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvRecipeIngredientLines"
+            android:layout_below="@id/tvRecipeFilters"
             android:clickable="true"
             android:visibility="gone"
             android:contentDescription="Open recipe link"
@@ -59,12 +59,11 @@
             android:id="@+id/ibOpenRecipeLink"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_below="@id/tvRecipeIngredientLines"
+            android:layout_below="@id/tvRecipeFilters"
             android:layout_toEndOf="@id/tvOpenRecipeLink"
             android:layout_toStartOf="@id/ivRecipeImage"
             android:background="@null"
             android:visibility="gone"
-
             android:contentDescription="open recipe link button"
             android:scaleType="fitXY"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
