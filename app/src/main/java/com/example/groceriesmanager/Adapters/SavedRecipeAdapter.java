@@ -3,6 +3,7 @@ package com.example.groceriesmanager.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.example.groceriesmanager.Activities.RecipeDetailsActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 
 import java.util.List;
 import java.util.Objects;
@@ -143,7 +146,14 @@ public class SavedRecipeAdapter extends
                 @Override
                 public void onClick(View v) {
                     // todo: unsave recipe
-                    recipe.deleteInBackground();
+                    recipe.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!=null){
+                                Log.e(TAG, "error deleting recipe: " + e.toString());
+                            }
+                        }
+                    });
                     recipeList.remove(recipe);
                     notifyDataSetChanged();
                 }
