@@ -131,8 +131,8 @@ public class SavedRecipeAdapter extends
                 ibOpenRecipeLink.setVisibility(View.GONE);
             }
             else {
-                tvOpenRecipeLink.setVisibility(View.GONE);
-                ibOpenRecipeLink.setVisibility(View.GONE);
+                tvOpenRecipeLink.setVisibility(View.VISIBLE);
+                ibOpenRecipeLink.setVisibility(View.VISIBLE);
             }
 
             tvOpenRecipeLink.setOnClickListener(new View.OnClickListener() {

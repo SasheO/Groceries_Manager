@@ -51,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvRecipeFilters"
             android:clickable="true"
-            android:visibility="gone"
             android:contentDescription="Open recipe link"
             android:text="Open Recipe Link" />
 
@@ -61,9 +60,7 @@
             android:layout_height="20dp"
             android:layout_below="@id/tvRecipeFilters"
             android:layout_toEndOf="@id/tvOpenRecipeLink"
-            android:layout_toStartOf="@id/ivRecipeImage"
             android:background="@null"
-            android:visibility="gone"
             android:contentDescription="open recipe link button"
             android:scaleType="fitXY"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
