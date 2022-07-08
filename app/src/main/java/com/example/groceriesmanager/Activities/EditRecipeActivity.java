@@ -102,16 +102,15 @@ public class EditRecipeActivity extends AppCompatActivity {
         String process = getIntent().getStringExtra("process");
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
+            recipeTitle = userRecipe.getTitle();
             List<String> filters = userRecipe.getFilters();
             recipeLink = userRecipe.getHyperlink_url();
             // todo: save ingredients, save ingredients as food item objects
-            recipeIngredientListStr = userRecipe.getIngredientLines();
-            recipeIngredientList = userRecipe.getIngredients();
-            recipeProcedureListStr = userRecipe.getProcedure();
+//            recipeIngredientListStr = userRecipe.getIngredientLines();
 
-            etRecipeTitle.setText(userRecipe.getTitle());
+            etRecipeTitle.setText(recipeTitle);
             if(recipeLink!=null){
-                etLink.setText(userRecipe.getHyperlink_url());
+                etLink.setText(recipeLink);
             }
 
             if (filters!=null){
@@ -126,12 +125,16 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
             }
 
-            if (recipeProcedureListStr!=null){
+            if (userRecipe.getProcedure()!=null){
                 // todo: populate adapter
+                recipeProcedureListStr.addAll(userRecipe.getProcedure());
+                procedureAdapter.notifyDataSetChanged();
             }
 
             if (recipeIngredientList!=null){
                 // todo: populate adapter
+                recipeIngredientList.addAll(userRecipe.getIngredients());
+                ingredientAdapter.notifyDataSetChanged();
             }
 
         }

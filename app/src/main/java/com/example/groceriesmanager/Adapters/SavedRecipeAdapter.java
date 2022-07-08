@@ -108,7 +108,7 @@ public class SavedRecipeAdapter extends
 
             // convert filters from string array to a string that can be displayed in text box
             List<String> recipe_filters_array = recipe.getFilters();
-            if (recipe_filters_array.size()!=0){
+            if (recipe_filters_array!=null){
                 String recipe_filters = "Filters: " + recipe_filters_array.get(0);
                 for (int i=0; i<recipe_filters_array.size(); i++){
                     if (i==0){

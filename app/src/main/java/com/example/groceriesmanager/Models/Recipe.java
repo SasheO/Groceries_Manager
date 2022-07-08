@@ -117,7 +117,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_INGREDIENTS);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -126,7 +126,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_PROCEDURE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return null;
+            return new ArrayList<>();
         }
     }
 
