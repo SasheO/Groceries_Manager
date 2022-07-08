@@ -120,6 +120,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditRecipeActivity.class);
+                intent.putExtra("process", "new");
                 startActivity(intent);
             }
         });

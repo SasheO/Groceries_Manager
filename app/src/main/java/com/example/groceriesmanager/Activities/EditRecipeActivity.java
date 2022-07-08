@@ -44,12 +44,16 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Button btnSave;
     private Spinner spinnerIngredientMeasure;
     private EditText etIngredientQty;
-    List<String> ingredientListStr;
-    List<String> procedureListStr;
-    List<String> filtersList;
-    List<FoodItem> ingredientList;
+    Recipe userRecipe;
+    String recipeTitle;
+    String recipeLink;
+    List<String> recipeIngredientListStr;
+    List<String> recipeProcedureListStr;
+    List<String> recipeFiltersList;
+    List<FoodItem> recipeIngredientList;
     public IngredientAdapter ingredientAdapter;
     private static final String TAG = "EditRecipeActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +76,10 @@ public class EditRecipeActivity extends AppCompatActivity {
         etIngredientQty = findViewById(R.id.etIngredientQty);
         spinnerIngredientMeasure = findViewById(R.id.spinnerIngredientMeasure);
 
-        ingredientListStr = new ArrayList<>();
-        procedureListStr = new ArrayList<>();
-        ingredientList = new ArrayList<>();
-        filtersList = new ArrayList<>();
+        recipeIngredientListStr = new ArrayList<>();
+        recipeProcedureListStr = new ArrayList<>();
+        recipeIngredientList = new ArrayList<>();
+        recipeFiltersList = new ArrayList<>();
 
         // array adapter for rendering items into the ingredient measure spinner
         ArrayAdapter<CharSequence> foodMeasureAdapter = ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
@@ -84,16 +88,21 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         // array adapter for rendering items into procedure list
         ArrayAdapter<String> procedureAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, procedureListStr);
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeProcedureListStr);
         lvProcedure.setAdapter(procedureAdapter);
 
         // recycler view adapter for ingredients
-        ingredientAdapter = new IngredientAdapter(ingredientList);
+        ingredientAdapter = new IngredientAdapter(recipeIngredientList);
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
         // set the layout manager on the recycler view
         rvIngredients.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
+        // todo: if process is "edit" from intent, populate the recipe details into the text view
+        String process = getIntent().getStringExtra("process");
+        if (Objects.equals(process, "edit")){
+            userRecipe = getIntent().getParcelableExtra("recipe");
+        }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,40 +114,40 @@ public class EditRecipeActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = etRecipeTitle.getText().toString().trim();
-                if (Objects.equals(title, "")){
+                recipeTitle = etRecipeTitle.getText().toString().trim();
+                if (Objects.equals(recipeTitle, "")){
                     Toast.makeText(EditRecipeActivity.this, "Type in a Recipe title.", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Recipe newUserRecipe = new Recipe();
                     newUserRecipe.setUser(ParseUser.getCurrentUser());
                     newUserRecipe.setType("user");
-                    newUserRecipe.setTitle(title);
+                    newUserRecipe.setTitle(recipeTitle);
 
-                    String link = etLink.getText().toString().trim();
-                    if (!Objects.equals(link, "")){
-                        newUserRecipe.setHyperlink_url(link);
+                    recipeLink = etLink.getText().toString().trim();
+                    if (!Objects.equals(recipeLink, "")){
+                        newUserRecipe.setHyperlink_url(recipeLink);
                     }
 
                     if (checkboxVegetarian.isChecked()){
-                        filtersList.add(getResources().getString(R.string.vegetarian));
+                        recipeFiltersList.add(getResources().getString(R.string.vegetarian));
                     }
                     if (checkboxVegan.isChecked()){
-                        filtersList.add(getResources().getString(R.string.vegan));
+                        recipeFiltersList.add(getResources().getString(R.string.vegan));
                     }
                     if (checkboxGlutenFree.isChecked()){
-                        filtersList.add(getResources().getString(R.string.gluten_free));
+                        recipeFiltersList.add(getResources().getString(R.string.gluten_free));
                     }
-                    if (filtersList.size()!=0){
-                        newUserRecipe.setFilters(filtersList);
-                    }
-
-                    if (ingredientListStr.size()!=0){
-                        newUserRecipe.setIngredientLines(ingredientListStr);
+                    if (recipeFiltersList.size()!=0){
+                        newUserRecipe.setFilters(recipeFiltersList);
                     }
 
-                    if (procedureListStr.size()!=0){
-                        newUserRecipe.setProcedure(procedureListStr);
+                    if (recipeIngredientListStr.size()!=0){
+                        newUserRecipe.setIngredientLines(recipeIngredientListStr);
+                    }
+
+                    if (recipeProcedureListStr.size()!=0){
+                        newUserRecipe.setProcedure(recipeProcedureListStr);
                     }
 
                     newUserRecipe.saveInBackground(new SaveCallback() {
@@ -163,7 +172,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String step = etAddProcedure.getText().toString().trim();
                 if (!Objects.equals(step, "")){
-                    procedureListStr.add(step);
+                    recipeProcedureListStr.add(step);
                     procedureAdapter.notifyDataSetChanged();
                     etAddProcedure.setText("");
                     // todo: make procedure editable and deletable
@@ -191,10 +200,10 @@ public class EditRecipeActivity extends AppCompatActivity {
                         ingredientStr = ingredientName;
                     }
 
-                    ingredientListStr.add(ingredientStr);
+                    recipeIngredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
                     ingredient.setName(ingredientName);
-                    ingredientList.add(ingredient);
+                    recipeIngredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
                 }
             }

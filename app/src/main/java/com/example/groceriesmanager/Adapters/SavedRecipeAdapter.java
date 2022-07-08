@@ -160,10 +160,11 @@ public class SavedRecipeAdapter extends
                     // your on click here
                     Intent intent = new Intent(context, RecipeDetailsActivity.class);
                     intent.putExtra("recipe", recipe);
+                    intent.putExtra("process", "edit");
                     context.startActivity(intent);
                 }
                 public void onLongClick(){
-                    // todo: edit recipe
+                    // todo: edit user recipes only
 
                 }
             });
