@@ -89,8 +89,8 @@ public class UserProfileFragment extends Fragment {
         queryRecipes("saved");
         queryRecipes("user");
 
-        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes);
-        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes);
+        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes, new ArrayList<>());
+        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes, new ArrayList<>());
 
         // set the adapter on the recycler view
         rvSavedRecipes.setAdapter(savedRecipeAdapter);

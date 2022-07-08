@@ -32,13 +32,15 @@ import java.util.List;
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
+    private List<Recipe> savedRecipesList;
     MainActivity context;
     public static final String TAG = "RecipeAdapter";
 
     // constructor to set context
-    public RecipeAdapter(Context context, List<Recipe> recipeList) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
+        this.savedRecipesList = savedRecipesList;
     }
 
     @NonNull
@@ -164,12 +166,16 @@ public class RecipeAdapter extends
 
     private void updateSavedRecipesWithCurrentRecipe(Recipe recipe) {
         // todo: check if recipe is already saved, remove from server if is
-//        if (Recipe.isSaved(recipe)){
-//            Log.i(TAG, "recipe already in server");
-//        recipe.deleteRecipe();
-//        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
+
+        for (Recipe savedRecipe: savedRecipesList){
+            if (recipe.hasSameId(savedRecipe)){
+                // unsave
+                recipe.deleteRecipe();
+                savedRecipesList.remove(savedRecipe);
+                Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
             recipe.setUser(ParseUser.getCurrentUser());
             recipe.setType("saved");
             recipe.saveInBackground(new SaveCallback() {
@@ -181,11 +187,11 @@ public class RecipeAdapter extends
                     }
                     else {
                         Log.i(TAG, "recipe saved successffully");
+                        savedRecipesList.add(recipe);
                         Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-//        }
 
     }
 

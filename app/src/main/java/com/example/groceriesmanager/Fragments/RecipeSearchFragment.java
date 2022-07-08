@@ -17,8 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
 //import com.example.groceriesmanager.Lemma;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +51,7 @@ public class RecipeSearchFragment extends Fragment {
     TextView tvNoResultsMessage;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
+    public static List<Recipe> savedRecipesList;
     public RecipeAdapter adapter;
     String userQuery;
     RecyclerView rvRecipeSearch;
@@ -88,10 +94,15 @@ public class RecipeSearchFragment extends Fragment {
         tvNoResultsMessage = view.findViewById(R.id.tvNoResultsMessage);
         tvNoResultsMessage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
-        adapter = new RecipeAdapter(getContext(), recipeList);
+        savedRecipesList = new ArrayList<>();
+        adapter = new RecipeAdapter(getContext(), recipeList, savedRecipesList);
 
         // in case user is opening this from pantryListFragment
         userQuery = getArguments().getString("userQuery", "");
+
+        // get saved recipes which are passed into adapter
+        getSavedRecipes();
+        adapter.notifyDataSetChanged();
 
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
@@ -208,4 +219,29 @@ public class RecipeSearchFragment extends Fragment {
 
 
     }
+
+    public void getSavedRecipes(){
+            // specify what type of data we want to query - FoodItem.class
+            ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+            // include data where post is current post
+            query.whereEqualTo("type", "saved");
+            query.whereEqualTo("user", ParseUser.getCurrentUser());
+            // necessary to include non-primitive types
+            query.include("user");
+            // order posts by creation date (newest first)
+            query.findInBackground(new FindCallback<Recipe>() {
+                @Override
+                public void done(List<Recipe> objects, ParseException e) {
+                    if (e!=null){
+                        Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                    }
+                    else{
+                        savedRecipesList.addAll(objects);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+    }
+
 }
