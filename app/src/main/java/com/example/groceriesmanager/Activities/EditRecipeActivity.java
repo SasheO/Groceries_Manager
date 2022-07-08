@@ -126,13 +126,11 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
 
             if (userRecipe.getProcedure()!=null){
-                // todo: populate adapter
                 recipeProcedureListStr.addAll(userRecipe.getProcedure());
                 procedureAdapter.notifyDataSetChanged();
             }
 
             if (recipeIngredientList!=null){
-                // todo: populate adapter
                 recipeIngredientList.addAll(userRecipe.getIngredients());
                 ingredientAdapter.notifyDataSetChanged();
             }
@@ -153,57 +151,61 @@ public class EditRecipeActivity extends AppCompatActivity {
                 if (Objects.equals(recipeTitle, "")){
                     Toast.makeText(EditRecipeActivity.this, "Type in a Recipe title.", Toast.LENGTH_LONG).show();
                 }
-                else{
-                    Recipe newUserRecipe = new Recipe();
-                    newUserRecipe.setUser(ParseUser.getCurrentUser());
-                    newUserRecipe.setType("user");
-                    newUserRecipe.setTitle(recipeTitle);
+                else {
+                    if (Objects.equals(process, "new")) {
+                    userRecipe = new Recipe();
+                    userRecipe.setUser(ParseUser.getCurrentUser());
+                    userRecipe.setType("user");
+
+
+
+                }
+                    userRecipe.setTitle(recipeTitle);
 
                     recipeLink = etLink.getText().toString().trim();
-                    if (!Objects.equals(recipeLink, "")){
-                        newUserRecipe.setHyperlink_url(recipeLink);
+                    if (!Objects.equals(recipeLink, "")) {
+                        userRecipe.setHyperlink_url(recipeLink);
                     }
 
-                    if (checkboxVegetarian.isChecked()){
+                    if (checkboxVegetarian.isChecked()) {
                         recipeFiltersList.add(getResources().getString(R.string.vegetarian));
                     }
-                    if (checkboxVegan.isChecked()){
+                    if (checkboxVegan.isChecked()) {
                         recipeFiltersList.add(getResources().getString(R.string.vegan));
                     }
-                    if (checkboxGlutenFree.isChecked()){
+                    if (checkboxGlutenFree.isChecked()) {
                         recipeFiltersList.add(getResources().getString(R.string.gluten_free));
                     }
-                    if (recipeFiltersList.size()!=0){
-                        newUserRecipe.setFilters(recipeFiltersList);
+                    if (recipeFiltersList.size() != 0) {
+                        userRecipe.setFilters(recipeFiltersList);
                     }
 
-                    if (recipeIngredientListStr.size()!=0){
-                        newUserRecipe.setIngredientLines(recipeIngredientListStr);
-                        for (FoodItem ingredient: recipeIngredientList){
+                    if (recipeIngredientListStr.size() != 0) {
+                        userRecipe.setIngredientLines(recipeIngredientListStr);
+                        for (FoodItem ingredient : recipeIngredientList) {
                             ingredient.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    if (e!=null){
+                                    if (e != null) {
                                         Log.e(TAG, "error saving ingredient: " + e.toString());
                                     }
                                 }
                             });
                         }
-                        newUserRecipe.setIngredients(recipeIngredientList);
+                        userRecipe.setIngredients(recipeIngredientList);
                     }
 
-                    if (recipeProcedureListStr.size()!=0){
-                        newUserRecipe.setProcedure(recipeProcedureListStr);
+                    if (recipeProcedureListStr.size() != 0) {
+                        userRecipe.setProcedure(recipeProcedureListStr);
                     }
 
-                    newUserRecipe.saveInBackground(new SaveCallback() {
+                    userRecipe.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if (e!=null){
+                            if (e != null) {
                                 Log.e(TAG, "Error saving user's recipe: " + e.toString());
                                 Toast.makeText(EditRecipeActivity.this, "error saving recipe", Toast.LENGTH_LONG).show();
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(EditRecipeActivity.this, "Recipe successfully saved", Toast.LENGTH_LONG).show();
                                 finish();
                             }
