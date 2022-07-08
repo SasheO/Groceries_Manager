@@ -159,7 +159,12 @@ public class SavedRecipeAdapter extends
                     super.onClick();
                     // your on click here
                     Intent intent = new Intent(context, RecipeDetailsActivity.class);
+                    intent.putExtra("recipe", recipe);
                     context.startActivity(intent);
+                }
+                public void onLongClick(){
+                    // todo: edit recipe
+
                 }
             });
         }
