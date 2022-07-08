@@ -28,6 +28,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
@@ -171,11 +172,17 @@ public class RecipeAdapter extends
 
                     if (recipeIsSaved(recipe)){
                         recipe.deleteInBackground();
-                        savedRecipesList.remove(recipe);
+                        for (Recipe savedRecipe: savedRecipesList){
+                            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
+                                savedRecipesList.remove(savedRecipe);
+                                break;
+                            }
+                        }
                         ibSaved.setImageResource(android.R.drawable.star_big_off);
                         Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    else{
                     recipe.setUser(ParseUser.getCurrentUser());
                     recipe.setType("saved");
                     recipe.saveInBackground(new SaveCallback() {
@@ -193,11 +200,10 @@ public class RecipeAdapter extends
                             }
                         }
                     });
-
+                    }
                 }
 
             });
-
 
         }
 
@@ -208,7 +214,8 @@ public class RecipeAdapter extends
 
     private boolean recipeIsSaved(Recipe recipe){
         for (Recipe savedRecipe: savedRecipesList){
-            if (recipe.hasSameId(savedRecipe)){
+            // check title names since object ids will be different for the same recipe in each search
+            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
                 return true;
             }
         }
