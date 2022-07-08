@@ -79,7 +79,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getString(KEY_TITLE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return "title";
+            return null;
         }
     }
 
@@ -89,7 +89,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_FILTERS);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return new ArrayList<>();
+            return null;
         }
     }
 
@@ -99,7 +99,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getString(KEY_HYPERLINK_URL);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return "hyperlink_url";
+            return null;
         }
     }
 
@@ -109,7 +109,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_INGREDIENT_LINES);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return new ArrayList<>();
+            return null;
         }
     }
 
@@ -118,7 +118,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_PROCEDURE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return new ArrayList<>();
+            return null;
         }
     }
 

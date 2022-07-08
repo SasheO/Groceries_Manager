@@ -102,6 +102,24 @@ public class EditRecipeActivity extends AppCompatActivity {
         String process = getIntent().getStringExtra("process");
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
+            etRecipeTitle.setText(userRecipe.getTitle());
+            if(userRecipe.getHyperlink_url()!=null){
+                etLink.setText(userRecipe.getHyperlink_url());
+            }
+            List<String> filters = userRecipe.getFilters();
+            if (filters!=null){
+                if (filters.contains(getResources().getString(R.string.vegan))){
+                    checkboxVegan.setChecked(true);
+                }
+                if (filters.contains(getResources().getString(R.string.vegetarian))){
+                    checkboxVegetarian.setChecked(true);
+                }
+                if (filters.contains(getResources().getString(R.string.gluten_free))){
+                    checkboxGlutenFree.setChecked(true);
+                }
+            }
+
+            // todo: set ingredients and steps
         }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

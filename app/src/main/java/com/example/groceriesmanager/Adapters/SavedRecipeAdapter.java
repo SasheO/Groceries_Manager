@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Activities.RecipeDetailsActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
@@ -160,12 +161,14 @@ public class SavedRecipeAdapter extends
                     // your on click here
                     Intent intent = new Intent(context, RecipeDetailsActivity.class);
                     intent.putExtra("recipe", recipe);
-                    intent.putExtra("process", "edit");
                     context.startActivity(intent);
                 }
                 public void onLongClick(){
                     // todo: edit user recipes only
-
+                    Intent intent = new Intent(context, EditRecipeActivity.class);
+                    intent.putExtra("recipe", recipe);
+                    intent.putExtra("process", "edit");
+                    context.startActivity(intent);
                 }
             });
         }
