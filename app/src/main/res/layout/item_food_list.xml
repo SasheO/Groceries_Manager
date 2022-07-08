@@ -61,10 +61,10 @@
         <ImageButton
             android:id="@+id/ibFoodItemDelete"
             android:layout_width="53dp"
-            android:visibility="gone"
             android:layout_height="49dp"
             android:layout_below="@+id/ibFoodItemSwitchList"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="4dp"
             android:background="@null"
             android:contentDescription="delete button"

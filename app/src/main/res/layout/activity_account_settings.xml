@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    tools:context=".Activities.AccountSettingsActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/FragmentTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Account Settings" />
+
+    <LinearLayout
+        android:id="@+id/llFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/textView2">
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I am... "/>
+
+        <CheckBox
+            android:id="@+id/checkboxVegan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegan" />
+
+        <CheckBox
+            android:id="@+id/checkboxVegetarian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vegetarian" />
+
+        <CheckBox
+            android:id="@+id/checkboxGlutenFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gluten-free" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:text="cancel" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="save" />
+
+</RelativeLayout>

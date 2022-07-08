@@ -24,6 +24,9 @@
         android:theme="@style/Theme.GroceriesManager"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.AccountSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.EditRecipeActivity"
             android:exported="false" />
         <activity

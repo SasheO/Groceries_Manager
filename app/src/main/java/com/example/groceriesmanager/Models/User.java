@@ -9,21 +9,12 @@ import java.util.List;
 
 @ParseClassName("_User")
 public class User extends ParseUser {
-    private static final String KEY_GROCERYLIST = "groceryList";
-    private static final String KEY_PANTRYLIST = "pantryList";
-
-    public void setGroceryList(List<FoodItem> groceryList){put(KEY_GROCERYLIST, groceryList);}
-    public void setPantryList(List<FoodItem> pantryList){put(KEY_PANTRYLIST, pantryList);}
-
-    public List<FoodItem> getGroceryList(){
-        if (getList(KEY_GROCERYLIST) == null){
+    private static final String KEY_DIETFILTERS = "dietFilters";
+    public void setDietFilters(List<String> dietFilters){put(KEY_DIETFILTERS, dietFilters);}
+    public List<String> getDietFilters(){
+        if (getList(KEY_DIETFILTERS) == null){
             return new ArrayList<>();
         }
-        return getList(KEY_GROCERYLIST);
+        return getList(KEY_DIETFILTERS);
     }
-    public List<FoodItem> getPantryList(){
-        if (getList(KEY_PANTRYLIST) == null){
-            return new ArrayList<>();
-        }
-        return getList(KEY_PANTRYLIST);}
 }

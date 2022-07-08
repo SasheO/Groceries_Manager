@@ -19,6 +19,7 @@ import com.example.groceriesmanager.Adapters.RecipeAdapter;
 //import com.example.groceriesmanager.Lemma;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
+import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,6 +59,8 @@ public class RecipeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
+    User currentUser;
+    List<String> dietFilters;
 //    Lemma lemmatizer = new Lemma();
 
     // required empty constructor
@@ -96,6 +99,19 @@ public class RecipeSearchFragment extends Fragment {
         recipeList = new ArrayList<>();
         savedRecipesList = new ArrayList<>();
         adapter = new RecipeAdapter(getContext(), recipeList, savedRecipesList);
+
+        currentUser = (User) ParseUser.getCurrentUser();
+        dietFilters = currentUser.getDietFilters();
+
+        if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
+            checkboxGlutenFree.setChecked(true);
+        }
+        if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
+            checkboxVegan.setChecked(true);
+        }
+        if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
+            checkboxVegetarian.setChecked(true);
+        }
 
         // in case user is opening this from pantryListFragment
         userQuery = getArguments().getString("userQuery", "");

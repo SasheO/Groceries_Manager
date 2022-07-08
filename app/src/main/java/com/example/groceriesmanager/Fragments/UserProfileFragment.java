@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeAdapter;
@@ -29,12 +33,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class UserProfileFragment extends Fragment {
     TextView tvProfileUsername;
-    Button btnLogout;
     RelativeLayout rlMyRecipes;
     RelativeLayout rlSavedRecipes;
     RelativeLayout rlSavedVideos;
@@ -45,6 +49,7 @@ public class UserProfileFragment extends Fragment {
     ImageButton ibCreateNewRecipe;
     ImageButton ibExpandSavedRecipes;
     ImageButton ibExpandSavedVideos;
+    Spinner spinnerExpandSettings;
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
     private static final String TAG = "UserProfileFragment";
@@ -69,7 +74,6 @@ public class UserProfileFragment extends Fragment {
         // Setup any handles to view objects here
         // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
         tvProfileUsername = view.findViewById(R.id.tvProfileUsername);
-        btnLogout = view.findViewById(R.id.btnLogout);
         rlMyRecipes = view.findViewById(R.id.rlMyRecipes);
         rlSavedRecipes = view.findViewById(R.id.rlSavedRecipes);
         rlSavedVideos = view.findViewById(R.id.rlSavedVideos);
@@ -80,6 +84,7 @@ public class UserProfileFragment extends Fragment {
         ibExpandSavedRecipes = view.findViewById(R.id.ibExpandSavedRecipes);
         ibExpandMyRecipes = view.findViewById(R.id.ibExpandMyRecipes);
         ibCreateNewRecipe = view.findViewById(R.id.ibCreateNewRecipe);
+        spinnerExpandSettings = view.findViewById(R.id.spinnerExpandSettings);
 
         tvProfileUsername.setText(ParseUser.getCurrentUser().getUsername());
 
@@ -91,6 +96,16 @@ public class UserProfileFragment extends Fragment {
 
         savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes, new ArrayList<>());
         userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes, new ArrayList<>());
+
+        // spinner adapter for account dropdown
+        List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
+        ArrayAdapter<CharSequence> settingsAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.user_profile_settings, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+            settingsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerExpandSettings.setAdapter(settingsAdapter);
+        spinnerExpandSettings.setSelection(0);
 
         // set the adapter on the recycler view
         rvSavedRecipes.setAdapter(savedRecipeAdapter);
@@ -109,26 +124,42 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        spinnerExpandSettings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e != null) {
-                            Log.e(TAG, "Error signing out", e);
-                            Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // todo: implement better way of identifying which item is selected
+                String selection = spinnerExpandSettings.getItemAtPosition(position).toString();
+                if (Objects.equals(selection, "Log Out")){
+                    ParseUser.logOutInBackground(new LogOutCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e != null) {
+                                Log.e(TAG, "Error signing out", e);
+                                Toast.makeText(getContext(), "Error signing out", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                        Log.i(TAG, "Sign out successful");
-                        goToLoginActivity();
-                        Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    }
-                   }
-                );
+                            Log.i(TAG, "Sign out successful");
+                            goToLoginActivity();
+                            Toast.makeText(getContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    });
+                }
+                else if (Objects.equals(selection, "Account Settings")){
+                    Intent intent;
+                    intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                    startActivity(intent);
+                    spinnerExpandSettings.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
+
 
         rlMyRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
