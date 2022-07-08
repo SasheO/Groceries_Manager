@@ -112,7 +112,7 @@ public class Recipe extends ParseObject {
         }
     }
 
-    public List<String> getIngredients() {
+    public List<FoodItem> getIngredients() {
         try {
             return fetchIfNeeded().getList(KEY_INGREDIENTS);
         } catch (ParseException e) {

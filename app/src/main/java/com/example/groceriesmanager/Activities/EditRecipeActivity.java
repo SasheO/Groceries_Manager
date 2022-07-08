@@ -106,6 +106,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             recipeLink = userRecipe.getHyperlink_url();
             // todo: save ingredients, save ingredients as food item objects
             recipeIngredientListStr = userRecipe.getIngredientLines();
+            recipeIngredientList = userRecipe.getIngredients();
             recipeProcedureListStr = userRecipe.getProcedure();
 
             etRecipeTitle.setText(userRecipe.getTitle());
@@ -129,7 +130,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 // todo: populate adapter
             }
 
-            if (recipeIngredientListStr!=null){
+            if (recipeIngredientList!=null){
                 // todo: populate adapter
             }
 
@@ -175,6 +176,17 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                     if (recipeIngredientListStr.size()!=0){
                         newUserRecipe.setIngredientLines(recipeIngredientListStr);
+                        for (FoodItem ingredient: recipeIngredientList){
+                            ingredient.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e!=null){
+                                        Log.e(TAG, "error saving ingredient: " + e.toString());
+                                    }
+                                }
+                            });
+                        }
+                        newUserRecipe.setIngredients(recipeIngredientList);
                     }
 
                     if (recipeProcedureListStr.size()!=0){
@@ -234,16 +246,11 @@ public class EditRecipeActivity extends AppCompatActivity {
                     recipeIngredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
                     ingredient.setName(ingredientName);
+                    ingredient.setUser(ParseUser.getCurrentUser());
+                    ingredient.setType("recipe");
                     recipeIngredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
-                    ingredient.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!=null){
-                                Log.e(TAG, "error saving ingredient")
-                            }
-                        }
-                    });
+
                 }
             }
         });
