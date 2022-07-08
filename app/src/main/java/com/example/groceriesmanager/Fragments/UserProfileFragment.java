@@ -94,8 +94,8 @@ public class UserProfileFragment extends Fragment {
         queryRecipes("saved");
         queryRecipes("user");
 
-        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes);
-        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes);
+        savedRecipeAdapter = new RecipeAdapter(getContext(), savedRecipes, new ArrayList<>());
+        userRecipeAdapter = new RecipeAdapter(getContext(), userRecipes, new ArrayList<>());
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
@@ -174,9 +174,7 @@ public class UserProfileFragment extends Fragment {
                     uri = "@drawable/expand_arrow";
                 }
                 // set image resource
-                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
-                Drawable res = getResources().getDrawable(imageResource);
-                ibExpandMyRecipes.setImageDrawable(res);
+                changeExpandCollapseImageButton(uri, ibExpandMyRecipes);
             }
         });
         rlSavedRecipes.setOnClickListener(new View.OnClickListener() {
@@ -192,9 +190,7 @@ public class UserProfileFragment extends Fragment {
                     uri = "@drawable/expand_arrow";
                 }
                 // set image resource
-                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
-                Drawable res = getResources().getDrawable(imageResource);
-                ibExpandSavedRecipes.setImageDrawable(res);
+                changeExpandCollapseImageButton(uri, ibExpandSavedRecipes);
             }
         });
         rlSavedVideos.setOnClickListener(new View.OnClickListener() {
@@ -210,12 +206,17 @@ public class UserProfileFragment extends Fragment {
                     uri = "@drawable/expand_arrow";
                 }
                 // set image resource
-                int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
-                Drawable res = getResources().getDrawable(imageResource);
-                ibExpandSavedVideos.setImageDrawable(res);
+                changeExpandCollapseImageButton(uri, ibExpandSavedVideos);
             }
         });
 
+
+    }
+
+    public void changeExpandCollapseImageButton(String uri, ImageButton imageButton){
+        int imageResource = getResources().getIdentifier(uri, null, getContext().getPackageName());
+        Drawable res = getResources().getDrawable(imageResource);
+        imageButton.setImageDrawable(res);
     }
 
     private void goToLoginActivity() {

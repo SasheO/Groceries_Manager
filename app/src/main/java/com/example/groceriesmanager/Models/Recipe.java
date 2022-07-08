@@ -21,10 +21,6 @@ import java.util.Objects;
 @ParseClassName("Recipe")
 public class Recipe extends ParseObject {
     private String image_url;
-    private String title;
-    private List<String> filters;
-    private String hyperlink_url; // corresponeds to 'url'
-    private List<String> ingredientLines;
     private static final String TAG = "UserProfileFragment";
     private static final String KEY_FILTER_VEGAN = "Vegan";
     private static final String KEY_FILTER_VEGETARIAN = "Vegetarian";
@@ -44,17 +40,15 @@ public class Recipe extends ParseObject {
     public Recipe(JSONObject jsonObject) throws JSONException {
         this.image_url = jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url");
         put(KEY_IMAGE_URL, jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url"));
-        this.title = jsonObject.getJSONObject("recipe").getString("label");
         put(KEY_TITLE, jsonObject.getJSONObject("recipe").getString("label"));
-        this.hyperlink_url = jsonObject.getJSONObject("recipe").getString("url");
         put(KEY_HYPERLINK_URL, jsonObject.getJSONObject("recipe").getString("url"));
         JSONArray ingredientLinesJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredientLines");
-        this.ingredientLines = new ArrayList<>();
+        List<String> ingredientLines = new ArrayList<>();
         for (int i=0;i<ingredientLinesJSONArray.length();i++){
             ingredientLines.add(ingredientLinesJSONArray.getString(i));
         }
-        put(KEY_INGREDIENT_LINES, this.ingredientLines);
-       this.filters = new ArrayList<>();
+        put(KEY_INGREDIENT_LINES, ingredientLines);
+       List<String> filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
             if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGAN)){
@@ -67,7 +61,7 @@ public class Recipe extends ParseObject {
                 filters.add(KEY_FILTER_GLUTEN_FREE);
             }
         }
-        put(KEY_FILTERS, this.filters);
+        put(KEY_FILTERS, filters);
     }
 
     public String getImage_url() {
@@ -85,7 +79,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getString(KEY_TITLE);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return title;
+            return "title";
         }
     }
 
@@ -95,7 +89,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_FILTERS);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return filters;
+            return new ArrayList<>();
         }
     }
 
@@ -105,7 +99,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getString(KEY_HYPERLINK_URL);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return hyperlink_url;
+            return "hyperlink_url";
         }
     }
 
@@ -115,7 +109,7 @@ public class Recipe extends ParseObject {
             return fetchIfNeeded().getList(KEY_INGREDIENT_LINES);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
-            return ingredientLines;
+            return new ArrayList<>();
         }
     }
 

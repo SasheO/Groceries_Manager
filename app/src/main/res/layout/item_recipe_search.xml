@@ -28,12 +28,23 @@
             android:id="@+id/tvRecipeTitle"
             android:layout_width="253dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@id/ibSaved"
             android:layout_marginStart="3dp"
             android:layout_toEndOf="@+id/ivRecipeImage"
             android:contentDescription="Recipe Title"
             android:textSize="25sp"
             tools:text="Recipe Title Appears Here" />
+
+        <ImageButton
+            android:id="@+id/ibSaved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="5dp"
+            android:background="@null"
+            card_view:srcCompat="@android:drawable/btn_star_big_off" />
 
         <TextView
             android:id="@+id/tvRecipeFilters"
@@ -73,6 +84,8 @@
             android:scaleType="fitXY"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
             card_view:tint="#121111" />
+
+
 
     </RelativeLayout>
 

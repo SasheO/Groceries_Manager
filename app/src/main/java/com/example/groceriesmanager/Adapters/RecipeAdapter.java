@@ -28,17 +28,20 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeAdapter extends
         RecyclerView.Adapter<RecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
+    private List<Recipe> savedRecipesList;
     MainActivity context;
     public static final String TAG = "RecipeAdapter";
 
     // constructor to set context
-    public RecipeAdapter(Context context, List<Recipe> recipeList) {
+    public RecipeAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
+        this.savedRecipesList = savedRecipesList;
     }
 
     @NonNull
@@ -81,6 +84,7 @@ public class RecipeAdapter extends
         public ImageButton ibOpenRecipeLink;
         public ImageView ivRecipeImage;
         public RelativeLayout rlRecipeSearch;
+        public ImageButton ibSaved;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -89,13 +93,14 @@ public class RecipeAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
-            tvRecipeTitle = (TextView) itemView.findViewById(R.id.tvRecipeTitle);
-            tvRecipeIngredientLines = (TextView) itemView.findViewById(R.id.tvRecipeIngredientLines);
-            tvOpenRecipeLink = (TextView) itemView.findViewById(R.id.tvOpenRecipeLink);
-            tvRecipeFilters = (TextView) itemView.findViewById(R.id.tvRecipeFilters);
-            ibOpenRecipeLink = (ImageButton) itemView.findViewById(R.id.ibOpenRecipeLink);
-            ivRecipeImage = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
-            rlRecipeSearch = (RelativeLayout) itemView.findViewById(R.id.rlRecipeSearch);
+            tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
+            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientLines);
+            tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
+            tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
+            ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
+            ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
+            rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
+            ibSaved = itemView.findViewById(R.id.ibSaved);
         }
 
         public void bind(Recipe recipe) {
@@ -111,6 +116,13 @@ public class RecipeAdapter extends
                 recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
             }
             tvRecipeIngredientLines.setText(recipe_ingredients);
+
+            if (recipeIsSaved(recipe)){
+                ibSaved.setImageResource(android.R.drawable.star_big_on);
+            }
+            else {
+                ibSaved.setImageResource(android.R.drawable.star_big_off);
+            }
 
             // convert filters from string array to a string that can be displayed in text box
             List<String> recipe_filters_array = recipe.getFilters();
@@ -152,9 +164,47 @@ public class RecipeAdapter extends
 
                 }
                 public void onDoubleClick(){
-                    updateSavedRecipesWithCurrentRecipe(recipe);
+                    updateSavedRecipesWithCurrentRecipe();
                 }
+
+                private void updateSavedRecipesWithCurrentRecipe() {
+                    // todo: check if recipe is already saved, remove from server if is
+
+                    if (recipeIsSaved(recipe)){
+                        recipe.deleteInBackground();
+                        for (Recipe savedRecipe: savedRecipesList){
+                            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
+                                savedRecipesList.remove(savedRecipe);
+                                break;
+                            }
+                        }
+                        ibSaved.setImageResource(android.R.drawable.star_big_off);
+                        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else{
+                    recipe.setUser(ParseUser.getCurrentUser());
+                    recipe.setType("saved");
+                    recipe.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!= null){
+                                Log.e(TAG, "error saving recipe to server:" + e.toString());
+                                Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Log.i(TAG, "recipe saved successffully");
+                                savedRecipesList.add(recipe);
+                                Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+                                ibSaved.setImageResource(android.R.drawable.star_big_on);
+                            }
+                        }
+                    });
+                    }
+                }
+
             });
+
         }
 
         @Override
@@ -162,32 +212,16 @@ public class RecipeAdapter extends
 
     }
 
-    private void updateSavedRecipesWithCurrentRecipe(Recipe recipe) {
-        // todo: check if recipe is already saved, remove from server if is
-//        if (Recipe.isSaved(recipe)){
-//            Log.i(TAG, "recipe already in server");
-//        recipe.deleteRecipe();
-//        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
-//        }
-//        else{
-            recipe.setUser(ParseUser.getCurrentUser());
-            recipe.setType("saved");
-            recipe.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e!= null){
-                        Log.e(TAG, "error saving recipe to server:" + e.toString());
-                        Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Log.i(TAG, "recipe saved successffully");
-                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-//        }
-
+    private boolean recipeIsSaved(Recipe recipe){
+        for (Recipe savedRecipe: savedRecipesList){
+            // check title names since object ids will be different for the same recipe in each search
+            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
+                return true;
+            }
+        }
+        return false;
     }
+
 
     public void clear() {
         recipeList.clear();
