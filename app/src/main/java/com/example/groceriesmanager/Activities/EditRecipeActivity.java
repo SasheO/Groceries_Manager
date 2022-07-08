@@ -25,6 +25,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,7 +93,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         lvProcedure.setAdapter(procedureAdapter);
 
         // recycler view adapter for ingredients
-        ingredientAdapter = new IngredientAdapter(recipeIngredientList);
+        ingredientAdapter = new IngredientAdapter(EditRecipeActivity.this, recipeIngredientList);
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
         // set the layout manager on the recycler view
@@ -250,6 +251,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
                     recipeIngredientListStr.add(ingredientStr);
                     etAddIngredient.setText("");
+                    spinnerIngredientMeasure.setSelection(0);
                     ingredient.setName(ingredientName);
                     ingredient.setUser(ParseUser.getCurrentUser());
                     ingredient.setType("recipe");
@@ -260,5 +262,42 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void editIngredient(FoodItem ingredient, int ingredientListPosition){
+        String name = ingredient.getName();
+        String quantity = ingredient.getQuantity();
+        String measure = ingredient.getMeasure();
+        etAddIngredient.setText(name);
+        if (quantity!=null){
+            etIngredientQty.setText(quantity);
+            int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
+            spinnerIngredientMeasure.setSelection(measure_position);
+        }
+        ibAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etAddIngredient.getText().toString();
+                String quantity = etIngredientQty.getText().toString();
+                String measure = spinnerIngredientMeasure.getSelectedItem().toString();
+
+                FoodItem ingredient_editing = recipeIngredientList.get(ingredientListPosition);
+                ingredient_editing.setName(name);
+                if (!Objects.equals(quantity, "")){
+                    ingredient_editing.setQuantity(quantity);
+                    ingredient_editing.setMeasure(measure);
+                }
+                else{
+                    ingredient_editing.setQuantity(null);
+                    ingredient_editing.setMeasure(null);
+                }
+
+                ingredientAdapter.notifyDataSetChanged();
+                etIngredientQty.setText("");
+                etAddIngredient.setText("");
+                spinnerIngredientMeasure.setSelection(0);
+            }
+        });
+    }
+
 
 }
