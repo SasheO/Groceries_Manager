@@ -260,4 +260,5 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

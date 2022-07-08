@@ -94,6 +94,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     itemList.remove(item);
+//                    item.deleteFood();
                     // todo: also delete this from the string list that is sent to the server
                     notifyDataSetChanged();
                 }
