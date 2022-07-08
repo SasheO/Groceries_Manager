@@ -102,11 +102,17 @@ public class EditRecipeActivity extends AppCompatActivity {
         String process = getIntent().getStringExtra("process");
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
+            List<String> filters = userRecipe.getFilters();
+            recipeLink = userRecipe.getHyperlink_url();
+            // todo: save ingredients, save ingredients as food item objects
+            recipeIngredientListStr = userRecipe.getIngredientLines();
+            recipeProcedureListStr = userRecipe.getProcedure();
+
             etRecipeTitle.setText(userRecipe.getTitle());
-            if(userRecipe.getHyperlink_url()!=null){
+            if(recipeLink!=null){
                 etLink.setText(userRecipe.getHyperlink_url());
             }
-            List<String> filters = userRecipe.getFilters();
+
             if (filters!=null){
                 if (filters.contains(getResources().getString(R.string.vegan))){
                     checkboxVegan.setChecked(true);
@@ -119,7 +125,14 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
             }
 
-            // todo: set ingredients and steps
+            if (recipeProcedureListStr!=null){
+                // todo: populate adapter
+            }
+
+            if (recipeIngredientListStr!=null){
+                // todo: populate adapter
+            }
+
         }
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +236,14 @@ public class EditRecipeActivity extends AppCompatActivity {
                     ingredient.setName(ingredientName);
                     recipeIngredientList.add(ingredient);
                     ingredientAdapter.notifyDataSetChanged();
+                    ingredient.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!=null){
+                                Log.e(TAG, "error saving ingredient")
+                            }
+                        }
+                    });
                 }
             }
         });

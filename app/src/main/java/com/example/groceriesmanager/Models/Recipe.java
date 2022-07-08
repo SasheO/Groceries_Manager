@@ -3,11 +3,9 @@ package com.example.groceriesmanager.Models;
 import android.util.Log;
 
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -30,7 +28,8 @@ public class Recipe extends ParseObject {
     private static final String KEY_FILTERS = "filters";
     private static final String KEY_USER = "user";
     private static final String KEY_HYPERLINK_URL = "hyperlink_url";
-    private static final String KEY_INGREDIENT_LINES = "ingredientLines";
+    private static final String KEY_INGREDIENT_LINES_STR = "ingredientLines";
+    private static final String KEY_INGREDIENTS = "ingredients";
     private static final String KEY_TYPE = "type";
     private static final String KEY_PROCEDURE = "procedure";
     public boolean Saved = false;
@@ -47,7 +46,7 @@ public class Recipe extends ParseObject {
         for (int i=0;i<ingredientLinesJSONArray.length();i++){
             ingredientLines.add(ingredientLinesJSONArray.getString(i));
         }
-        put(KEY_INGREDIENT_LINES, ingredientLines);
+        put(KEY_INGREDIENT_LINES_STR, ingredientLines);
        List<String> filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
@@ -106,7 +105,16 @@ public class Recipe extends ParseObject {
 
     public List<String> getIngredientLines() {
         try {
-            return fetchIfNeeded().getList(KEY_INGREDIENT_LINES);
+            return fetchIfNeeded().getList(KEY_INGREDIENT_LINES_STR);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return null;
+        }
+    }
+
+    public List<String> getIngredients() {
+        try {
+            return fetchIfNeeded().getList(KEY_INGREDIENTS);
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
             return null;
@@ -139,7 +147,10 @@ public class Recipe extends ParseObject {
         put(KEY_HYPERLINK_URL, hyperlink_url);
     }
     public void setIngredientLines(List<String> ingredientLines) {
-        put(KEY_INGREDIENT_LINES, ingredientLines);
+        put(KEY_INGREDIENT_LINES_STR, ingredientLines);
+    }
+    public void setIngredients(List<FoodItem> ingredients) {
+        put(KEY_INGREDIENTS, ingredients);
     }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
