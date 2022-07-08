@@ -20,6 +20,7 @@ import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Activities.RecipeDetailsActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.DeleteCallback;
@@ -145,7 +146,11 @@ public class SavedRecipeAdapter extends
             ibSavedRecipeDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: unsave recipe
+                    // delete all the food items/ingredients associated with recipe
+                    for (FoodItem ingredient: recipe.getIngredients()){
+                        ingredient.deleteFood();
+                    }
+                    // delete recipe itself
                     recipe.deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
