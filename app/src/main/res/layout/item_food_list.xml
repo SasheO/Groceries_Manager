@@ -37,10 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="3dp"
-            android:layout_toStartOf="@id/ibFoodItemSwitchList"
-            android:layout_toLeftOf="@+id/ivFoodItemPic"
+            android:layout_toStartOf="@id/ibFoodItemDelete"
             android:layout_toEndOf="@id/ivFoodItemPic"
-            android:text="Food name"
             android:textSize="35sp"
             tools:text="Food name" />
 
