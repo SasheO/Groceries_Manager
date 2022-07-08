@@ -23,6 +23,7 @@ import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
+import com.example.groceriesmanager.Adapters.SavedRecipeAdapter;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
@@ -52,8 +53,8 @@ public class UserProfileFragment extends Fragment {
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
     private static final String TAG = "UserProfileFragment";
-    public RecipeSearchAdapter savedRecipeAdapter;
-    public RecipeSearchAdapter userRecipeAdapter;
+    public SavedRecipeAdapter savedRecipeAdapter;
+    public SavedRecipeAdapter userRecipeAdapter;
 
     // required empty constructor
     public UserProfileFragment() {}
@@ -93,8 +94,8 @@ public class UserProfileFragment extends Fragment {
         queryRecipes("saved");
         queryRecipes("user");
 
-        savedRecipeAdapter = new RecipeSearchAdapter(getContext(), savedRecipes, new ArrayList<>());
-        userRecipeAdapter = new RecipeSearchAdapter(getContext(), userRecipes, new ArrayList<>());
+        savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes);
+        userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes);
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
