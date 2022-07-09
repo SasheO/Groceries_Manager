@@ -41,12 +41,26 @@ public class Recipe extends ParseObject {
         put(KEY_IMAGE_URL, jsonObject.getJSONObject("recipe").getJSONObject("images").getJSONObject("REGULAR").getString("url"));
         put(KEY_TITLE, jsonObject.getJSONObject("recipe").getString("label"));
         put(KEY_HYPERLINK_URL, jsonObject.getJSONObject("recipe").getString("url"));
-        JSONArray ingredientLinesJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredientLines");
-        List<String> ingredientLines = new ArrayList<>();
-        for (int i=0;i<ingredientLinesJSONArray.length();i++){
-            ingredientLines.add(ingredientLinesJSONArray.getString(i));
+        JSONArray ingredientsJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredients");
+        List<FoodItem> ingredientLines = new ArrayList<>();
+        for (int i=0;i<ingredientsJSONArray.length();i++){
+            FoodItem ingredient = new FoodItem();
+            JSONObject ingredientJSONObject = ingredientsJSONArray.getJSONObject(i);
+            ingredient.setName(ingredientJSONObject.getString("food"));
+            String measure = ingredientJSONObject.getString("measure");
+            String qty = String.valueOf(ingredientJSONObject.getInt("quantity"));
+
+            if (!Objects.equals(qty, "0")){
+                ingredient.setQuantity(qty);
+                if (Objects.equals(measure, "<unit>")){measure = "ct";}
+                ingredient.setMeasure(measure);
+            }
+
+            ingredientLines.add(ingredient);
         }
-        put(KEY_INGREDIENT_LINES_STR, ingredientLines);
+        put(KEY_INGREDIENTS, ingredientLines);
+
+
        List<String> filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
