@@ -175,9 +175,11 @@ public class RecipeSearchAdapter extends
                 }
 
                 private void updateSavedRecipesWithCurrentRecipe() {
-                    // todo: check if recipe is already saved, remove from server if is
-
                     if (recipeIsSaved(recipe)){
+                        // delete all food items associated wiht it
+                        for (FoodItem ingredient: recipe.getIngredients()){
+                            ingredient.deleteFood();
+                        }
                         recipe.deleteInBackground();
                         for (Recipe savedRecipe: savedRecipesList){
                             if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
@@ -190,6 +192,20 @@ public class RecipeSearchAdapter extends
                         return;
                     }
                     else{
+                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        // save all the ingredients to the server
+                        for (FoodItem ingredient: recipe.getIngredients()){
+                            ingredient.setUser(currentUser);
+                            ingredient.setType("recipe");
+                            ingredient.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e!=null){
+                                        Log.e(TAG, "error saving ingredient: " + e.toString());
+                                    }
+                                }
+                            });
+                        }
                     recipe.setUser(ParseUser.getCurrentUser());
                     recipe.setType("saved");
                     recipe.saveInBackground(new SaveCallback() {
