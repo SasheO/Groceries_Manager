@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
+import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.ParseException;
@@ -110,8 +111,16 @@ public class RecipeSearchAdapter extends
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box
             String recipe_ingredients = "INGREDIENTS";
-            for (String ingredient: recipe.getIngredientLines()){
-                recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
+            for (FoodItem ingredient: recipe.getIngredients()){
+                String quantity = ingredient.getQuantity();
+                String measure = ingredient.getMeasure();
+                String name = ingredient.getName();
+                if (quantity!=null){
+                    recipe_ingredients = recipe_ingredients + "\r\n" + quantity + " " + measure + " " + name;
+                }
+                else{
+                    recipe_ingredients = recipe_ingredients + "\r\n" + name;
+                }
             }
             tvRecipeIngredientLines.setText(recipe_ingredients);
 
