@@ -81,7 +81,7 @@ public class SavedRecipeAdapter extends
         public TextView tvOpenRecipeLink;
         public TextView tvRecipeFilters;
         public ImageButton ibOpenRecipeLink;
-        public ImageView ivRecipeImage;
+//        public ImageView ivRecipeImage;
         public RelativeLayout rlRecipeSearch;
         public ImageButton ibSavedRecipeDelete;
 
@@ -97,7 +97,7 @@ public class SavedRecipeAdapter extends
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
-            ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
+//            ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
             rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
             ibSavedRecipeDelete = itemView.findViewById(R.id.ibSavedRecipeDelete);
         }
@@ -125,15 +125,15 @@ public class SavedRecipeAdapter extends
                 tvRecipeFilters.setText(recipe_filters);
             }
 
-            if (recipe.getImage_url() == null){
-                ivRecipeImage.setVisibility(View.GONE);
-            }
-            else {
-                ivRecipeImage.setVisibility(View.VISIBLE);
-                Glide.with(context)
-                        .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
-                        .into(ivRecipeImage);
-            }
+//            if (recipe.getImage_url() == null){
+//                ivRecipeImage.setVisibility(View.GONE);
+//            }
+//            else {
+//                ivRecipeImage.setVisibility(View.VISIBLE);
+//                Glide.with(context)
+//                        .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
+//                        .into(ivRecipeImage);
+//            }
             if(recipe.getHyperlink_url() == null){
                 tvOpenRecipeLink.setVisibility(View.GONE);
                 ibOpenRecipeLink.setVisibility(View.GONE);
