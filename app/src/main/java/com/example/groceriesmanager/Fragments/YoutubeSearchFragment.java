@@ -101,9 +101,24 @@ public class YoutubeSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etYoutubeLookup.setText("");
-                checkboxVegan.setChecked(false);
-                checkboxVegetarian.setChecked(false);
-                checkboxGlutenFree.setChecked(false);
+                if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
+                    checkboxGlutenFree.setChecked(true);
+                }
+                else{
+                    checkboxGlutenFree.setChecked(false);
+                }
+                if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
+                    checkboxVegan.setChecked(true);
+                }
+                else {
+                    checkboxVegan.setChecked(false);
+                }
+                if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
+                    checkboxVegetarian.setChecked(true);
+                }
+                else {
+                    checkboxVegetarian.setChecked(false);
+                }
                 adapter.clear();
             }
         });
