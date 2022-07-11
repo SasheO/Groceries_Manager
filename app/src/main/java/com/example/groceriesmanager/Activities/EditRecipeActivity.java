@@ -225,17 +225,18 @@ public class EditRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String step = etAddProcedure.getText().toString().trim();
-                if (!currentlyEditingProcedure){
-                    if (!Objects.equals(step, "")){
+                if (!Objects.equals(step, "")) {
+
+                    if (!currentlyEditingProcedure){
                         recipeProcedureList.add(step);
                     }
+                    else{
+                        recipeProcedureList.set(editedProcedurePosition, step);
+                        currentlyEditingProcedure = false;
+                    }
+                    procedureAdapter.notifyDataSetChanged();
+                    etAddProcedure.setText("");
                 }
-                else{
-                    recipeProcedureList.set(editedProcedurePosition, step);
-                    currentlyEditingProcedure = false;
-                }
-                procedureAdapter.notifyDataSetChanged();
-                etAddProcedure.setText("");
             }
         });
 
