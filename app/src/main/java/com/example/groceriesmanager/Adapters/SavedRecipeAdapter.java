@@ -93,11 +93,9 @@ public class SavedRecipeAdapter extends
             super(itemView);
             itemView.setOnClickListener(this);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
-//            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientLines);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
-//            ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
             rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
             ibSavedRecipeDelete = itemView.findViewById(R.id.ibSavedRecipeDelete);
         }
@@ -105,14 +103,7 @@ public class SavedRecipeAdapter extends
         public void bind(Recipe recipe) {
             tvRecipeTitle.setText(recipe.getTitle());
 
-            // convert recipe lines from recipe from string array to a string that can be displayed in text box
-//            String recipe_ingredients = "INGREDIENTS";
-//            for (String ingredient: recipe.getIngredientLines()){
-//                recipe_ingredients = recipe_ingredients + "\r\n" + ingredient ;
-//            }
-//            tvRecipeIngredientLines.setText(recipe_ingredients);
 
-            // convert filters from string array to a string that can be displayed in text box
             List<String> recipe_filters_array = recipe.getFilters();
             if (recipe_filters_array!=null){
                 String recipe_filters = "Filters: " + recipe_filters_array.get(0);
@@ -125,15 +116,6 @@ public class SavedRecipeAdapter extends
                 tvRecipeFilters.setText(recipe_filters);
             }
 
-//            if (recipe.getImage_url() == null){
-//                ivRecipeImage.setVisibility(View.GONE);
-//            }
-//            else {
-//                ivRecipeImage.setVisibility(View.VISIBLE);
-//                Glide.with(context)
-//                        .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
-//                        .into(ivRecipeImage);
-//            }
             if(recipe.getHyperlink_url() == null){
                 tvOpenRecipeLink.setVisibility(View.GONE);
                 ibOpenRecipeLink.setVisibility(View.GONE);
@@ -147,9 +129,12 @@ public class SavedRecipeAdapter extends
                 @Override
                 public void onClick(View v) {
                     // delete all the food items/ingredients associated with recipe
-                    for (FoodItem ingredient: recipe.getIngredients()){
-                        ingredient.deleteFood();
+                    if (recipe.getIngredients()!=null){
+                        for (FoodItem ingredient: recipe.getIngredients()){
+                            ingredient.deleteFood();
+                        }
                     }
+
                     // delete recipe itself
                     recipe.deleteInBackground(new DeleteCallback() {
                         @Override

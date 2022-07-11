@@ -155,8 +155,8 @@
             android:background="@null"
             app:srcCompat="@android:drawable/ic_input_add" />
 
-        <ListView
-            android:id="@+id/lvProcedure"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProcedure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvProcedureLabel" />
@@ -165,7 +165,7 @@
             android:id="@+id/etAddProcedure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lvProcedure"
+            android:layout_below="@+id/rvProcedure"
             android:layout_toEndOf="@+id/ibAddProcedure"
             android:ems="10"
             android:gravity="start|top"
