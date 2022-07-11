@@ -50,7 +50,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     Recipe userRecipe;
     String recipeTitle;
     String recipeLink;
-    List<String> recipeIngredientListStr;
+//    List<String> recipeIngredientListStr;
     List<String> recipeProcedureListStr;
     List<String> recipeFiltersList;
     List<FoodItem> recipeIngredientList;
@@ -79,7 +79,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         etIngredientQty = findViewById(R.id.etIngredientQty);
         spinnerIngredientMeasure = findViewById(R.id.spinnerIngredientMeasure);
 
-        recipeIngredientListStr = new ArrayList<>();
+//        recipeIngredientListStr = new ArrayList<>();
         recipeProcedureListStr = new ArrayList<>();
         recipeIngredientList = new ArrayList<>();
         recipeFiltersList = new ArrayList<>();
@@ -133,7 +133,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 procedureAdapter.notifyDataSetChanged();
             }
 
-            if (recipeIngredientList!=null){
+            if (userRecipe.getIngredients()!=null){
                 recipeIngredientList.addAll(userRecipe.getIngredients());
                 ingredientAdapter.notifyDataSetChanged();
             }
@@ -183,8 +183,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                         userRecipe.setFilters(recipeFiltersList);
                     }
 
-                    if (recipeIngredientListStr.size() != 0) {
-                        userRecipe.setIngredientLines(recipeIngredientListStr);
+                    if (recipeIngredientList.size() != 0) {
                         for (FoodItem ingredient : recipeIngredientList) {
                             ingredient.saveInBackground(new SaveCallback() {
                                 @Override
@@ -235,44 +234,37 @@ public class EditRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String ingredientName = etAddIngredient.getText().toString().trim();
-                String ingredientStr;
                 String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
                 if(!currentlyEditingIngredient){
+                    ingredient_editing = new FoodItem();
+                    ingredient_editing.setUser(ParseUser.getCurrentUser());
+                    ingredient_editing.setType("recipe");
+                    recipeIngredientList.add(ingredient_editing);
+                }
 
-                    if (!Objects.equals(ingredientName, "")) {
-                        ingredient_editing = new FoodItem();
-
-                        if (!Objects.equals(ingredientQuantity, "")) {
-                            ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
-                            ingredient_editing.setMeasure(ingredientMeasure);
-                            ingredient_editing.setQuantity(ingredientQuantity);
-                        } else {
-                            ingredientStr = ingredientName;
-                        }
-
-                        recipeIngredientList.add(ingredient_editing);
-
-
-                    }
-            }
                 else{
                     currentlyEditingIngredient = false;
                 }
-                etAddIngredient.setText("");
-                spinnerIngredientMeasure.setSelection(0);
-                ingredient_editing.setName(ingredientName);
-                ingredient_editing.setUser(ParseUser.getCurrentUser());
-                ingredient_editing.setType("recipe");
-                ingredientAdapter.notifyDataSetChanged();
 
+                if (!Objects.equals(ingredientName, "")) {
+
+                    if (!Objects.equals(ingredientQuantity, "")) {
+                        ingredient_editing.setMeasure(ingredientMeasure);
+                        ingredient_editing.setQuantity(ingredientQuantity);
+                    }
+                    etAddIngredient.setText("");
+                    spinnerIngredientMeasure.setSelection(0);
+                    ingredient_editing.setName(ingredientName);
+                    ingredientAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
 
     public void editIngredient(FoodItem ingredient, int ingredientListPosition){
-        if(!currentlyEditingIngredient){
+        if (!currentlyEditingIngredient){
             currentlyEditingIngredient = true;
             ingredient_editing = recipeIngredientList.get(ingredientListPosition);
             String name = ingredient.getName();
@@ -286,7 +278,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         }
         else{
-            Toast.makeText(EditRecipeActivity.this, "currently editing another ingredient, save it first!", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditRecipeActivity.this, "already editing another ingredient", Toast.LENGTH_LONG).show();
         }
 //        ibAddIngredient.setOnClickListener(new View.OnClickListener() {
 //            @Override
