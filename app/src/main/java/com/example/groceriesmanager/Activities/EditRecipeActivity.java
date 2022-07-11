@@ -12,11 +12,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.groceriesmanager.Adapters.IngredientAdapter;
+import com.example.groceriesmanager.Adapters.RecipeTextAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
@@ -40,19 +39,23 @@ public class EditRecipeActivity extends AppCompatActivity {
     private ImageButton ibAddIngredient;
     private ImageButton ibAddProcedure;
     private RecyclerView rvIngredients;
-    private ListView lvProcedure;
+    private RecyclerView rvProcedure;
     private Button btnCancel;
     private Button btnSave;
     private Spinner spinnerIngredientMeasure;
     private EditText etIngredientQty;
+    private boolean currentlyEditingIngredient = false;
+    private FoodItem editedIngredient;
+    private boolean currentlyEditingProcedure = false;
+    private int editedProcedurePosition;
     Recipe userRecipe;
     String recipeTitle;
     String recipeLink;
-    List<String> recipeIngredientListStr;
-    List<String> recipeProcedureListStr;
+    List<String> recipeProcedureList;
     List<String> recipeFiltersList;
     List<FoodItem> recipeIngredientList;
-    public IngredientAdapter ingredientAdapter;
+    public RecipeTextAdapter ingredientAdapter;
+    public RecipeTextAdapter procedureAdapter;
     private static final String TAG = "EditRecipeActivity";
 
 
@@ -71,14 +74,13 @@ public class EditRecipeActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
         rvIngredients = findViewById(R.id.rvIngredients);
-        lvProcedure = findViewById(R.id.lvProcedure);
+        rvProcedure = findViewById(R.id.rvProcedure);
         etAddIngredient = findViewById(R.id.etAddIngredient);
         etAddProcedure = findViewById(R.id.etAddProcedure);
         etIngredientQty = findViewById(R.id.etIngredientQty);
         spinnerIngredientMeasure = findViewById(R.id.spinnerIngredientMeasure);
 
-        recipeIngredientListStr = new ArrayList<>();
-        recipeProcedureListStr = new ArrayList<>();
+        recipeProcedureList = new ArrayList<>();
         recipeIngredientList = new ArrayList<>();
         recipeFiltersList = new ArrayList<>();
 
@@ -87,17 +89,21 @@ public class EditRecipeActivity extends AppCompatActivity {
         foodMeasureAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerIngredientMeasure.setAdapter(foodMeasureAdapter);
 
-        // array adapter for rendering items into procedure list
-        ArrayAdapter<String> procedureAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeProcedureListStr);
-        lvProcedure.setAdapter(procedureAdapter);
-
         // recycler view adapter for ingredients
-        ingredientAdapter = new IngredientAdapter(EditRecipeActivity.this, recipeIngredientList);
+        ingredientAdapter = new RecipeTextAdapter("ingredient");
+        ingredientAdapter.IngredientAdapter(EditRecipeActivity.this, recipeIngredientList);
         // set the adapter on the recycler view
         rvIngredients.setAdapter(ingredientAdapter);
         // set the layout manager on the recycler view
         rvIngredients.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
+
+        // recycler view adapter for ingredients
+        procedureAdapter = new RecipeTextAdapter("procedure");
+        procedureAdapter.ProcedureAdapter(EditRecipeActivity.this, recipeProcedureList);
+        // set the adapter on the recycler view
+        rvProcedure.setAdapter(procedureAdapter);
+        // set the layout manager on the recycler view
+        rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
         // todo: if process is "edit" from intent, populate the recipe details into the text view
         String process = getIntent().getStringExtra("process");
@@ -127,11 +133,11 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
 
             if (userRecipe.getProcedure()!=null){
-                recipeProcedureListStr.addAll(userRecipe.getProcedure());
+                recipeProcedureList.addAll(userRecipe.getProcedure());
                 procedureAdapter.notifyDataSetChanged();
             }
 
-            if (recipeIngredientList!=null){
+            if (userRecipe.getIngredients()!=null){
                 recipeIngredientList.addAll(userRecipe.getIngredients());
                 ingredientAdapter.notifyDataSetChanged();
             }
@@ -181,8 +187,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                         userRecipe.setFilters(recipeFiltersList);
                     }
 
-                    if (recipeIngredientListStr.size() != 0) {
-                        userRecipe.setIngredientLines(recipeIngredientListStr);
+                    if (recipeIngredientList.size() != 0) {
                         for (FoodItem ingredient : recipeIngredientList) {
                             ingredient.saveInBackground(new SaveCallback() {
                                 @Override
@@ -196,8 +201,8 @@ public class EditRecipeActivity extends AppCompatActivity {
                         userRecipe.setIngredients(recipeIngredientList);
                     }
 
-                    if (recipeProcedureListStr.size() != 0) {
-                        userRecipe.setProcedure(recipeProcedureListStr);
+                    if (recipeProcedureList.size() != 0) {
+                        userRecipe.setProcedure(recipeProcedureList);
                     }
 
                     userRecipe.saveInBackground(new SaveCallback() {
@@ -220,11 +225,17 @@ public class EditRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String step = etAddProcedure.getText().toString().trim();
-                if (!Objects.equals(step, "")){
-                    recipeProcedureListStr.add(step);
+                if (!Objects.equals(step, "")) {
+
+                    if (!currentlyEditingProcedure){
+                        recipeProcedureList.add(step);
+                    }
+                    else{
+                        recipeProcedureList.set(editedProcedurePosition, step);
+                        currentlyEditingProcedure = false;
+                    }
                     procedureAdapter.notifyDataSetChanged();
                     etAddProcedure.setText("");
-                    // todo: make procedure editable and deletable
                 }
             }
         });
@@ -232,86 +243,84 @@ public class EditRecipeActivity extends AppCompatActivity {
         ibAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ingredientName = etAddIngredient.getText().toString().trim();;
-                String ingredientStr;
+                String ingredientName = etAddIngredient.getText().toString().trim();
                 String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
-                if (!Objects.equals(ingredientName, "")){
-                    FoodItem ingredient = new FoodItem();
+                if(!currentlyEditingIngredient){
+                    editedIngredient = new FoodItem();
+                    editedIngredient.setUser(ParseUser.getCurrentUser());
+                    editedIngredient.setType("recipe");
+                    recipeIngredientList.add(editedIngredient);
+                }
 
-                    if (!Objects.equals(ingredientQuantity, "")){
-                        ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
-                        ingredient.setMeasure(ingredientMeasure);
-                        ingredient.setQuantity(ingredientQuantity);
-                    }
-                    else{
-                        ingredientStr = ingredientName;
-                    }
+                else{
+                    currentlyEditingIngredient = false;
+                }
 
-                    recipeIngredientListStr.add(ingredientStr);
+                if (!Objects.equals(ingredientName, "")) {
+
+                    if (!Objects.equals(ingredientQuantity, "")) {
+                        editedIngredient.setMeasure(ingredientMeasure);
+                        editedIngredient.setQuantity(ingredientQuantity);
+                    }
                     etAddIngredient.setText("");
                     spinnerIngredientMeasure.setSelection(0);
-                    ingredient.setName(ingredientName);
-                    ingredient.setUser(ParseUser.getCurrentUser());
-                    ingredient.setType("recipe");
-                    recipeIngredientList.add(ingredient);
+                    editedIngredient.setName(ingredientName);
                     ingredientAdapter.notifyDataSetChanged();
-
                 }
             }
         });
     }
 
     public void editIngredient(FoodItem ingredient, int ingredientListPosition){
-        FoodItem ingredient_editing = recipeIngredientList.get(ingredientListPosition);
-        String name = ingredient.getName();
-        String quantity = ingredient.getQuantity();
-        String measure = ingredient.getMeasure();
-        etAddIngredient.setText(name);
-        if (quantity!=null){
-            etIngredientQty.setText(quantity);
-            int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
-            spinnerIngredientMeasure.setSelection(measure_position);
-        }
-        ibAddIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etAddIngredient.getText().toString();
-                String quantity = etIngredientQty.getText().toString();
-                String measure = spinnerIngredientMeasure.getSelectedItem().toString();
-
-                    try {
-                        if (ingredient.hasSameId(ingredient_editing)){
-                            ingredient_editing.setName(name);
-                            if (!Objects.equals(quantity, "")){
-                                ingredient_editing.setQuantity(quantity);
-                                ingredient_editing.setMeasure(measure);
-                            }
-                            else{
-                                ingredient_editing.setQuantity(null);
-                                ingredient_editing.setMeasure(null);
-                            }
-
-                            ingredientAdapter.notifyDataSetChanged();
-                            etIngredientQty.setText("");
-                            etAddIngredient.setText("");
-                            spinnerIngredientMeasure.setSelection(0);
-                        }
-                }
-                catch (Exception e){
-                        Log.e(TAG, "error editing ingredient: " + e.toString());
-                        Toast.makeText(EditRecipeActivity.this, "error editing ingredient", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                    return;
+        if (!currentlyEditingIngredient){
+            currentlyEditingIngredient = true;
+            editedIngredient = recipeIngredientList.get(ingredientListPosition);
+            String name = ingredient.getName();
+            String quantity = ingredient.getQuantity();
+            String measure = ingredient.getMeasure();
+            etAddIngredient.setText(name);
+            if (quantity!=null){
+                etIngredientQty.setText(quantity);
+                int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
+                spinnerIngredientMeasure.setSelection(measure_position);
             }
-        });
+        }
+        else{
+            Toast.makeText(EditRecipeActivity.this, "already editing another ingredient", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void deleteIngredient(FoodItem ingredient){
-        recipeIngredientList.remove(ingredient);
-        ingredient.deleteFood();
-        ingredientAdapter.notifyDataSetChanged();
+        if (!currentlyEditingIngredient){
+            recipeIngredientList.remove(ingredient);
+            ingredient.deleteFood();
+            ingredientAdapter.notifyDataSetChanged();
+        }
+        else {
+            Toast.makeText(EditRecipeActivity.this, "finish editing current ingredient before deleting", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void editProcedure(int procedureListPosition){
+        if (!currentlyEditingProcedure){
+            currentlyEditingProcedure = true;
+            editedProcedurePosition = procedureListPosition;
+            etAddProcedure.setText(recipeProcedureList.get(editedProcedurePosition));
+        }
+        else{
+            Toast.makeText(EditRecipeActivity.this, "already editing another procedure", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteProcedure(int procedureListPosition){
+        if (!currentlyEditingProcedure){
+            recipeProcedureList.remove(procedureListPosition);
+            procedureAdapter.notifyDataSetChanged();
+        }
+        else {
+            Toast.makeText(EditRecipeActivity.this, "finish editing current procedure before deleting", Toast.LENGTH_SHORT).show();
+        }
     }
 }

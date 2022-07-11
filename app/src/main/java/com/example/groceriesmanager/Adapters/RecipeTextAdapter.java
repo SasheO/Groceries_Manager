@@ -15,16 +15,28 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 
 import java.util.List;
+import java.util.Objects;
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
+public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.ViewHolder> {
 
     // Store a member variable for the contacts
-    private List<FoodItem> itemList;
+    private List<FoodItem> ingredientList;
+    private List<String> procedureList;
     private EditRecipeActivity context;
+    private String type;
 
-    // Pass in the contact array into the constructor
-    public IngredientAdapter(Context context, List<FoodItem> items) {
-        this.itemList = items;
+    // Pass in the list array into the constructor
+    public RecipeTextAdapter(String type) {
+        this.type = type;
+    }
+
+    public void IngredientAdapter(Context context, List<FoodItem> items) {
+        this.ingredientList = items;
+        this.context = (EditRecipeActivity) context;
+    }
+
+    public void ProcedureAdapter(Context context, List<String> items) {
+        this.procedureList = items;
         this.context = (EditRecipeActivity) context;
     }
 
@@ -44,13 +56,24 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        FoodItem item = itemList.get(position);
-        holder.bind(item);
+        if (Objects.equals(type, "ingredient")){
+            FoodItem ingredient = ingredientList.get(position);
+            holder.bind(ingredient);
+        }
+        else {
+            String procedure = procedureList.get(position);
+            holder.bind(procedure);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        if (Objects.equals(type, "ingredient")){
+            return ingredientList.size();
+        }
+        else {
+            return procedureList.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -78,7 +101,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         }
 
         public void bind(FoodItem item) {
-            boolean isBeingEdited = false;
             String name = item.getName();
             if (item.getQuantity()!=null){
                 name = item.getQuantity() + " " + item.getMeasure() + " " + name;
@@ -88,7 +110,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             ibEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.editIngredient(item, itemList.indexOf(item));
+                    context.editIngredient(item, ingredientList.indexOf(item));
 
                 }
             });
@@ -96,8 +118,27 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
             ibDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: check if item is being edited. if it is, display a message that you cannot delete it.
                     context.deleteIngredient(item);
+                }
+            });
+        }
+
+        public void bind(String procedure){
+            tvText.setText(procedure);
+
+            ibDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: populate
+                    context.deleteProcedure(procedureList.indexOf(procedure));
+                }
+            });
+
+            ibEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: populate
+                    context.editProcedure(procedureList.indexOf(procedure));
                 }
             });
         }
