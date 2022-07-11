@@ -45,6 +45,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     private Button btnSave;
     private Spinner spinnerIngredientMeasure;
     private EditText etIngredientQty;
+    private boolean currentlyEditingIngredient = false;
+    FoodItem ingredient_editing;
     Recipe userRecipe;
     String recipeTitle;
     String recipeLink;
@@ -232,86 +234,103 @@ public class EditRecipeActivity extends AppCompatActivity {
         ibAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ingredientName = etAddIngredient.getText().toString().trim();;
+                String ingredientName = etAddIngredient.getText().toString().trim();
                 String ingredientStr;
                 String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
-                if (!Objects.equals(ingredientName, "")){
-                    FoodItem ingredient = new FoodItem();
+                if(!currentlyEditingIngredient){
 
-                    if (!Objects.equals(ingredientQuantity, "")){
-                        ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
-                        ingredient.setMeasure(ingredientMeasure);
-                        ingredient.setQuantity(ingredientQuantity);
+                    if (!Objects.equals(ingredientName, "")) {
+                        ingredient_editing = new FoodItem();
+
+                        if (!Objects.equals(ingredientQuantity, "")) {
+                            ingredientStr = ingredientQuantity + " " + ingredientMeasure + " " + ingredientName;
+                            ingredient_editing.setMeasure(ingredientMeasure);
+                            ingredient_editing.setQuantity(ingredientQuantity);
+                        } else {
+                            ingredientStr = ingredientName;
+                        }
+
+                        recipeIngredientList.add(ingredient_editing);
+
+
                     }
-                    else{
-                        ingredientStr = ingredientName;
-                    }
-
-                    recipeIngredientListStr.add(ingredientStr);
-                    etAddIngredient.setText("");
-                    spinnerIngredientMeasure.setSelection(0);
-                    ingredient.setName(ingredientName);
-                    ingredient.setUser(ParseUser.getCurrentUser());
-                    ingredient.setType("recipe");
-                    recipeIngredientList.add(ingredient);
-                    ingredientAdapter.notifyDataSetChanged();
-
+            }
+                else{
+                    currentlyEditingIngredient = false;
                 }
+                etAddIngredient.setText("");
+                spinnerIngredientMeasure.setSelection(0);
+                ingredient_editing.setName(ingredientName);
+                ingredient_editing.setUser(ParseUser.getCurrentUser());
+                ingredient_editing.setType("recipe");
+                ingredientAdapter.notifyDataSetChanged();
+
             }
         });
     }
 
     public void editIngredient(FoodItem ingredient, int ingredientListPosition){
-        FoodItem ingredient_editing = recipeIngredientList.get(ingredientListPosition);
-        String name = ingredient.getName();
-        String quantity = ingredient.getQuantity();
-        String measure = ingredient.getMeasure();
-        etAddIngredient.setText(name);
-        if (quantity!=null){
-            etIngredientQty.setText(quantity);
-            int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
-            spinnerIngredientMeasure.setSelection(measure_position);
-        }
-        ibAddIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etAddIngredient.getText().toString();
-                String quantity = etIngredientQty.getText().toString();
-                String measure = spinnerIngredientMeasure.getSelectedItem().toString();
-
-                    try {
-                        if (ingredient.hasSameId(ingredient_editing)){
-                            ingredient_editing.setName(name);
-                            if (!Objects.equals(quantity, "")){
-                                ingredient_editing.setQuantity(quantity);
-                                ingredient_editing.setMeasure(measure);
-                            }
-                            else{
-                                ingredient_editing.setQuantity(null);
-                                ingredient_editing.setMeasure(null);
-                            }
-
-                            ingredientAdapter.notifyDataSetChanged();
-                            etIngredientQty.setText("");
-                            etAddIngredient.setText("");
-                            spinnerIngredientMeasure.setSelection(0);
-                        }
-                }
-                catch (Exception e){
-                        Log.e(TAG, "error editing ingredient: " + e.toString());
-                        Toast.makeText(EditRecipeActivity.this, "error editing ingredient", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                    return;
+        if(!currentlyEditingIngredient){
+            currentlyEditingIngredient = true;
+            ingredient_editing = recipeIngredientList.get(ingredientListPosition);
+            String name = ingredient.getName();
+            String quantity = ingredient.getQuantity();
+            String measure = ingredient.getMeasure();
+            etAddIngredient.setText(name);
+            if (quantity!=null){
+                etIngredientQty.setText(quantity);
+                int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
+                spinnerIngredientMeasure.setSelection(measure_position);
             }
-        });
+        }
+        else{
+            Toast.makeText(EditRecipeActivity.this, "currently editing another ingredient, save it first!", Toast.LENGTH_LONG).show();
+        }
+//        ibAddIngredient.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String name = etAddIngredient.getText().toString();
+//                String quantity = etIngredientQty.getText().toString();
+//                String measure = spinnerIngredientMeasure.getSelectedItem().toString();
+//
+//                    try {
+//                        if (ingredient.hasSameId(ingredient_editing)){
+//                            ingredient_editing.setName(name);
+//                            if (!Objects.equals(quantity, "")){
+//                                ingredient_editing.setQuantity(quantity);
+//                                ingredient_editing.setMeasure(measure);
+//                            }
+//                            else{
+//                                ingredient_editing.setQuantity(null);
+//                                ingredient_editing.setMeasure(null);
+//                            }
+//
+//                            ingredientAdapter.notifyDataSetChanged();
+//                            etIngredientQty.setText("");
+//                            etAddIngredient.setText("");
+//                            spinnerIngredientMeasure.setSelection(0);
+//                        }
+//                }
+//                catch (Exception e){
+//                        Log.e(TAG, "error editing ingredient: " + e.toString());
+//                        Toast.makeText(EditRecipeActivity.this, "error editing ingredient", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                    return;
+//            }
+//        });
     }
 
     public void deleteIngredient(FoodItem ingredient){
-        recipeIngredientList.remove(ingredient);
-        ingredient.deleteFood();
-        ingredientAdapter.notifyDataSetChanged();
+        if (!currentlyEditingIngredient){
+            recipeIngredientList.remove(ingredient);
+            ingredient.deleteFood();
+            ingredientAdapter.notifyDataSetChanged();
+        }
+        else {
+            Toast.makeText(EditRecipeActivity.this, "finish editing current ingredient before deleting", Toast.LENGTH_LONG).show();
+        }
     }
 }
