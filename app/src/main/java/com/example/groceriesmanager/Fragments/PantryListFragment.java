@@ -93,57 +93,27 @@ public class PantryListFragment extends Fragment {
         });
     }
 
-    class CategorizedFoods {
-        public List<FoodItem> grains_legumes = new ArrayList<>();
-        public List<FoodItem> protein = new ArrayList<>();
-        public List<FoodItem> vegetables = new ArrayList<>();
-        public List<FoodItem> canned_foods = new ArrayList<>();
-        public List<FoodItem> other_category = new ArrayList<>();
-    }
-
     private void suggestRecipes() {
 
         FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
         String userQuery = "";
 
-        // if there is nothing in the pantry list, let user know that there is nothing to search
-        if (pantryList.size()==0){
-            Toast.makeText(currentActivity, "nothing to search", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
 
         // if the user did not manually select what recipe ingredients to search, do smart search
         if(adapter.selected.size() == 0){
-        // check which food categories is which in pantry list
-        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
-            CategorizedFoods foodCategorizer = new CategorizedFoods();
-        for (FoodItem item: pantryList){
-            if (item.getFoodCategory() == null){
-                foodCategorizer.other_category.add(item);
-                continue;
+
+            // need at least two elements for smart search
+            if (pantryList.size()<2){
+                Toast.makeText(currentActivity, "not enough for random search", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            if (Objects.equals(item.getFoodCategory(), "fresh vegetables")){
-                foodCategorizer.vegetables.add(item);
-            }
-            else if (Objects.equals(item.getFoodCategory(), "canned food")){
-                foodCategorizer.canned_foods.add(item);
-            }
-            else if (Objects.equals(item.getFoodCategory(), "grains/legumes")){
-                foodCategorizer.grains_legumes.add(item);
-            }
-            else if (Objects.equals(item.getFoodCategory(), "protein")){
-                foodCategorizer.protein.add(item);
-            }
-            else{
-                foodCategorizer.other_category.add(item);
-            }
-        }
+        userQuery = getSmartSearchQuery();
 
-        // todo: pick which will be searched for and implement edge case testing e.g. no veggies, only one veggie so the same result doesn't show up every time
 
-        int index = (int)(Math.random() * pantryList.size());
-        userQuery = pantryList.get(index).getName();
+//        int index = (int)(Math.random() * pantryList.size());
+//        userQuery = pantryList.get(index).getName();
         }
         else{
             for (FoodItem foodItem: adapter.selected){
@@ -153,6 +123,17 @@ public class PantryListFragment extends Fragment {
         RecipeSearchFragment fragmentDemo = RecipeSearchFragment.newInstance(userQuery);
         ft.replace(R.id.frameLayout, fragmentDemo);
         ft.commit();
+    }
+
+    private String getSmartSearchQuery() {
+        String userQuery = "";
+        // check which food categories is which in pantry list
+        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
+
+        // todo: implement logic
+        int index = (int)(Math.random() * pantryList.size());
+        userQuery = userQuery + pantryList.get(index).getName();
+        return userQuery;
     }
 
     private void queryPantryList() {
