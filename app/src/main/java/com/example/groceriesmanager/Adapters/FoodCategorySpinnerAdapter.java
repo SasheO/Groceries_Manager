@@ -42,7 +42,6 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         textToDrawableName.put("grains/legumes", "grains_legumes");
         textToDrawableName.put("protein", "protein");
         textToDrawableName.put("beverages/dairy", "dairy");
-        textToDrawableName.put("spices/sauces", "spices_sauces");
     }
 
     // Override these methods and instead return our custom view (with image and text)

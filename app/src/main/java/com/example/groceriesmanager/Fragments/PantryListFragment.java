@@ -79,6 +79,7 @@ public class PantryListFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     sortPantryAccordingToCategory();
+                    adapter.notifyDataSetChanged();
                 }
                 else{
                     queryPantryList();
@@ -152,7 +153,86 @@ public class PantryListFragment extends Fragment {
     }
 
     private void sortPantryAccordingToCategory(){
-        // todo: sort list and notify dataset changed
+        // todo: populate
+        /*
+        (pantry list max size is 30,)
+        this shuffles list (to somewhat randomize searches) then repeatedly moves items to the front to rearrange them in order of relevance when searching
+        <item>--no selection--</item>
+        <item>other</item>
+        <item>beverages/dairy</item>
+        <item>fresh fruits</item>
+        <item>canned food</item>
+        <item>fresh vegetables</item>
+        <item>protein</item>
+        <item>grains/legumes</item>
+*/
+        List<FoodItem> organizedPantryList = new ArrayList<>(pantryList);
+        Collections.shuffle(organizedPantryList);
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()==null){
+                organizedPantryList.remove(organizedPantryList.indexOf(item));
+                organizedPantryList.add(0, item);
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "other")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "beverages/dairy")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "fresh fruits")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "canned food")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "fresh vegetables")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "protein")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()!=null){
+                if (Objects.equals(item.getFoodCategory(), "grains/legumes")){
+                    organizedPantryList.remove(organizedPantryList.indexOf(item));
+                    organizedPantryList.add(0, item);
+                }
+            }
+        }
+
+        pantryList.clear();
+        pantryList.addAll(organizedPantryList);
     }
 
     private void queryPantryList() {
