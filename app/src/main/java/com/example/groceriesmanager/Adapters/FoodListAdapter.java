@@ -2,6 +2,8 @@ package com.example.groceriesmanager.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
@@ -26,6 +30,7 @@ import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,12 +43,23 @@ public class FoodListAdapter extends
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
     public List<FoodItem> selected = new ArrayList<>();
+    // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
+    public static Hashtable textToDrawableName = new Hashtable();
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
         this.context = (MainActivity) context;
         this.foodItemList = foodItemList;
         this.type = type;
+        textToDrawableName.put("other", "food_item_holder");
+        textToDrawableName.put("--no selection--", "food_item_holder");
+        textToDrawableName.put("fresh fruits", "fresh_fruit");
+        textToDrawableName.put("fresh vegetables", "fresh_fruit");
+        textToDrawableName.put("canned food", "canned_food");
+        textToDrawableName.put("grains/legumes", "grains_legumes");
+        textToDrawableName.put("protein", "protein");
+        textToDrawableName.put("beverages/dairy", "dairy");
+        textToDrawableName.put("spices/sauces", "spices_sauces");
     }
 
     @NonNull
@@ -100,7 +116,7 @@ public class FoodListAdapter extends
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
+            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
             cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
@@ -120,10 +136,19 @@ public class FoodListAdapter extends
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }
-            // todo: glide the food category picture if there is one
-//            Glide.with(context)
-//                    .load(foodItem.getPic().getUrl()).transform(new CircleCrop())
-//                    .into(ivFoodItemPic);
+
+            // for getting the food category picture
+            Resources res = context.getResources();
+            if (foodItem.getFoodCategory() == null){
+                ivFoodItemPic.setVisibility(View.GONE);
+            }
+            else{
+                ivFoodItemPic.setVisibility(View.VISIBLE);
+                String drawableName = (String) textToDrawableName.get(foodItem.getFoodCategory()); // the food category names are mapped to the drawable title in textToDrawableName hashmap
+                int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
+                Drawable drawable = res.getDrawable(resId);
+                Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
+            }
 
 
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {

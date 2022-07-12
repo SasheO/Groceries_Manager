@@ -19,7 +19,6 @@ import java.util.Objects;
 
 public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.ViewHolder> {
 
-    // Store a member variable for the contacts
     private List<FoodItem> ingredientList;
     private List<String> procedureList;
     private EditRecipeActivity context;

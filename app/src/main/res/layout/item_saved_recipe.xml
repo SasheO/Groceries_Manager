@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="3dp"
-            android:layout_toStartOf="@id/ivRecipeImage"
+            android:layout_toStartOf="@id/ivFoodItemPic"
             android:contentDescription="Recipe Title"
             android:textSize="25sp"
             tools:text="Recipe Title Appears Here" />
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvRecipeTitle"
             android:layout_marginStart="3dp"
-            android:layout_toStartOf="@id/ivRecipeImage"
+            android:layout_toStartOf="@id/ivFoodItemPic"
             android:contentDescription="Recipe filters"
             tools:text="Recipe Filters appear here" />
 
@@ -67,7 +67,7 @@
             card_view:tint="#121111" />
 
         <ImageView
-            android:id="@+id/ivRecipeImage"
+            android:id="@+id/ivFoodItemPic"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_alignParentTop="true"

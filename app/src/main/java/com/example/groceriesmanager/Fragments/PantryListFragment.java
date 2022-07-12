@@ -28,7 +28,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class PantryListFragment extends Fragment {
     RecyclerView rvPantryList;
@@ -92,15 +94,26 @@ public class PantryListFragment extends Fragment {
     }
 
     private void suggestRecipes() {
+
         FragmentTransaction ft = currentActivity.getSupportFragmentManager().beginTransaction();
         String userQuery = "";
 
+
+
+        // if the user did not manually select what recipe ingredients to search, do smart search
         if(adapter.selected.size() == 0){
-        // todo: implement the logic here, change it from random search to smart searc
-        // check which is which in pantry list
-        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
-        int index = (int)(Math.random() * pantryList.size());
-        userQuery = pantryList.get(index).getName();
+
+            // need at least two elements for smart search
+            if (pantryList.size()<2){
+                Toast.makeText(currentActivity, "not enough for random search", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+        userQuery = getSmartSearchQuery();
+
+
+//        int index = (int)(Math.random() * pantryList.size());
+//        userQuery = pantryList.get(index).getName();
         }
         else{
             for (FoodItem foodItem: adapter.selected){
@@ -110,6 +123,17 @@ public class PantryListFragment extends Fragment {
         RecipeSearchFragment fragmentDemo = RecipeSearchFragment.newInstance(userQuery);
         ft.replace(R.id.frameLayout, fragmentDemo);
         ft.commit();
+    }
+
+    private String getSmartSearchQuery() {
+        String userQuery = "";
+        // check which food categories is which in pantry list
+        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
+
+        // todo: implement logic
+        int index = (int)(Math.random() * pantryList.size());
+        userQuery = userQuery + pantryList.get(index).getName();
+        return userQuery;
     }
 
     private void queryPantryList() {
