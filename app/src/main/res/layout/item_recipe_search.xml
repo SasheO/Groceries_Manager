@@ -57,10 +57,18 @@
             tools:text="Recipe Filters appear here" />
 
         <TextView
-            android:id="@+id/tvRecipeIngredientLines"
+            android:id="@+id/tvFractionGottenIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ivFoodItemPic"
+            android:contentDescription="Text view of ingredient lines"
+            tools:text="Fraction of ingredients in pantry appears here" />
+
+        <TextView
+            android:id="@+id/tvRecipeIngredientLines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvFractionGottenIngredients"
             android:contentDescription="Text view of ingredient lines"
             tools:text="Ingredient lines appear here" />
 

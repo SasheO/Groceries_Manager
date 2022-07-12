@@ -175,7 +175,7 @@ public class RecipeSearchFragment extends Fragment {
 
     }
 
-    public void searchRecipes(String query){
+    private void searchRecipes(String query){
         // check if user has typed in something already
             adapter.clear(); // clear adapter, in case there are already results
             // todo: lemmatize the query

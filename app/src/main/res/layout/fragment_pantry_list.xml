@@ -7,14 +7,14 @@
         android:layout_height="match_parent"
         >
 
-        <TextView
-            style="@style/FragmentTitleStyle"
-            android:layout_width="match_parent"
-            android:id="@+id/Title"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/ibAddPantryItem"
-            android:text="Pantry" />
+    <TextView
+        android:id="@+id/Title"
+        style="@style/FragmentTitleStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/ibAddPantryItem"
+        android:text="Pantry" />
 
         <ImageButton
             android:id="@+id/ibAddPantryItem"
@@ -25,12 +25,20 @@
             android:contentDescription="Add new item button"
             app:srcCompat="@android:drawable/ic_input_add" />
 
+    <Switch
+        android:id="@+id/switchSortAccordingToCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Title"
+        android:layout_alignParentStart="true"
+        android:text="Sort according to category"
+        android:textColor="@color/dark_blue"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPantryList"
         android:layout_width="match_parent"
-        android:layout_below="@+id/Title"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/switchSortAccordingToCategory" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="60dp"
@@ -43,4 +51,7 @@
         android:backgroundTint="@color/light_grey"
         android:src="@android:drawable/ic_search_category_default"
         app:fabSize="normal" />
-    </RelativeLayout>
+
+
+
+</RelativeLayout>
