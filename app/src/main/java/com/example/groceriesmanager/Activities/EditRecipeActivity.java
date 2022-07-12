@@ -116,11 +116,11 @@ public class EditRecipeActivity extends AppCompatActivity {
 //            recipeIngredientListStr = userRecipe.getIngredientLines();
 
             etRecipeTitle.setText(recipeTitle);
-            if(recipeLink!=null){
+            if (recipeLink != null){
                 etLink.setText(recipeLink);
             }
 
-            if (filters!=null){
+            if (filters != null){
                 if (filters.contains(getResources().getString(R.string.vegan))){
                     checkboxVegan.setChecked(true);
                 }
@@ -132,12 +132,12 @@ public class EditRecipeActivity extends AppCompatActivity {
                 }
             }
 
-            if (userRecipe.getProcedure()!=null){
+            if (userRecipe.getProcedure() != null){
                 recipeProcedureList.addAll(userRecipe.getProcedure());
                 procedureAdapter.notifyDataSetChanged();
             }
 
-            if (userRecipe.getIngredients()!=null){
+            if (userRecipe.getIngredients() != null){
                 recipeIngredientList.addAll(userRecipe.getIngredients());
                 ingredientAdapter.notifyDataSetChanged();
             }
@@ -247,7 +247,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 String ingredientMeasure = spinnerIngredientMeasure.getSelectedItem().toString();
                 String ingredientQuantity = etIngredientQty.getText().toString().trim();
 
-                if(!currentlyEditingIngredient){
+                if (!currentlyEditingIngredient){
                     editedIngredient = new FoodItem();
                     editedIngredient.setUser(ParseUser.getCurrentUser());
                     editedIngredient.setType("recipe");
@@ -281,7 +281,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             String quantity = ingredient.getQuantity();
             String measure = ingredient.getMeasure();
             etAddIngredient.setText(name);
-            if (quantity!=null){
+            if (quantity != null){
                 etIngredientQty.setText(quantity);
                 int measure_position = Arrays.asList(getResources().getStringArray(R.array.food_measures)).indexOf(measure);
                 spinnerIngredientMeasure.setSelection(measure_position);
