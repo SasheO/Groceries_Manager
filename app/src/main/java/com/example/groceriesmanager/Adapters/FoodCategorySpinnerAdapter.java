@@ -29,7 +29,7 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
     // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
     public static Hashtable textToDrawableName = new Hashtable();
 
-    // Constructor accepts Context (from MainActivity) and a list of state abbreviations
+    // Constructor accepts Context and a list of strings
     public FoodCategorySpinnerAdapter(Context context, List<String> foodCategoryList) {
         super(context, R.layout.my_selected_item, foodCategoryList);
         this.context = context;
@@ -63,7 +63,7 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         TextView tvFoodCategory = row.findViewById(R.id.tvFoodCategory);
         ImageView ivFoodCategoryImage = row.findViewById(R.id.ivFoodCategoryImage);
 
-        // Get flag image from drawables folder
+        // Get food category image from drawables folder
         Resources res = context.getResources();
         String drawableName = (String) textToDrawableName.get(foodCategoryList.get(position)); // the food category names are mapped to the drawable title in textToDrawableName hashmap
         int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());

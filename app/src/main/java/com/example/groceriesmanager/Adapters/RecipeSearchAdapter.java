@@ -97,7 +97,7 @@ public class RecipeSearchAdapter extends
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
-            ivRecipeImage = itemView.findViewById(R.id.ivRecipeImage);
+            ivRecipeImage = itemView.findViewById(R.id.ivFoodItemPic);
             rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
             ibSaved = itemView.findViewById(R.id.ibSaved);
         }

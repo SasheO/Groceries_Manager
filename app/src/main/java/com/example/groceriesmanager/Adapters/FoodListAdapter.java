@@ -116,7 +116,7 @@ public class FoodListAdapter extends
             tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
             tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
             tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivRecipeImage);
+            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
             ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
             ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
             cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
@@ -136,22 +136,20 @@ public class FoodListAdapter extends
                 tvFoodItemQty.setText(foodItem.getQuantity());
                 tvFoodItemMeasure.setText(foodItem.getMeasure());
             }
-            // todo: glide the food category picture if there is one
-//            Glide.with(context)
-//                    .load(foodItem.getPic().getUrl()).transform(new CircleCrop())
-//                    .into(ivFoodItemPic);
 
+            // for getting the food category picture
             Resources res = context.getResources();
-            String drawableName = (String) textToDrawableName.get(foodItem.getFoodCategory()); // the food category names are mapped to the drawable title in textToDrawableName hashmap
-            int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
-            Drawable drawable = res.getDrawable(resId);
-
-            if (Objects.equals(foodItem.getFoodCategory(), "--no selection--")){
+            if (foodItem.getFoodCategory() == null){
                 ivFoodItemPic.setVisibility(View.GONE);
             }
             else{
+                ivFoodItemPic.setVisibility(View.VISIBLE);
+                String drawableName = (String) textToDrawableName.get(foodItem.getFoodCategory()); // the food category names are mapped to the drawable title in textToDrawableName hashmap
+                int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
+                Drawable drawable = res.getDrawable(resId);
                 Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
             }
+
 
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
