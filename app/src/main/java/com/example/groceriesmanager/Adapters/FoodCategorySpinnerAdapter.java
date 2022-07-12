@@ -26,7 +26,8 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
     Context context;
     List<String> foodCategoryList;
     private static final String TAG = "FoodCategorySpinnerAdapter";
-    private static Hashtable textToDrawableName = new Hashtable();
+    // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
+    public static Hashtable textToDrawableName = new Hashtable();
 
     // Constructor accepts Context (from MainActivity) and a list of state abbreviations
     public FoodCategorySpinnerAdapter(Context context, List<String> foodCategoryList) {
@@ -38,7 +39,6 @@ public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
         textToDrawableName.put("fresh fruits", "fresh_fruit");
         textToDrawableName.put("fresh vegetables", "fresh_fruit");
         textToDrawableName.put("canned food", "canned_food");
-        // todo: edit these to the actual picture
         textToDrawableName.put("grains/legumes", "grains_legumes");
         textToDrawableName.put("protein", "protein");
         textToDrawableName.put("beverages/dairy", "dairy");
