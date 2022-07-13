@@ -149,7 +149,6 @@ public class FoodListAdapter extends
                 Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
             }
 
-
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
                 public void onClick() {
@@ -158,7 +157,12 @@ public class FoodListAdapter extends
                     Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
-                    context.startActivity(intent);
+                    if (Objects.equals(type, "grocery")){
+                        context.groceryListFragment.editActivityResultLauncher.launch(intent);
+                    }
+                    else {
+//                        context.pantryListFragment.editActivityResultLauncher.launch(intent);
+                    }
                 }
                 public void onLongClick(){
                     if(Objects.equals(foodItem.getType(), "pantry")){

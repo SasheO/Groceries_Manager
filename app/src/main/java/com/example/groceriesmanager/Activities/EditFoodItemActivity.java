@@ -146,6 +146,13 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Toast.makeText(EditFoodItemActivity.this, "Could not edit food item", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // Prepare data intent to be sent back to grocery/pantry list
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("process", "edit");
+                    data.putExtra("fooditem", foodItem);
+                    // Activity finished ok, return the data
+                    setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
                 }
             }
@@ -177,8 +184,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     etFoodName.setText("");
                     etFoodQty.setText("");
 
-                    // todo: insert stuff into the intent
-                    // Prepare data intent
+                    // Prepare data intent to be sent back to grocery/pantry list
                     Intent data = new Intent();
                     // Pass relevant data back as a result
                     data.putExtra("process", "new");
