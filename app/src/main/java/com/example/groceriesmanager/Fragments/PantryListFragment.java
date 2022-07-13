@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +40,7 @@ public class PantryListFragment extends Fragment {
     ImageButton btnAddPantryItem;
     FloatingActionButton fabtnSuggestRecipes;
     List<FoodItem> pantryList;
+    Switch switchSortAccordingToCategory;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
@@ -62,6 +66,7 @@ public class PantryListFragment extends Fragment {
         rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
         btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+        switchSortAccordingToCategory = view.findViewById(R.id.switchSortAccordingToCategory);
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
@@ -70,6 +75,18 @@ public class PantryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        switchSortAccordingToCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    sortPantryAccordingToCategory();
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    queryPantryList();
+                }
+            }
+        });
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,14 +143,53 @@ public class PantryListFragment extends Fragment {
     }
 
     private String getSmartSearchQuery() {
+        /*
+        main for suggestions are grains/legumes, protein, veggies, canned food in that order
+        order pantry list according to importance
+        */
         String userQuery = "";
-        // check which food categories is which in pantry list
-        // main for suggestions are grains/legumes, protein, veggies, canned food in that order
 
-        // todo: implement logic
-        int index = (int)(Math.random() * pantryList.size());
-        userQuery = userQuery + pantryList.get(index).getName();
+        if (!switchSortAccordingToCategory.isChecked()){
+            sortPantryAccordingToCategory();
+        }
+        // get random element from first third which is likely to be prioritized category
+        int index = (int)(Math.random() * pantryList.size()/3);
+        userQuery = pantryList.get(index).getName();
+        pantryList.remove(index);
+        index = (int)(Math.random() * pantryList.size());
+        userQuery = userQuery + " " + pantryList.get(index).getName();
         return userQuery;
+    }
+
+    private void sortPantryAccordingToCategory(){
+        // todo: populate
+        /*
+        (pantry list max size is 30,)
+        this shuffles list (to somewhat randomize searches) then repeatedly moves items to the front to rearrange them in order of relevance when searching
+*/
+        List<FoodItem> organizedPantryList = new ArrayList<>(pantryList);
+        Collections.shuffle(organizedPantryList);
+        for (FoodItem item: pantryList){
+            if (item.getFoodCategory()==null){
+                organizedPantryList.remove(organizedPantryList.indexOf(item));
+                organizedPantryList.add(0, item);
+            }
+        }
+        // types is ordered in s
+        List<String> types = new ArrayList<>(Arrays.asList("other", "beverages/dairy", "fresh fruits", "canned food", "fresh vegetables", "protein", "grains/legumes"));
+        for (int i=0; i<types.size(); i++){
+            for (FoodItem item: pantryList){
+                if (item.getFoodCategory()!=null){
+                    if (Objects.equals(item.getFoodCategory(), types.get(i))){
+                        organizedPantryList.remove(organizedPantryList.indexOf(item));
+                        organizedPantryList.add(0, item);
+                    }
+                }
+            }
+        }
+
+        pantryList.clear();
+        pantryList.addAll(organizedPantryList);
     }
 
     private void queryPantryList() {

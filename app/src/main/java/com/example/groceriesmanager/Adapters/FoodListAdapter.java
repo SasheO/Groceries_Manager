@@ -59,7 +59,6 @@ public class FoodListAdapter extends
         textToDrawableName.put("grains/legumes", "grains_legumes");
         textToDrawableName.put("protein", "protein");
         textToDrawableName.put("beverages/dairy", "dairy");
-        textToDrawableName.put("spices/sauces", "spices_sauces");
     }
 
     @NonNull
