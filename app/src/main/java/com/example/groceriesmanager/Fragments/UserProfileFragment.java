@@ -158,6 +158,17 @@ public class UserProfileFragment extends Fragment {
                                 // todo: if type is video
 
                             }
+                            else{ // if editing recipe
+                                if (Objects.equals(type, "recipe")){
+                                    for (int i=0; i<userRecipes.size(); i++){
+                                        if (recipe.hasSameId(userRecipes.get(i))){
+                                            userRecipes.set(i, recipe);
+                                            userRecipeAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 });
