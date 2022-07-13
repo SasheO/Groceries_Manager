@@ -1,5 +1,6 @@
 package com.example.groceriesmanager.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,6 +30,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GroceryListFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -61,7 +68,6 @@ public class GroceryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvGroceryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
         ibAddGroceryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,30 +78,11 @@ public class GroceryListFragment extends Fragment {
                     Intent intent = new Intent(getContext(), EditFoodItemActivity.class);
                     intent.putExtra("type", type);
                     intent.putExtra("process", "new");
-                    startActivity(intent);
+                    editActivityResultLauncher.launch(intent);
                 }
             }
         });
     }
-
-//    ActivityResultLauncher<Intent> addFoodItemActivityResultLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    // If the user comes back to this activity from EditActivity
-//                    // with no error or cancellation
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Intent data_passed_back = result.getData();
-//                        // Get the data passed from EditActivity
-//                        // String editedString = data.getExtras().getString("newString");
-//                        // todo: get food item from grocery list and pass it in
-//                        FoodItem newFoodItem = data_passed_back.getParcelableExtra("newFoodItem");
-////                        groceryList.add(0, newFoodItem);
-////                        adapter.notifyDataSetChanged();
-//                    }
-//                }
-//            });
 
     private void queryGroceryList() {
         // specify what type of data we want to query - FoodItem.class
@@ -121,4 +108,35 @@ public class GroceryListFragment extends Fragment {
             }
         });
     }
+
+    // to get result from EditFoodItem activiity and update locally without refreshing
+    public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // If the user comes back to this activity from EditActivity
+                    // with no error or cancellation
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // todo: Get the data passed from EditActivity
+                        String process = data.getExtras().getString("process");
+                        FoodItem foodItem = data.getParcelableExtra("fooditem");
+
+                        if (Objects.equals(process, "new")){ // if creating new food item
+                            groceryList.add(0, foodItem); // add it to recycler view
+                            adapter.notifyDataSetChanged();
+                        }
+                        else { // if editing a food item
+                            for (int i=0; i<groceryList.size(); i++){
+                                if (foodItem.hasSameId(groceryList.get(i))){
+                                    groceryList.set(i, foodItem); // update the food item in the recycler view
+                                    adapter.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 }

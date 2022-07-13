@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -105,14 +106,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         // set the layout manager on the recycler view
         rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
-        // todo: if process is "edit" from intent, populate the recipe details into the text view
         String process = getIntent().getStringExtra("process");
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
             recipeTitle = userRecipe.getTitle();
             List<String> filters = userRecipe.getFilters();
             recipeLink = userRecipe.getHyperlink_url();
-            // todo: save ingredients, save ingredients as food item objects
 //            recipeIngredientListStr = userRecipe.getIngredientLines();
 
             etRecipeTitle.setText(recipeTitle);
@@ -151,6 +150,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         });
 
+        // todo: move the saving/editing recipe logic to a function for readability
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,9 +163,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                     userRecipe = new Recipe();
                     userRecipe.setUser(ParseUser.getCurrentUser());
                     userRecipe.setType("user");
-
-
-
                 }
                     userRecipe.setTitle(recipeTitle);
 
@@ -213,10 +210,20 @@ public class EditRecipeActivity extends AppCompatActivity {
                                 Toast.makeText(EditRecipeActivity.this, "error saving recipe", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(EditRecipeActivity.this, "Recipe successfully saved", Toast.LENGTH_LONG).show();
-                                finish();
+                                // Prepare data intent
+                                Intent data = new Intent();
+                                // Pass relevant data back as a result
+                                data.putExtra("recipe", userRecipe);
+                                data.putExtra("process", process);
+                                data.putExtra("type", "recipe");
+                                // Activity finished ok, return the data
+                                setResult(RESULT_OK, data); // set result code and bundle data for response
+                                finish(); // closes the activity, pass data to parent
                             }
                         }
                     });
+
+
                 }
             }
         });

@@ -104,7 +104,6 @@ public class RecipeSearchAdapter extends
 
         public void bind(Recipe recipe) {
             tvRecipeTitle.setText(recipe.getTitle());
-            // todo: set error and loading default images
             Glide.with(context)
                     .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
                     .into(ivRecipeImage);

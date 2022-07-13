@@ -38,7 +38,7 @@ public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
     protected List<FoodItem> foodItemList;
     MainActivity context;
-    String type;
+    String type; // will be either grocery or pantry to differentiate which one that particular instance of the class is being used for
     public static final String TAG = "FoodListAdapter";
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
@@ -149,7 +149,6 @@ public class FoodListAdapter extends
                 Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
             }
 
-
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
                 public void onClick() {
@@ -158,7 +157,14 @@ public class FoodListAdapter extends
                     Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
-                    context.startActivity(intent);
+                    if (Objects.equals(type, "grocery")){
+                        // this function enables the user to see the changes they made to the food item without refreshing the grocery fragment page
+                        context.groceryListFragment.editActivityResultLauncher.launch(intent);
+                    }
+                    else {
+                        // this function enables the user to see the changes they made to the food item without refreshing the pantry fragment page
+                        context.pantryListFragment.editActivityResultLauncher.launch(intent);
+                    }
                 }
                 public void onLongClick(){
                     if(Objects.equals(foodItem.getType(), "pantry")){
@@ -172,14 +178,13 @@ public class FoodListAdapter extends
                         }
                     }
                 }
-                // todo: reimplement switch list and delete here
 
                 @Override
                 public void onSwipeLeft() {
                     super.onSwipeLeft();
                     // your swipe left here.
                     if (Objects.equals(foodItem.getType(), "pantry")){
-                        switchFoodItemList(foodItem, itemView);
+                        switchFoodItemList(foodItem, itemView, type);
                     }
 
                 }
@@ -188,11 +193,12 @@ public class FoodListAdapter extends
                     super.onSwipeRight();
                     // your swipe right here.
                     if (Objects.equals(foodItem.getType(), "grocery")){
-                        switchFoodItemList(foodItem, itemView);
+                        switchFoodItemList(foodItem, itemView, type);
                     }
 
                 }
             });
+
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -207,7 +213,7 @@ public class FoodListAdapter extends
             return false;
         }
 
-        }
+    }
 
 
     public void clear() {
@@ -215,8 +221,21 @@ public class FoodListAdapter extends
         notifyDataSetChanged();
     }
 
-    public void switchFoodItemList(FoodItem foodItem, View itemView){
+    public void switchFoodItemList(FoodItem foodItem, View itemView, String type){
                     foodItem.switchList();
+        foodItemList.remove(foodItem);
+        notifyDataSetChanged();
+        foodItem.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error switching food item: " + e.toString());
+                }
+                else{
+                    Log.i(TAG, "food item switched lists successfully");
+                }
+            }
+        });
         String new_list_type;
                     if (Objects.equals(type, "grocery")){
                         new_list_type = "pantry";
@@ -224,30 +243,26 @@ public class FoodListAdapter extends
                     else{
                         new_list_type = "grocery";
                     }
-                    Snackbar.make(itemView, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onDismissed(Snackbar snackbar, int event) {
-                            // the code here runs while snackbar is being shown
-                            foodItemList.remove(foodItem);
-                            notifyDataSetChanged();
-                        }
-                    }).setAction("UNDO", new View.OnClickListener() {
+                    Snackbar.make(itemView, foodItem.getName() + " moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             foodItem.switchList();
+                            foodItemList.add(foodItem);
+                            notifyDataSetChanged();
+                            foodItem.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e!=null){
+                                        Log.e(TAG, "error switching food item: " + e.toString());
+                                    }
+                                    else{
+                                        Log.i(TAG, "food item switched lists successfully");
+                                    }
+                                }
+                            });
                         }
                     }).show();
-                    foodItem.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!=null){
-                                Log.e(TAG, "error switching food item: " + e.toString());
-                            }
-                            else{
-                                Log.i(TAG, "food item switched lists successfully");
-                            }
-                        }
-                    });
+
                 }
 
     public void deleteFoodItem(FoodItem foodItem, View itemView, Integer position){

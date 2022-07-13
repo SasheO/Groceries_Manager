@@ -25,7 +25,6 @@ public class VideoPlayerActivity extends YouTubeBaseActivity {
         Video video = Parcels.unwrap(getIntent().getParcelableExtra("video"));
         ImageButton ibExitPlayer = (ImageButton) findViewById(R.id.ibExitPlayer);
         YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.ytPlayer);
-        // todo: locate video channel, decription and title text views and populate them
         TextView tvVideoTitle = (TextView) findViewById(R.id.tvVideoTitle);
         TextView tvVideoDescription = (TextView) findViewById(R.id.tvVideoDescription);
         TextView tvChannelTitle = (TextView) findViewById(R.id.tvChannelTitle);

@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
     FoodItem foodItem;
     private Button btnCancel;
     private TextView tvTitle;
+    private static final String KEY_FOOD_CATEGORY = "foodCategory";
     private static final String TAG = "EditFoodItemActivity";
 
     @Override
@@ -131,6 +133,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
             foodItem.setCategory(foodStruct.foodCategory);
         }
+        else {
+            // if set to no selection, remove food category
+            foodItem.remove(KEY_FOOD_CATEGORY);
+        }
 
         foodItem.saveInBackground(new SaveCallback() {
             @Override
@@ -140,6 +146,13 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Toast.makeText(EditFoodItemActivity.this, "Could not edit food item", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    // Prepare data intent to be sent back to grocery/pantry list
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("process", "edit");
+                    data.putExtra("fooditem", foodItem);
+                    // Activity finished ok, return the data
+                    setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
                 }
             }
@@ -170,6 +183,14 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Log.i(TAG, "food item saved successfully");
                     etFoodName.setText("");
                     etFoodQty.setText("");
+
+                    // Prepare data intent to be sent back to grocery/pantry list
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("process", "new");
+                    data.putExtra("fooditem", newFoodItem);
+                    // Activity finished ok, return the data
+                    setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
                 }
             }
