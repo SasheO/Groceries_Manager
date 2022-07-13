@@ -236,6 +236,7 @@ public class UserProfileFragment extends Fragment {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
     }
+
     public void queryRecipes(String type) {
         // specify what type of data we want to query - Recipe.class
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
