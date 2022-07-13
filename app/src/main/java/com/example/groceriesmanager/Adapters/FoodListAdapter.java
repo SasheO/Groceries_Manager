@@ -183,7 +183,7 @@ public class FoodListAdapter extends
                     super.onSwipeLeft();
                     // your swipe left here.
                     if (Objects.equals(foodItem.getType(), "pantry")){
-                        switchFoodItemList(foodItem, itemView);
+                        switchFoodItemList(foodItem, itemView, type);
                     }
 
                 }
@@ -192,7 +192,7 @@ public class FoodListAdapter extends
                     super.onSwipeRight();
                     // your swipe right here.
                     if (Objects.equals(foodItem.getType(), "grocery")){
-                        switchFoodItemList(foodItem, itemView);
+                        switchFoodItemList(foodItem, itemView, type);
                     }
 
                 }
@@ -219,8 +219,21 @@ public class FoodListAdapter extends
         notifyDataSetChanged();
     }
 
-    public void switchFoodItemList(FoodItem foodItem, View itemView){
+    public void switchFoodItemList(FoodItem foodItem, View itemView, String type){
                     foodItem.switchList();
+        foodItemList.remove(foodItem);
+        notifyDataSetChanged();
+        foodItem.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error switching food item: " + e.toString());
+                }
+                else{
+                    Log.i(TAG, "food item switched lists successfully");
+                }
+            }
+        });
         String new_list_type;
                     if (Objects.equals(type, "grocery")){
                         new_list_type = "pantry";
@@ -228,30 +241,26 @@ public class FoodListAdapter extends
                     else{
                         new_list_type = "grocery";
                     }
-                    Snackbar.make(itemView, foodItem.getName() + " will be moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).addCallback(new Snackbar.Callback() {
-                        @Override
-                        public void onDismissed(Snackbar snackbar, int event) {
-                            // the code here runs while snackbar is being shown
-                            foodItemList.remove(foodItem);
-                            notifyDataSetChanged();
-                        }
-                    }).setAction("UNDO", new View.OnClickListener() {
+                    Snackbar.make(itemView, foodItem.getName() + " moved to " + new_list_type + " list!", Snackbar.LENGTH_SHORT).setAction("UNDO", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             foodItem.switchList();
+                            foodItemList.add(foodItem);
+                            notifyDataSetChanged();
+                            foodItem.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e!=null){
+                                        Log.e(TAG, "error switching food item: " + e.toString());
+                                    }
+                                    else{
+                                        Log.i(TAG, "food item switched lists successfully");
+                                    }
+                                }
+                            });
                         }
                     }).show();
-                    foodItem.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!=null){
-                                Log.e(TAG, "error switching food item: " + e.toString());
-                            }
-                            else{
-                                Log.i(TAG, "food item switched lists successfully");
-                            }
-                        }
-                    });
+
                 }
 
     public void deleteFoodItem(FoodItem foodItem, View itemView, Integer position){
