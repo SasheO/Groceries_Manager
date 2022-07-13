@@ -1,11 +1,16 @@
 package com.example.groceriesmanager.Activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,5 +104,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // If the user comes back to this activity from EditActivity
+                    // with no error or cancellation
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // Get the data passed from EditActivity
+                        String editedString = data.getExtras().getString("newString");
+                    }
+                }
+            });
 
 }

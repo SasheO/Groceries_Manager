@@ -1,5 +1,6 @@
 package com.example.groceriesmanager.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +38,8 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,12 +135,39 @@ public class UserProfileFragment extends Fragment {
         // set the layout manager on the recycler view
         rvSavedVideos.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        // to enable us get recipe from edit recipe activity
+        ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        // If the user comes back to this activity from EditActivity
+                        // with no error or cancellation
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            // todo: Get the data passed from EditRecipeActivity
+                            String process = data.getExtras().getString("process");
+                            String type = data.getExtras().getString("type");
+                            Recipe recipe = data.getParcelableExtra("recipe");
+
+                            if (Objects.equals(process, "new")){
+                                if (Objects.equals(type, "recipe")){
+                                    userRecipes.add(0, recipe);
+                                    userRecipeAdapter.notifyDataSetChanged();
+                                }
+                                // todo: if type is video
+
+                            }
+                        }
+                    }
+                });
+
         ibCreateNewRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditRecipeActivity.class);
                 intent.putExtra("process", "new");
-                startActivity(intent);
+                editActivityResultLauncher.launch(intent);
             }
         });
 
