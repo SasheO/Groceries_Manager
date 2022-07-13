@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,27 +22,27 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class VideoAdapter extends
-        RecyclerView.Adapter<VideoAdapter.ViewHolder>{
+public class VideoSearchAdapter extends
+        RecyclerView.Adapter<VideoSearchAdapter.ViewHolder>{
     private List<Video> videoList;
     MainActivity context;
     public static final String TAG = "VideoAdapter";
 
-    public VideoAdapter(Context context, List<Video> videoList) {
+    public VideoSearchAdapter(Context context, List<Video> videoList) {
         this.context = (MainActivity) context;
         this.videoList = videoList;
     }
 
     @NonNull
     @Override
-    public VideoAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VideoSearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
         View videoItemView = inflater.inflate(R.layout.item_video_search, parent, false);
 
         // Return a new holder instance
-        VideoAdapter.ViewHolder viewHolder = new VideoAdapter.ViewHolder(videoItemView);
+        VideoSearchAdapter.ViewHolder viewHolder = new VideoSearchAdapter.ViewHolder(videoItemView);
 
         return viewHolder;
     }

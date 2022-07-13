@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Adapters.VideoAdapter;
+import com.example.groceriesmanager.Adapters.VideoSearchAdapter;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
@@ -44,7 +44,7 @@ public class YoutubeSearchFragment extends Fragment {
     CheckBox checkboxGlutenFree;
     private static final String TAG = "YoutubeSearchFragment";
     public static List<Video> videoList;
-    public VideoAdapter adapter;
+    public VideoSearchAdapter adapter;
     RecyclerView rvYoutubeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
@@ -76,7 +76,7 @@ public class YoutubeSearchFragment extends Fragment {
         checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
         checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);
         videoList = new ArrayList<>();
-        adapter = new VideoAdapter(getContext(), videoList);
+        adapter = new VideoSearchAdapter(getContext(), videoList);
 
         // set the adapter on the recycler view
         rvYoutubeSearch.setAdapter(adapter);
