@@ -150,25 +150,23 @@ public class UserProfileFragment extends Fragment {
                             String type = data.getExtras().getString("type");
                             Recipe recipe = data.getParcelableExtra("recipe");
 
-                            if (Objects.equals(process, "new")){
-                                if (Objects.equals(type, "recipe")){
-                                    userRecipes.add(0, recipe);
+                            if (Objects.equals(type, "recipe")){
+                                if (Objects.equals(process, "new")){ // if creating new recipe
+                                    userRecipes.add(0, recipe); // add recipe to recycler view
                                     userRecipeAdapter.notifyDataSetChanged();
                                 }
-                                // todo: if type is video
-
-                            }
-                            else{ // if editing recipe
-                                if (Objects.equals(type, "recipe")){
+                                else {
                                     for (int i=0; i<userRecipes.size(); i++){
                                         if (recipe.hasSameId(userRecipes.get(i))){
-                                            userRecipes.set(i, recipe);
+                                            userRecipes.set(i, recipe); // update the recipe in the recycler view
                                             userRecipeAdapter.notifyDataSetChanged();
                                             break;
                                         }
                                     }
                                 }
+
                             }
+
                         }
                     }
                 });
