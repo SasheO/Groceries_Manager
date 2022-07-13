@@ -163,6 +163,13 @@ public class RecipeSearchAdapter extends
                 }
             });
 
+            ibSaved.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveOrUnsaveRecipe(recipe);
+                }
+            });
+
             rlRecipeSearch.setOnTouchListener(new OnSwipeTouchListener(context) {
                 @Override
                 public void onClick() {
@@ -175,56 +182,9 @@ public class RecipeSearchAdapter extends
                 }
 
                 private void updateSavedRecipesWithCurrentRecipe() {
-                    if (recipeIsSaved(recipe)){
-                        // delete all food items associated wiht it
-                        for (FoodItem ingredient: recipe.getIngredients()){
-                            ingredient.deleteFood();
-                        }
-                        recipe.deleteInBackground();
-                        for (Recipe savedRecipe: savedRecipesList){
-                            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
-                                savedRecipesList.remove(savedRecipe);
-                                break;
-                            }
-                        }
-                        ibSaved.setImageResource(android.R.drawable.star_big_off);
-                        Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else{
-                        ParseUser currentUser = ParseUser.getCurrentUser();
-                        // save all the ingredients to the server
-                        for (FoodItem ingredient: recipe.getIngredients()){
-                            ingredient.setUser(currentUser);
-                            ingredient.setType("recipe");
-                            ingredient.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e!=null){
-                                        Log.e(TAG, "error saving ingredient: " + e.toString());
-                                    }
-                                }
-                            });
-                        }
-                    recipe.setUser(ParseUser.getCurrentUser());
-                    recipe.setType("saved");
-                    recipe.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!= null){
-                                Log.e(TAG, "error saving recipe to server:" + e.toString());
-                                Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
-                            }
-                            else {
-                                Log.i(TAG, "recipe saved successffully");
-                                savedRecipesList.add(recipe);
-                                Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
-                                ibSaved.setImageResource(android.R.drawable.star_big_on);
-                            }
-                        }
-                    });
-                    }
+                    saveOrUnsaveRecipe(recipe);
                 }
+
 
             });
 
@@ -232,6 +192,59 @@ public class RecipeSearchAdapter extends
 
         @Override
         public void onClick(View v) {}
+
+        private void saveOrUnsaveRecipe(Recipe recipe) {
+            if (recipeIsSaved(recipe)){
+                // delete all food items associated wiht it
+                for (FoodItem ingredient: recipe.getIngredients()){
+                    ingredient.deleteFood();
+                }
+                recipe.deleteInBackground();
+                for (Recipe savedRecipe: savedRecipesList){
+                    if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
+                        savedRecipesList.remove(savedRecipe);
+                        break;
+                    }
+                }
+                ibSaved.setImageResource(android.R.drawable.star_big_off);
+                Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else{
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                // save all the ingredients to the server
+                for (FoodItem ingredient: recipe.getIngredients()){
+                    ingredient.setUser(currentUser);
+                    ingredient.setType("recipe");
+                    ingredient.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e!=null){
+                                Log.e(TAG, "error saving ingredient: " + e.toString());
+                            }
+                        }
+                    });
+                }
+                recipe.setUser(ParseUser.getCurrentUser());
+                recipe.setType("saved");
+                recipe.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e!= null){
+                            Log.e(TAG, "error saving recipe to server:" + e.toString());
+                            Toast.makeText(context, "error saving recipe", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Log.i(TAG, "recipe saved successffully");
+                            savedRecipesList.add(recipe);
+                            Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+                            ibSaved.setImageResource(android.R.drawable.star_big_on);
+                        }
+                    }
+                });
+            }
+        }
+
 
     }
 
