@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,8 @@ public class Video extends ParseObject {
     private static final String KEY_TITLE = "title";
     private static final String KEY_VIDEO_ID = "videoID";
     private static final String KEY_CHANNEL_TITLE = "channelTitle";
-    private static final String KEY_THUMBNAIL_URL = "THUMBNAIL_URL";
+    private static final String KEY_THUMBNAIL_URL = "thumbnailURL";
+    private static final String KEY_USER = "user";
     private String description;
 
     // required empty constructor for Parcel library
@@ -35,7 +37,6 @@ public class Video extends ParseObject {
         return getString(KEY_THUMBNAIL_URL);
     }
 
-
     public String getTitle() {
         return getString(KEY_TITLE);
     }
@@ -49,6 +50,12 @@ public class Video extends ParseObject {
     }
 
     public String getDescription() { return description;}
+
+    public ParseUser getUser(){return getParseUser(KEY_USER);}
+
+    public void setUser(ParseUser user){
+        put(KEY_USER, user);
+    }
 
     public static List<Video> fromJsonArray(JSONArray videoJsonArray) throws JSONException {
         List<Video> videoList = new ArrayList<>();

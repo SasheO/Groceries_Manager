@@ -178,13 +178,8 @@ public class RecipeSearchAdapter extends
 
                 }
                 public void onDoubleClick(){
-                    updateSavedRecipesWithCurrentRecipe();
-                }
-
-                private void updateSavedRecipesWithCurrentRecipe() {
                     saveOrUnsaveRecipe(recipe);
                 }
-
 
             });
 
