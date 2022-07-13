@@ -31,6 +31,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
     FoodItem foodItem;
     private Button btnCancel;
     private TextView tvTitle;
+    private static final String KEY_FOOD_CATEGORY = "foodCategory";
     private static final String TAG = "EditFoodItemActivity";
 
     @Override
@@ -130,6 +131,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
         }
         if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
             foodItem.setCategory(foodStruct.foodCategory);
+        }
+        else {
+            // if set to no selection, remove food category
+            foodItem.remove(KEY_FOOD_CATEGORY);
         }
 
         foodItem.saveInBackground(new SaveCallback() {
