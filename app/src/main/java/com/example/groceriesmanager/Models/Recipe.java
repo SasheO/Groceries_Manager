@@ -19,7 +19,7 @@ import java.util.Objects;
 @ParseClassName("Recipe")
 public class Recipe extends ParseObject {
     private String image_url;
-    private static final String TAG = "UserProfileFragment";
+    private static final String TAG = "Recipe";
     private static final String KEY_FILTER_VEGAN = "Vegan";
     private static final String KEY_FILTER_VEGETARIAN = "Vegetarian";
     private static final String KEY_FILTER_GLUTEN_FREE = "Gluten-Free";

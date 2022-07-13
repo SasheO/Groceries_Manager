@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -7,18 +8,31 @@
     android:id="@+id/llVideo"
     android:padding="5dp">
 
-    <ImageView
-        android:id="@+id/ivVideoThumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:contentDescription="youtube video thumbnail"
-        tools:srcCompat="@tools:sample/avatars" />
+    <ImageButton
+        android:id="@+id/ibSaved2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:background="@null"
+        android:src="@android:drawable/btn_star_big_off" />
 
     <TextView
         android:id="@+id/tvVideoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ivVideoThumbnail"
         android:contentDescription="youtube video title"
         android:text="TextView" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/ivVideoThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="youtube video thumbnail"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</RelativeLayout>

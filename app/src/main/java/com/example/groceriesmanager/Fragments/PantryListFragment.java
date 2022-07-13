@@ -87,6 +87,7 @@ public class PantryListFragment extends Fragment {
                 }
             }
         });
+
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,9 +129,6 @@ public class PantryListFragment extends Fragment {
 
         userQuery = getSmartSearchQuery();
 
-
-//        int index = (int)(Math.random() * pantryList.size());
-//        userQuery = pantryList.get(index).getName();
         }
         else{
             for (FoodItem foodItem: adapter.selected){
@@ -152,7 +150,7 @@ public class PantryListFragment extends Fragment {
         if (!switchSortAccordingToCategory.isChecked()){
             sortPantryAccordingToCategory();
         }
-        // get random element from first third which is likely to be prioritized category
+        // get random element from first third which is likely to be a prioritized category
         int index = (int)(Math.random() * pantryList.size()/3);
         userQuery = pantryList.get(index).getName();
         pantryList.remove(index);

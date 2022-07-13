@@ -14,10 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Adapters.VideoAdapter;
+import com.example.groceriesmanager.Adapters.VideoSearchAdapter;
+import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -44,13 +48,14 @@ public class YoutubeSearchFragment extends Fragment {
     CheckBox checkboxGlutenFree;
     private static final String TAG = "YoutubeSearchFragment";
     public static List<Video> videoList;
-    public VideoAdapter adapter;
+    public VideoSearchAdapter adapter;
     RecyclerView rvYoutubeSearch;
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten free";
     User currentUser;
     List<String> dietFilters;
+    public static List<Video> savedVideosList;
 
     // required empty constructor
     public YoutubeSearchFragment() {}
@@ -76,7 +81,8 @@ public class YoutubeSearchFragment extends Fragment {
         checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
         checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);
         videoList = new ArrayList<>();
-        adapter = new VideoAdapter(getContext(), videoList);
+        savedVideosList = new ArrayList<>();
+        adapter = new VideoSearchAdapter(getContext(), videoList, savedVideosList);
 
         // set the adapter on the recycler view
         rvYoutubeSearch.setAdapter(adapter);
@@ -95,6 +101,10 @@ public class YoutubeSearchFragment extends Fragment {
         if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
             checkboxVegetarian.setChecked(true);
         }
+
+        // get saved recipes which are passed into adapter
+        getSavedVideos();
+        adapter.notifyDataSetChanged();
 
         // when user clicks on the x to clear search results
         ibYoutubeSearchClear.setOnClickListener(new View.OnClickListener() {
@@ -202,4 +212,28 @@ public class YoutubeSearchFragment extends Fragment {
             }
         });
     }
+
+    public void getSavedVideos(){
+        // specify what type of data we want to query - FoodItem.class
+        ParseQuery<Video> query = ParseQuery.getQuery(Video.class);
+        // include data where user is current user
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.findInBackground(new FindCallback<Video>() {
+            @Override
+            public void done(List<Video> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                }
+                else{
+                    savedVideosList.addAll(objects);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+    }
+
 }

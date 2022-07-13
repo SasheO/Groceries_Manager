@@ -24,7 +24,9 @@ import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 import com.example.groceriesmanager.Adapters.SavedRecipeAdapter;
+import com.example.groceriesmanager.Adapters.VideoSearchAdapter;
 import com.example.groceriesmanager.Models.Recipe;
+import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
@@ -52,9 +54,11 @@ public class UserProfileFragment extends Fragment {
     Spinner spinnerExpandSettings;
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
+    public List<Video> savedVideos;
     private static final String TAG = "UserProfileFragment";
     public SavedRecipeAdapter savedRecipeAdapter;
     public SavedRecipeAdapter userRecipeAdapter;
+    public VideoSearchAdapter videoRecipeAdapter;
 
     // required empty constructor
     public UserProfileFragment() {}
@@ -90,12 +94,16 @@ public class UserProfileFragment extends Fragment {
 
         savedRecipes = new ArrayList<>();
         userRecipes = new ArrayList<>();
+        savedVideos = new ArrayList<>();
 
         queryRecipes("saved");
         queryRecipes("user");
+        queryVideos();
 
         savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
         userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
+        // todo: set video adapter
+        videoRecipeAdapter = new VideoSearchAdapter(getContext(), savedVideos, null);
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
@@ -115,6 +123,10 @@ public class UserProfileFragment extends Fragment {
         rvMyRecipes.setAdapter(userRecipeAdapter);
         // set the layout manager on the recycler view
         rvMyRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // set the adapter on the recycler view
+        rvSavedVideos.setAdapter(videoRecipeAdapter);
+        // set the layout manager on the recycler view
+        rvSavedVideos.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ibCreateNewRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,10 +236,11 @@ public class UserProfileFragment extends Fragment {
         Intent intent = new Intent(getContext(), LoginActivity.class);
         startActivity(intent);
     }
+
     public void queryRecipes(String type) {
-        // specify what type of data we want to query - FoodItem.class
-        // include data where post is current post
+        // specify what type of data we want to query - Recipe.class
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+        // include data where recipe is given type and was saved/created by current user
         query.whereEqualTo("type", type);
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         // necessary to include non-primitive types
@@ -251,6 +264,30 @@ public class UserProfileFragment extends Fragment {
                         userRecipes.addAll(objects);
                         userRecipeAdapter.notifyDataSetChanged();
                     }
+                }
+            }
+        });
+
+    }
+
+    public void queryVideos() {
+        // specify what type of data we want to query - Recipe.class
+        ParseQuery<Video> query = ParseQuery.getQuery(Video.class);
+        // include data where video was saved by current user
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Video>() {
+            @Override
+            public void done(List<Video> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving saved videos: " + e.toString());
+                }
+                else{
+                    savedVideos.addAll(objects);
+                    videoRecipeAdapter.notifyDataSetChanged();
                 }
             }
         });
