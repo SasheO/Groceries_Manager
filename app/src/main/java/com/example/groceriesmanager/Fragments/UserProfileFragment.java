@@ -25,6 +25,7 @@ import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 import com.example.groceriesmanager.Adapters.SavedRecipeAdapter;
 import com.example.groceriesmanager.Models.Recipe;
+import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
@@ -52,6 +53,7 @@ public class UserProfileFragment extends Fragment {
     Spinner spinnerExpandSettings;
     public List<Recipe> savedRecipes;
     public List<Recipe> userRecipes;
+    public List<Video> savedVideos;
     private static final String TAG = "UserProfileFragment";
     public SavedRecipeAdapter savedRecipeAdapter;
     public SavedRecipeAdapter userRecipeAdapter;
@@ -90,12 +92,15 @@ public class UserProfileFragment extends Fragment {
 
         savedRecipes = new ArrayList<>();
         userRecipes = new ArrayList<>();
+        savedVideos = new ArrayList<>();
 
         queryRecipes("saved");
         queryRecipes("user");
+        queryVideos();
 
         savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
         userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
+        // todo: set video adapter
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
@@ -251,6 +256,29 @@ public class UserProfileFragment extends Fragment {
                         userRecipes.addAll(objects);
                         userRecipeAdapter.notifyDataSetChanged();
                     }
+                }
+            }
+        });
+
+    }
+
+    public void queryVideos() {
+        // specify what type of data we want to query - FoodItem.class
+        // include data where post is current post
+        ParseQuery<Video> query = ParseQuery.getQuery(Video.class);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Video>() {
+            @Override
+            public void done(List<Video> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving saved videos: " + e.toString());
+                }
+                else{
+                    // todo: add all to the video list and notify video adapter dataset changed
                 }
             }
         });
