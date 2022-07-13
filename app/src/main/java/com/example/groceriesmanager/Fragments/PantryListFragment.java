@@ -100,20 +100,6 @@ public class PantryListFragment extends Fragment {
             }
         });
 
-        ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        // If the user comes back to this activity from EditActivity
-                        // with no error or cancellation
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            // todo: Get the data passed from EditActivity
-//                            String editedString = data.getExtras().getString("newString");
-                        }
-                    }
-                });
 
         btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,4 +220,33 @@ public class PantryListFragment extends Fragment {
             }
         });
     }
+    public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // If the user comes back to this activity from EditActivity
+                    // with no error or cancellation
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // todo: Get the data passed from EditActivity
+                        String process = data.getExtras().getString("process");
+                        FoodItem foodItem = data.getParcelableExtra("fooditem");
+
+                        if (Objects.equals(process, "new")){ // if creating new food item
+                            pantryList.add(0, foodItem); // add it to recycler view
+                            adapter.notifyDataSetChanged();
+                        }
+                        else { // if editing a food item
+                            for (int i=0; i<pantryList.size(); i++){
+                                if (foodItem.hasSameId(pantryList.get(i))){
+                                    pantryList.set(i, foodItem); // update the food item in the recycler view
+                                    adapter.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 }

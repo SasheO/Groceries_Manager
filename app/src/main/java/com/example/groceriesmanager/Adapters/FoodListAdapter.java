@@ -161,7 +161,7 @@ public class FoodListAdapter extends
                         context.groceryListFragment.editActivityResultLauncher.launch(intent);
                     }
                     else {
-//                        context.pantryListFragment.editActivityResultLauncher.launch(intent);
+                        context.pantryListFragment.editActivityResultLauncher.launch(intent);
                     }
                 }
                 public void onLongClick(){
