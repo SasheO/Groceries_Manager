@@ -214,7 +214,7 @@ public class YoutubeSearchFragment extends Fragment {
     }
 
     public void getSavedVideos(){
-        // specify what type of data we want to query - FoodItem.class
+        // specify what type of data we want to query - Video.class
         ParseQuery<Video> query = ParseQuery.getQuery(Video.class);
         // include data where user is current user
         query.whereEqualTo("user", ParseUser.getCurrentUser());
