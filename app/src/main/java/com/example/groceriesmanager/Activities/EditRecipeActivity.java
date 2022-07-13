@@ -212,7 +212,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                                 Toast.makeText(EditRecipeActivity.this, "error saving recipe", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(EditRecipeActivity.this, "Recipe successfully saved", Toast.LENGTH_LONG).show();
-                                // todo: insert into saved recipes
                                 // Prepare data intent
                                 Intent data = new Intent();
                                 // Pass relevant data back as a result

@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -175,6 +176,15 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Log.i(TAG, "food item saved successfully");
                     etFoodName.setText("");
                     etFoodQty.setText("");
+
+                    // todo: insert stuff into the intent
+                    // Prepare data intent
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("process", "new");
+                    data.putExtra("fooditem", newFoodItem);
+                    // Activity finished ok, return the data
+                    setResult(RESULT_OK, data); // set result code and bundle data for response
                     finish();
                 }
             }
