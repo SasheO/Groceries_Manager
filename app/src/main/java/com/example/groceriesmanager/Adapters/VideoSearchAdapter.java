@@ -104,7 +104,7 @@ public class VideoSearchAdapter extends
                     .load(video.getThumbnail_url())
                     .into(ivVideoThumbnail);
 
-        if (savedVideosList!=null){
+        if (savedVideosList != null){ // saved videos are null when this adapter is used in user profile fragment, so all the videos given are already saved
             if (videoIsSaved(video)){
                 ibSaved.setImageResource(android.R.drawable.star_big_on);
             }
@@ -136,7 +136,7 @@ public class VideoSearchAdapter extends
         }
 
         private void saveOrUnsaveRecipe(Video video) {
-            if (savedVideosList!=null){
+            if (savedVideosList != null){
                 if (videoIsSaved(video)){
                     video.deleteInBackground();
                     for (Video savedVideo: savedVideosList){
@@ -170,7 +170,7 @@ public class VideoSearchAdapter extends
                     });
                 }
             }
-                else {
+                else { // saved videos are null when this adapter is used in user profile fragment, so all the videos given are already saved
                 video.deleteInBackground();
                 videoList.remove(video);
                 notifyDataSetChanged();
