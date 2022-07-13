@@ -18,6 +18,14 @@
         android:background="@null"
         android:src="@android:drawable/btn_star_big_off" />
 
+    <TextView
+        android:id="@+id/tvVideoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivVideoThumbnail"
+        android:contentDescription="youtube video title"
+        android:text="TextView" />
+
     <ImageView
         android:id="@+id/ivVideoThumbnail"
         android:layout_width="match_parent"
@@ -26,13 +34,5 @@
         android:layout_alignParentTop="true"
         android:contentDescription="youtube video thumbnail"
         tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tvVideoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivVideoThumbnail"
-        android:contentDescription="youtube video title"
-        android:text="TextView" />
 
 </RelativeLayout>

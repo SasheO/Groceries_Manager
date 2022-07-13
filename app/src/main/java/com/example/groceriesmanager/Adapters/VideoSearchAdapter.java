@@ -98,6 +98,7 @@ public class VideoSearchAdapter extends
         }
 
         public void bind(Video video) {
+            ibSaved.bringToFront(); // this is necessary so that the star shows above the video not behind it
             tvVideoeTitle.setText(video.getTitle());
             Glide.with(context)
                     .load(video.getThumbnail_url())
