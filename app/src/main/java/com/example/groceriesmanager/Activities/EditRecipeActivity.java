@@ -106,14 +106,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         // set the layout manager on the recycler view
         rvProcedure.setLayoutManager(new LinearLayoutManager(EditRecipeActivity.this));
 
-        // todo: if process is "edit" from intent, populate the recipe details into the text view
         String process = getIntent().getStringExtra("process");
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
             recipeTitle = userRecipe.getTitle();
             List<String> filters = userRecipe.getFilters();
             recipeLink = userRecipe.getHyperlink_url();
-            // todo: save ingredients, save ingredients as food item objects
 //            recipeIngredientListStr = userRecipe.getIngredientLines();
 
             etRecipeTitle.setText(recipeTitle);

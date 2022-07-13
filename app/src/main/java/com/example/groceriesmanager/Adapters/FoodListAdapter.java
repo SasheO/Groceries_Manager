@@ -38,7 +38,7 @@ public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
     protected List<FoodItem> foodItemList;
     MainActivity context;
-    String type;
+    String type; // will be either grocery or pantry to differentiate which one that particular instance of the class is being used for
     public static final String TAG = "FoodListAdapter";
     public static final String PANTRY = "pantry";
     public static final String GROCERY = "grocery";
@@ -158,9 +158,11 @@ public class FoodListAdapter extends
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
                     if (Objects.equals(type, "grocery")){
+                        // this function enables the user to see the changes they made to the food item without refreshing the grocery fragment page
                         context.groceryListFragment.editActivityResultLauncher.launch(intent);
                     }
                     else {
+                        // this function enables the user to see the changes they made to the food item without refreshing the pantry fragment page
                         context.pantryListFragment.editActivityResultLauncher.launch(intent);
                     }
                 }
@@ -176,7 +178,6 @@ public class FoodListAdapter extends
                         }
                     }
                 }
-                // todo: reimplement switch list and delete here
 
                 @Override
                 public void onSwipeLeft() {
@@ -197,6 +198,7 @@ public class FoodListAdapter extends
 
                 }
             });
+
             ibFoodItemDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -211,7 +213,7 @@ public class FoodListAdapter extends
             return false;
         }
 
-        }
+    }
 
 
     public void clear() {

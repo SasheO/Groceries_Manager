@@ -128,7 +128,6 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
             ibDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: populate
                     context.deleteProcedure(procedureList.indexOf(procedure));
                 }
             });
@@ -136,7 +135,6 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
             ibEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: populate
                     context.editProcedure(procedureList.indexOf(procedure));
                 }
             });
