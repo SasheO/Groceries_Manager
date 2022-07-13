@@ -104,12 +104,18 @@ public class VideoSearchAdapter extends
                     .load(video.getThumbnail_url())
                     .into(ivVideoThumbnail);
 
+        if (savedVideosList!=null){
             if (videoIsSaved(video)){
                 ibSaved.setImageResource(android.R.drawable.star_big_on);
             }
             else {
                 ibSaved.setImageResource(android.R.drawable.star_big_off);
             }
+        }
+        else {
+            ibSaved.setImageResource(android.R.drawable.star_big_on);
+        }
+
 
             // when user tries to save/unsave video
             ibSaved.setOnClickListener(new View.OnClickListener() {
@@ -130,8 +136,8 @@ public class VideoSearchAdapter extends
         }
 
         private void saveOrUnsaveRecipe(Video video) {
+            if (savedVideosList!=null){
                 if (videoIsSaved(video)){
-                    // delete all food items associated wiht it
                     video.deleteInBackground();
                     for (Video savedVideo: savedVideosList){
                         if (Objects.equals(video.getTitle(), savedVideo.getTitle())){
@@ -162,6 +168,12 @@ public class VideoSearchAdapter extends
                             }
                         }
                     });
+                }
+            }
+                else {
+                video.deleteInBackground();
+                videoList.remove(video);
+                notifyDataSetChanged();
             }
 
         }

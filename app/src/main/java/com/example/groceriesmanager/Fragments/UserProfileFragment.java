@@ -24,6 +24,7 @@ import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.LoginActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 import com.example.groceriesmanager.Adapters.SavedRecipeAdapter;
+import com.example.groceriesmanager.Adapters.VideoSearchAdapter;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
@@ -57,6 +58,7 @@ public class UserProfileFragment extends Fragment {
     private static final String TAG = "UserProfileFragment";
     public SavedRecipeAdapter savedRecipeAdapter;
     public SavedRecipeAdapter userRecipeAdapter;
+    public VideoSearchAdapter videoRecipeAdapter;
 
     // required empty constructor
     public UserProfileFragment() {}
@@ -101,6 +103,7 @@ public class UserProfileFragment extends Fragment {
         savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
         userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
         // todo: set video adapter
+        videoRecipeAdapter = new VideoSearchAdapter(getContext(), savedVideos, null);
 
         // spinner adapter for account dropdown
         List<String> settingsList = Arrays.asList(getContext().getResources().getStringArray((R.array.user_profile_settings)));
@@ -120,6 +123,10 @@ public class UserProfileFragment extends Fragment {
         rvMyRecipes.setAdapter(userRecipeAdapter);
         // set the layout manager on the recycler view
         rvMyRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        // set the adapter on the recycler view
+        rvSavedVideos.setAdapter(videoRecipeAdapter);
+        // set the layout manager on the recycler view
+        rvSavedVideos.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ibCreateNewRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,9 +237,9 @@ public class UserProfileFragment extends Fragment {
         startActivity(intent);
     }
     public void queryRecipes(String type) {
-        // specify what type of data we want to query - FoodItem.class
-        // include data where post is current post
+        // specify what type of data we want to query - Recipe.class
         ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+        // include data where recipe is given type and was saved/created by current user
         query.whereEqualTo("type", type);
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         // necessary to include non-primitive types
@@ -263,9 +270,9 @@ public class UserProfileFragment extends Fragment {
     }
 
     public void queryVideos() {
-        // specify what type of data we want to query - FoodItem.class
-        // include data where post is current post
+        // specify what type of data we want to query - Recipe.class
         ParseQuery<Video> query = ParseQuery.getQuery(Video.class);
+        // include data where video was saved by current user
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         // necessary to include non-primitive types
         query.include("user");
@@ -278,7 +285,8 @@ public class UserProfileFragment extends Fragment {
                     Log.e(TAG, "error retrieving saved videos: " + e.toString());
                 }
                 else{
-                    // todo: add all to the video list and notify video adapter dataset changed
+                    savedVideos.addAll(objects);
+                    videoRecipeAdapter.notifyDataSetChanged();
                 }
             }
         });
