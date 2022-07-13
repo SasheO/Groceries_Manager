@@ -1,5 +1,8 @@
 package com.example.groceriesmanager.Models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,61 +11,44 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
-@Parcel
-public class Video {
-    private String thumbnail_url;
-    private String title;
-    private String channelTitle;
-    private String videoID;
+@ParseClassName("Video")
+public class Video extends ParseObject {
+    private static final String TAG = "Video";
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_VIDEO_ID = "videoID";
+    private static final String KEY_CHANNEL_TITLE = "channelTitle";
+    private static final String KEY_THUMBNAIL_URL = "THUMBNAIL_URL";
     private String description;
 
     // required empty constructor for Parcel library
     public Video(){}
 
     public Video(JSONObject jsonObject) throws JSONException {
-        this.thumbnail_url = jsonObject.getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("medium").getString("url");
-        this.title = jsonObject.getJSONObject("snippet").getString("title");
-        this.channelTitle = jsonObject.getJSONObject("snippet").getString("channelTitle");
-        this.videoID = jsonObject.getJSONObject("id").getString("videoId");
+        put(KEY_THUMBNAIL_URL, jsonObject.getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("medium").getString("url"));
+        put(KEY_TITLE, jsonObject.getJSONObject("snippet").getString("title"));
+        put(KEY_CHANNEL_TITLE, jsonObject.getJSONObject("snippet").getString("channelTitle"));
+        put(KEY_VIDEO_ID, jsonObject.getJSONObject("id").getString("videoId"));
         this.description = jsonObject.getJSONObject("snippet").getString("description");
     }
 
     public String getThumbnail_url() {
-        return thumbnail_url;
+        return getString(KEY_THUMBNAIL_URL);
     }
 
-    public void setThumbnail_url(String thumbnail_url) {
-        this.thumbnail_url = thumbnail_url;
-    }
 
     public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        return getString(KEY_TITLE);
     }
 
     public String getChannelTitle() {
-        return channelTitle;
-    }
-
-    public void setChannelTitle(String channelTitle) {
-        this.channelTitle = channelTitle;
+        return getString(KEY_CHANNEL_TITLE);
     }
 
     public String getVideoID() {
-        return videoID;
-    }
-
-    public void setVideoID(String videoID) {
-        this.videoID = videoID;
+        return getString(KEY_VIDEO_ID);
     }
 
     public String getDescription() { return description;}
-
-    public void setDescription(String description) {this.description = description;}
-
 
     public static List<Video> fromJsonArray(JSONArray videoJsonArray) throws JSONException {
         List<Video> videoList = new ArrayList<>();
