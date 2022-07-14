@@ -135,40 +135,6 @@ public class UserProfileFragment extends Fragment {
         // set the layout manager on the recycler view
         rvSavedVideos.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // to enable us get recipe from edit recipe activity
-        ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        // If the user comes back to this activity from EditActivity
-                        // with no error or cancellation
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            // todo: Get the data passed from EditRecipeActivity
-                            String process = data.getExtras().getString("process");
-                            String type = data.getExtras().getString("type");
-                            Recipe recipe = data.getParcelableExtra("recipe");
-
-                            if (Objects.equals(type, "recipe")){
-                                if (Objects.equals(process, "new")){ // if creating new recipe
-                                    userRecipes.add(0, recipe); // add recipe to recycler view
-                                    userRecipeAdapter.notifyDataSetChanged();
-                                }
-                                else {
-                                    for (int i=0; i<userRecipes.size(); i++){
-                                        if (recipe.hasSameId(userRecipes.get(i))){
-                                            userRecipes.set(i, recipe); // update the recipe in the recycler view
-                                            userRecipeAdapter.notifyDataSetChanged();
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                });
 
         ibCreateNewRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,5 +301,67 @@ public class UserProfileFragment extends Fragment {
         });
 
     }
+
+    // to enable us get recipe from edit recipe activity
+    public ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // If the user comes back to this activity from EditActivity
+                    // with no error or cancellation
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        /*
+                        Get the data passed from EditRecipeActivity or RecipeDetailsActivity
+                        process: edit, new or delete depending on what is being done to the recipe
+                        type: recipe or video depending on what type of item is being edited
+                         */
+                        String process = data.getExtras().getString("process");
+                        Log.i(TAG, "process: " + process);
+                        String type = data.getExtras().getString("type");
+                        Log.i(TAG, "type: " + type);
+                        Recipe recipe = data.getParcelableExtra("recipe");
+
+                        if (Objects.equals(type, "recipe")){
+                            if (Objects.equals(process, "new")){ // if creating new recipe
+                                userRecipes.add(0, recipe); // add recipe to recycler view
+                                userRecipeAdapter.notifyDataSetChanged();
+                            }
+                            else if (Objects.equals(process, "edit")) { // if user is editing recipe
+                                for (int i=0; i<userRecipes.size(); i++){
+                                    if (recipe.hasSameId(userRecipes.get(i))){
+                                        userRecipes.set(i, recipe); // update the recipe in the recycler view
+                                        userRecipeAdapter.notifyDataSetChanged();
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (Objects.equals(process, "delete")){ // if user is deleting recipe
+                                if (Objects.equals(recipe.getType(), "user")){
+                                    for (int i=0; i<userRecipes.size(); i++){
+                                        if (recipe.hasSameId(userRecipes.get(i))){
+                                            userRecipes.remove(i); // update the recipe in the recycler view
+                                            userRecipeAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
+                                    }
+                                }
+                                else{
+                                    for (int i=0; i<savedRecipes.size(); i++){
+                                        if (recipe.hasSameId(userRecipes.get(i))){
+                                            savedRecipes.remove(i); // update the recipe in the recycler view
+                                            savedRecipeAdapter.notifyDataSetChanged();
+                                            break;
+                                        }
+                                    }
+                                    savedRecipeAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
 
 }

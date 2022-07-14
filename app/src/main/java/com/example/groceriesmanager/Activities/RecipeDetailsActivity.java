@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     ImageButton ibSavedRecipeEdit;
     ImageButton ibExitRecipeDetails;
     Recipe recipe;
+    String process;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +59,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibExitRecipeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                closeActivity();
             }
         });
 
         ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                process = "edit"; // will be passeed back into result listener when activity is closed
                 Intent intent = new Intent(RecipeDetailsActivity.this, EditRecipeActivity.class);
                 intent.putExtra("recipe", recipe);
-                intent.putExtra("process", "edit");
+                intent.putExtra("process", process);
                 editActivityResultLauncher.launch(intent);
             }
         });
@@ -75,16 +78,23 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 recipe.deleteInBackground();
+                process = "delete"; // will be passeed back into result listener when activity is closed
                 // todo: (optional) create snackbar that shows undo delete
-                if(Objects.equals(recipe.getType(), "user")){ // remove from user recipe adapter
-                    // todo: automatically remove from recipe adapter without refreshing
-                }
-                else { // it is in the saved recipe adapter
-                    // todo: automatically remove from recipe adapter without refreshing
-                }
-                finish();
+                closeActivity();
             }
         });
+    }
+
+    private void closeActivity() {
+        Intent data = new Intent();
+        // Pass relevant data back as a result
+        Log.i(TAG, "process: " + process);
+        data.putExtra("process", process);
+        data.putExtra("recipe", recipe);
+        data.putExtra("type", "recipe");
+        // Activity finished ok, return the data
+        setResult(RESULT_OK, data); // set result code and bundle data for response
+        finish();
     }
 
     ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
