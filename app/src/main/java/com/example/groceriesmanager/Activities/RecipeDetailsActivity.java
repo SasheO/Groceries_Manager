@@ -9,17 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
-import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +27,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     TextView tvRecipeFilters;
     TextView tvRecipeIngredientLines;
     TextView tvRecipeProcedureLines;
+    TextView tvRecipeIngredientsLabel;
+    TextView tvRecipeProcedureLabel;
     ImageButton ibSavedRecipeDelete;
     ImageButton ibSavedRecipeEdit;
     Recipe recipe;
@@ -43,10 +41,12 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         tvLink = findViewById(R.id.tvLink);
         tvRecipeTitle = findViewById(R.id.tvRecipeTitle);
         tvRecipeFilters = findViewById(R.id.tvRecipeFilters);
-        tvRecipeIngredientLines = findViewById(R.id.tvRecipeIngredientLines);
+        tvRecipeIngredientLines = findViewById(R.id.tvRecipeIngredientLines2);
         tvRecipeProcedureLines = findViewById(R.id.tvRecipeProcedureLines);
         ibSavedRecipeEdit = findViewById(R.id.ibSavedRecipeEdit);
         ibSavedRecipeDelete = findViewById(R.id.ibSavedRecipeDelete);
+        tvRecipeIngredientsLabel = findViewById(R.id.tvRecipeIngredientsLabel);
+        tvRecipeProcedureLabel = findViewById(R.id.tvRecipeProcedureLabel);
 
         recipe = getIntent().getParcelableExtra("recipe");
 
@@ -124,7 +124,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         if (recipeIngredients != null){
-            ingredients =  "Ingredients";
+            tvRecipeIngredientsLabel.setVisibility(View.VISIBLE);
             for (FoodItem ingredient: recipeIngredients){
                 String quantity = ingredient.getQuantity();
                 String measure = ingredient.getMeasure();
@@ -140,7 +140,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         if (recipeProcedure != null){
-            procedures = "Steps";
+            tvRecipeProcedureLabel.setVisibility(View.VISIBLE);
             for (String procedure: recipeProcedure){
                 procedures = procedures + "\r\n" + procedure;
             }

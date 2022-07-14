@@ -93,7 +93,7 @@ public class RecipeSearchAdapter extends
             super(itemView);
             itemView.setOnClickListener(this);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
-            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientLines);
+            tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientsLabel);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
