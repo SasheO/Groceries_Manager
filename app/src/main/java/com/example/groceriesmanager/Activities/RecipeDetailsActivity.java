@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -94,8 +95,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: populate
-
+                if (Objects.equals(recipe.getType(), "user")){ // so you can only edit user recipes, not those saved from online
+                    Intent intent = new Intent(RecipeDetailsActivity.this, EditRecipeActivity.class);
+                    intent.putExtra("recipe", recipe);
+                    intent.putExtra("process", "edit");
+                    startActivity(intent);
+                    // todo: automatically update recipe details and user recipe adapter without refreshing
+                }
             }
         });
 
