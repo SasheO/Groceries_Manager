@@ -8,14 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.groceriesmanager.Activities.EditRecipeActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Activities.RecipeDetailsActivity;
@@ -82,7 +80,7 @@ public class SavedRecipeAdapter extends
         public TextView tvRecipeFilters;
         public ImageButton ibOpenRecipeLink;
 //        public ImageView ivRecipeImage;
-        public RelativeLayout rlRecipeSearch;
+        public RelativeLayout rlSavedRecipe;
         public ImageButton ibSavedRecipeDelete;
 
         // We also create a constructor that accepts the entire item row
@@ -96,7 +94,7 @@ public class SavedRecipeAdapter extends
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
             tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
-            rlRecipeSearch = itemView.findViewById(R.id.rlRecipeSearch);
+            rlSavedRecipe = itemView.findViewById(R.id.rlSavedRecipe);
             ibSavedRecipeDelete = itemView.findViewById(R.id.ibSavedRecipeDelete);
         }
 
@@ -169,21 +167,21 @@ public class SavedRecipeAdapter extends
                 }
             });
 
-            rlRecipeSearch.setOnTouchListener(new OnSwipeTouchListener(context){
+            rlSavedRecipe.setOnTouchListener(new OnSwipeTouchListener(context){
                 @Override
                 public void onClick() {
                     super.onClick();
                     // your on click here
                     Intent intent = new Intent(context, RecipeDetailsActivity.class);
                     intent.putExtra("recipe", recipe);
-                    context.startActivity(intent);
+                    context.userProfileFragment.editActivityResultLauncher.launch(intent);
                 }
                 public void onLongClick(){
                     if (Objects.equals(type, "user")){ // so you can only edit user recipes, not those saved from online
                         Intent intent = new Intent(context, EditRecipeActivity.class);
                         intent.putExtra("recipe", recipe);
                         intent.putExtra("process", "edit");
-                        context.startActivity(intent);
+                        context.userProfileFragment.editActivityResultLauncher.launch(intent);
                     }
                 }
             });

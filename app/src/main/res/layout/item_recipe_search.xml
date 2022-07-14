@@ -11,7 +11,7 @@
     card_view:cardElevation="8dp">
 
     <RelativeLayout
-        android:id="@+id/rlRecipeSearch"
+        android:id="@+id/rlSavedRecipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -65,7 +65,7 @@
             tools:text="Fraction of ingredients in pantry appears here" />
 
         <TextView
-            android:id="@+id/tvRecipeIngredientLines"
+            android:id="@+id/tvRecipeIngredientsLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvFractionGottenIngredients"
@@ -76,7 +76,7 @@
             android:id="@+id/tvOpenRecipeLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvRecipeIngredientLines"
+            android:layout_below="@id/tvRecipeIngredientsLabel"
             android:clickable="true"
             android:contentDescription="Open recipe link"
             android:text="Open Recipe Link" />
@@ -85,7 +85,7 @@
             android:id="@+id/ibOpenRecipeLink"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_below="@id/tvRecipeIngredientLines"
+            android:layout_below="@id/tvRecipeIngredientsLabel"
             android:layout_toEndOf="@id/tvOpenRecipeLink"
             android:background="@null"
             android:contentDescription="open recipe link button"

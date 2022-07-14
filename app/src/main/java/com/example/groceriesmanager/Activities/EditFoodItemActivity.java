@@ -32,7 +32,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
     FoodItem foodItem;
     private Button btnCancel;
     private TextView tvTitle;
-    private static final String KEY_FOOD_CATEGORY = "foodCategory";
     private static final String TAG = "EditFoodItemActivity";
 
     @Override
@@ -122,20 +121,22 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
     private void editFoodItem(FoodStruct foodStruct) {
         foodItem.setName(foodStruct.foodName.replaceAll("\n", ""));
+
         if (!Objects.equals(foodStruct.foodQty, "")){
             foodItem.setQuantity(foodStruct.foodQty);
             foodItem.setMeasure(foodStruct.foodMeasure);
         }
         else{
-            foodItem.setQuantity("");
-            foodItem.setMeasure("-");
+            foodItem.remove(FoodItem.KEY_MEASURE);
+            foodItem.remove(FoodItem.KEY_QUANTITY);
         }
+
         if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
             foodItem.setCategory(foodStruct.foodCategory);
         }
         else {
             // if set to no selection, remove food category
-            foodItem.remove(KEY_FOOD_CATEGORY);
+            foodItem.remove(FoodItem.KEY_CATEGORY);
         }
 
         foodItem.saveInBackground(new SaveCallback() {
