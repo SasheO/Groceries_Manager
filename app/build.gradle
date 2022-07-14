@@ -65,9 +65,6 @@ dependencies {
     // for animated bottom bar
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
 
-    // for multiple selected spinner
-    implementation 'com.github.puskal-khadka:MultiSelectSpinner:1.0.0'
-
     // https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1"
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1:models"
