@@ -60,6 +60,7 @@ public class RecipeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_VEGAN = "vegan";
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
+    private static final String QUERY_FILTER_DAIRY = "dairy-free";
     User currentUser;
     EnumSet<AccountSettingsActivity.dietFilters> filters;
 //    Lemma lemmatizer = new Lemma();

@@ -26,9 +26,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private Button btnSave;
     private Button btnCancel;
     private static final String TAG = "AccountSettingsActivity";
-    public enum dietFilters  {Vegan,
-        Vegetarian,
-        GlutenFree};
+    public enum dietFilters  {Vegan, Vegetarian, GlutenFree, DairyFree};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +43,15 @@ public class AccountSettingsActivity extends AppCompatActivity {
         EnumSet<dietFilters> filters = EnumSet.noneOf(dietFilters.class);
 
         // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.vegan))){
+        if (currentUser.getDietFilters().contains(dietFilters.Vegan)){
             checkboxVegan.setChecked(true);
             filters.add(dietFilters.Vegan);
         }
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.vegetarian))){
+        if (currentUser.getDietFilters().contains(dietFilters.Vegetarian)){
             checkboxVegetarian.setChecked(true);
             filters.add(dietFilters.Vegetarian);
         }
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.gluten_free))){
+        if (currentUser.getDietFilters().contains(dietFilters.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
             filters.add(dietFilters.GlutenFree);
         }
