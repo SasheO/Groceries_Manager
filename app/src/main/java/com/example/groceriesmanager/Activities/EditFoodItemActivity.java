@@ -65,6 +65,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem = getIntent().getParcelableExtra("foodItem");
             etFoodName.setText(foodItem.getName());
             etFoodQty.setText(foodItem.getQuantity());
+            // todo: fix this spinner measure below. it does not select the food type when opened
             spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
         }
 

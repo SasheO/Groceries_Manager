@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Adapters.VideoSearchAdapter;
-import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.Models.Video;
 import com.example.groceriesmanager.R;
@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import okhttp3.Call;
@@ -54,7 +55,7 @@ public class YoutubeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten free";
     User currentUser;
-    List<String> dietFilters;
+    EnumSet<AccountSettingsActivity.dietFilters> filters;
     public static List<Video> savedVideosList;
 
     // required empty constructor
@@ -90,15 +91,15 @@ public class YoutubeSearchFragment extends Fragment {
         rvYoutubeSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         currentUser = (User) ParseUser.getCurrentUser();
-        dietFilters = currentUser.getDietFilters();
+        filters = currentUser.getDietFilters();
 
-        if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
+        if (filters.contains(AccountSettingsActivity.dietFilters.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
         }
-        if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
+        if (filters.contains(AccountSettingsActivity.dietFilters.Vegan)){
             checkboxVegan.setChecked(true);
         }
-        if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
+        if (filters.contains(AccountSettingsActivity.dietFilters.Vegetarian)){
             checkboxVegetarian.setChecked(true);
         }
 
@@ -111,19 +112,19 @@ public class YoutubeSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etYoutubeLookup.setText("");
-                if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
+                if (filters.contains(AccountSettingsActivity.dietFilters.GlutenFree)){
                     checkboxGlutenFree.setChecked(true);
                 }
                 else{
                     checkboxGlutenFree.setChecked(false);
                 }
-                if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
+                if (filters.contains(AccountSettingsActivity.dietFilters.Vegan)){
                     checkboxVegan.setChecked(true);
                 }
                 else {
                     checkboxVegan.setChecked(false);
                 }
-                if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
+                if (filters.contains(AccountSettingsActivity.dietFilters.Vegetarian)){
                     checkboxVegetarian.setChecked(true);
                 }
                 else {
