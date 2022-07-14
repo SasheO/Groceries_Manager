@@ -31,6 +31,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     TextView tvRecipeProcedureLabel;
     ImageButton ibSavedRecipeDelete;
     ImageButton ibSavedRecipeEdit;
+    ImageButton ibExitRecipeDetails;
     Recipe recipe;
 
     @Override
@@ -47,10 +48,18 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibSavedRecipeDelete = findViewById(R.id.ibSavedRecipeDelete);
         tvRecipeIngredientsLabel = findViewById(R.id.tvRecipeIngredientsLabel);
         tvRecipeProcedureLabel = findViewById(R.id.tvRecipeProcedureLabel);
+        ibExitRecipeDetails = findViewById(R.id.ibExitRecipeDetails);
 
         recipe = getIntent().getParcelableExtra("recipe");
 
         populateActivity();
+
+        ibExitRecipeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
