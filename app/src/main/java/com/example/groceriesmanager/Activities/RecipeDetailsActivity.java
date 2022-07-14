@@ -53,6 +53,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String procedures = "";
         List<String> recipeProcedure = recipe.getProcedure();
 
+        if (Objects.equals(recipe.getType(), "saved")) { // so you can only edit user recipes, not those saved from online
+            ibSavedRecipeEdit.setVisibility(View.GONE);
+        }
+
         tvRecipeTitle.setText(title);
         if (link!=null){
             tvLink.setText("Link: " + link);
@@ -95,13 +99,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Objects.equals(recipe.getType(), "user")){ // so you can only edit user recipes, not those saved from online
                     Intent intent = new Intent(RecipeDetailsActivity.this, EditRecipeActivity.class);
                     intent.putExtra("recipe", recipe);
                     intent.putExtra("process", "edit");
                     startActivity(intent);
                     // todo: automatically update recipe details and user recipe adapter without refreshing
-                }
             }
         });
 
