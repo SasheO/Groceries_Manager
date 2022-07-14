@@ -1,7 +1,12 @@
 package com.example.groceriesmanager.Activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +33,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     TextView tvRecipeProcedureLines;
     ImageButton ibSavedRecipeDelete;
     ImageButton ibSavedRecipeEdit;
+    Recipe recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,53 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         ibSavedRecipeEdit = findViewById(R.id.ibSavedRecipeEdit);
         ibSavedRecipeDelete = findViewById(R.id.ibSavedRecipeDelete);
 
-        Recipe recipe = getIntent().getParcelableExtra("recipe");
+        recipe = getIntent().getParcelableExtra("recipe");
 
+        populateActivity();
+
+        ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecipeDetailsActivity.this, EditRecipeActivity.class);
+                intent.putExtra("recipe", recipe);
+                intent.putExtra("process", "edit");
+                editActivityResultLauncher.launch(intent);
+            }
+        });
+
+        ibSavedRecipeDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recipe.deleteInBackground();
+                // todo: (optional) create snackbar that shows undo delete
+                if(Objects.equals(recipe.getType(), "user")){ // remove from user recipe adapter
+                    // todo: automatically remove from recipe adapter without refreshing
+                }
+                else { // it is in the saved recipe adapter
+                    // todo: automatically remove from recipe adapter without refreshing
+                }
+                finish();
+            }
+        });
+    }
+
+    ActivityResultLauncher<Intent> editActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    // If the user comes back to this activity from EditActivity
+                    // with no error or cancellation
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        // Get the data passed from EditRecipeActivity
+                        recipe = data.getParcelableExtra("recipe");
+                        populateActivity();
+                    }
+                }
+            });
+
+    private void populateActivity(){
         String link = recipe.getHyperlink_url();
         String title = recipe.getTitle();
         String filters = "";
@@ -91,34 +142,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         if (recipeProcedure != null){
             procedures = "Steps";
             for (String procedure: recipeProcedure){
-                    procedures = procedures + "\r\n" + procedure;
+                procedures = procedures + "\r\n" + procedure;
             }
             tvRecipeProcedureLines.setText(procedures);
         }
 
-        ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = new Intent(RecipeDetailsActivity.this, EditRecipeActivity.class);
-                    intent.putExtra("recipe", recipe);
-                    intent.putExtra("process", "edit");
-                    startActivity(intent);
-                    // todo: automatically update recipe details and user recipe adapter without refreshing
-            }
-        });
 
-        ibSavedRecipeDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recipe.deleteInBackground();
-                if(Objects.equals(recipe.getType(), "user")){ // remove from user recipe adapter
-                    // todo: populate
-                }
-                else { // remove from saved recipe adapter
-                    // todo: populate
-                }
-                finish();
-            }
-        });
     }
 }
