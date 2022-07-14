@@ -15,6 +15,7 @@ import com.example.groceriesmanager.R;
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
     private static final String TAG = "RecipeDetailsActivity";
@@ -45,9 +46,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String title = recipe.getTitle();
         String filters = "";
         List<String> recipeFilters = recipe.getFilters();
-        String Ingredients;
+        String ingredients = "";
         List<FoodItem> recipeIngredients = recipe.getIngredients();
-        String Procedure;
+        String procedures = "";
         List<String> recipeProcedure = recipe.getProcedure();
 
         tvRecipeTitle.setText(title);
@@ -66,24 +67,47 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         if (recipeIngredients != null){
-            // todo: populate
+            ingredients = "Ingredients" + "\r\n";
+            for (FoodItem ingredient: recipeIngredients){
+                String quantity = ingredient.getQuantity();
+                String measure = ingredient.getMeasure();
+                String name = ingredient.getName();
+                if (quantity!=null){
+                    ingredients = ingredients + "\r\n" + quantity + " " + measure + " " + name;
+                }
+                else{
+                    ingredients = ingredients + "\r\n" + name;
+                }
+            }
+            tvRecipeIngredientLines.setText(ingredients);
         }
 
         if (recipeProcedure != null){
-            // todo: populate
+            for (String procedure: recipeProcedure){
+                    procedures = procedures + "\r\n";
+            }
+            tvRecipeProcedureLines.setText(procedures);
         }
 
         ibSavedRecipeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // todo: populate
+
             }
         });
 
         ibSavedRecipeDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: populate
+                recipe.deleteInBackground();
+                if(Objects.equals(recipe.getType(), "user")){ // remove from user recipe adapter
+                    // todo: populate
+                }
+                else { // remove from saved recipe adapter
+                    // todo: populate
+                }
+                finish();
             }
         });
     }
