@@ -3,6 +3,7 @@ package com.example.groceriesmanager.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -67,7 +68,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         if (recipeIngredients != null){
-            ingredients = "Ingredients" + "\r\n";
+            ingredients =  "Ingredients";
             for (FoodItem ingredient: recipeIngredients){
                 String quantity = ingredient.getQuantity();
                 String measure = ingredient.getMeasure();
@@ -83,8 +84,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         }
 
         if (recipeProcedure != null){
+            procedures = "Steps";
             for (String procedure: recipeProcedure){
-                    procedures = procedures + "\r\n";
+                    procedures = procedures + "\r\n" + procedure;
             }
             tvRecipeProcedureLines.setText(procedures);
         }
