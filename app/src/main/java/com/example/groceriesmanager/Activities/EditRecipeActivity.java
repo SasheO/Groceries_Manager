@@ -170,7 +170,11 @@ public class EditRecipeActivity extends AppCompatActivity {
                     if (!Objects.equals(recipeLink, "")) {
                         userRecipe.setHyperlink_url(recipeLink);
                     }
+                    else{
+                        userRecipe.remove(Recipe.KEY_HYPERLINK_URL);
+                    }
 
+                    recipeFiltersList.clear();
                     if (checkboxVegetarian.isChecked()) {
                         recipeFiltersList.add(getResources().getString(R.string.vegetarian));
                     }
@@ -182,6 +186,9 @@ public class EditRecipeActivity extends AppCompatActivity {
                     }
                     if (recipeFiltersList.size() != 0) {
                         userRecipe.setFilters(recipeFiltersList);
+                    }
+                    else {
+                        userRecipe.remove(Recipe.KEY_FILTERS);
                     }
 
                     if (recipeIngredientList.size() != 0) {

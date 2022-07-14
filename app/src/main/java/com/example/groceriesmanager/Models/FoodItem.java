@@ -20,11 +20,12 @@ public class FoodItem extends ParseObject {
     private static final String TAG = "FoodItem";
     // these variables store the name that will be used to send queries to Parse database
     private static final String KEY_NAME = "name";
-    private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_USER = "user";
-    private static final String KEY_MEASURE = "measure";
     private static final String KEY_TYPE = "type";
-    private static final String KEY_CATEGORY= "foodCategory";
+    // these are public because they are used in other class (EditFoodItemActivity)
+    public static final String KEY_CATEGORY= "foodCategory";
+    public static final String KEY_QUANTITY = "quantity";
+    public static final String KEY_MEASURE = "measure";
 
     public String getName(){
         try {

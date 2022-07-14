@@ -25,14 +25,14 @@ public class Recipe extends ParseObject {
     private static final String KEY_FILTER_GLUTEN_FREE = "Gluten-Free";
     private static final String KEY_IMAGE_URL = "image_url";
     private static final String KEY_TITLE = "title";
-    private static final String KEY_FILTERS = "filters";
     private static final String KEY_USER = "user";
-    private static final String KEY_HYPERLINK_URL = "hyperlink_url";
     private static final String KEY_INGREDIENT_LINES_STR = "ingredientLines";
     private static final String KEY_INGREDIENTS = "ingredients";
     private static final String KEY_TYPE = "type";
     private static final String KEY_PROCEDURE = "procedure";
-    public boolean Saved = false;
+    // these are set as public because they are referred to in other class (EditRecipeActivity)
+    public static final String KEY_FILTERS = "filters";
+    public static final String KEY_HYPERLINK_URL = "hyperlink_url";
 
     public Recipe(){}
 
