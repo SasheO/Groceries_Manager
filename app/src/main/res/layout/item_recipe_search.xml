@@ -62,15 +62,27 @@
     </RelativeLayout>
 
 
-
         <TextView
             android:id="@+id/tvFractionGottenIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/rlTitlePicContainer"
             android:contentDescription="Text view of ingredient lines"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/tvAddAll"
             android:textColor="@color/dark_blue"
             tools:text="Fraction of ingredients in pantry appears here" />
+
+        <TextView
+            android:id="@+id/tvAddAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlTitlePicContainer"
+            android:contentDescription="Text view of ingredient lines"
+            android:textColor="@color/dark_blue"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:text="Add to groceries" />
 
         <TextView
             android:id="@+id/tvRecipeIngredientsLabel"

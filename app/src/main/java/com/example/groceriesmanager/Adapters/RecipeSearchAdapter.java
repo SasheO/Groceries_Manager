@@ -26,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class RecipeSearchAdapter extends
     MainActivity context;
     public static final String TAG = "RecipeSearchAdapter";
     private List<FoodItem> pantryList;
+    private List<FoodItem> addAllList;
 
     // constructor to set context
     public RecipeSearchAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
@@ -43,6 +45,7 @@ public class RecipeSearchAdapter extends
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
         this.pantryList = ((MainActivity) context).pantryListFragment.pantryList;
+        this.addAllList = new ArrayList<>();
     }
 
     @NonNull
@@ -80,6 +83,7 @@ public class RecipeSearchAdapter extends
         private TextView tvRecipeTitle;
         private TextView tvRecipeIngredientLines;
         private TextView tvOpenRecipeLink;
+        private TextView tvAddAll;
         public TextView tvFractionGottenIngredients;
 //        public TextView tvRecipeFilters;
         private ImageButton ibOpenRecipeLink;
@@ -94,6 +98,7 @@ public class RecipeSearchAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
+            tvAddAll = itemView.findViewById(R.id.tvAddAll);
             tvFractionGottenIngredients = itemView.findViewById(R.id.tvFractionGottenIngredients);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
             tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientsLabel);
@@ -136,7 +141,6 @@ public class RecipeSearchAdapter extends
                 }
             }
             tvRecipeIngredientLines.setText(recipeIngredientStr.trim());
-            // todo: populate tvFractionGottenIngredients below
             tvFractionGottenIngredients.setText("INGREDIENTS: (" + String.valueOf(gottenIngredients) + " / " + String.valueOf(totalIngredients) + " in pantry)");
 
             if (recipeIsSaved(recipe)){
@@ -182,6 +186,13 @@ public class RecipeSearchAdapter extends
                 @Override
                 public void onClick(View v) {
                     saveOrUnsaveRecipe(recipe);
+                }
+            });
+
+            tvAddAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: enable user to set checkboxes to add ingredients (without quantity or measure) to grocery list
                 }
             });
 
