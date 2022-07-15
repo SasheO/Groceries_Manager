@@ -164,64 +164,54 @@ public class AccountSettingsActivity extends AppCompatActivity {
         else {
             filters.remove(dietFiltersEnum.DairyFree);
         }
-
-//    private CheckBox checkboxAlcoholFree;
         if (checkboxAlcoholFree.isChecked()){
             filters.add(dietFiltersEnum.AlcoholFree);
         }
         else {
             filters.remove(dietFiltersEnum.AlcoholFree);
         }
-//    private CheckBox checkboxImmunoSupportive;
         if (checkboxImmunoSupportive.isChecked()){
             filters.add(dietFiltersEnum.ImmunoSupportive);
         }
         else {
             filters.remove(dietFiltersEnum.ImmunoSupportive);
         }
-//    private CheckBox checkboxKetoFriendly;
         if (checkboxKetoFriendly.isChecked()){
             filters.add(dietFiltersEnum.KetoFriendly);
         }
         else {
             filters.remove(dietFiltersEnum.KetoFriendly);
         }
-//    private CheckBox checkboxPescatarian;
         if (checkboxPescatarian.isChecked()){
             filters.add(dietFiltersEnum.Pescatarian);
         }
         else {
             filters.remove(dietFiltersEnum.Pescatarian);
         }
-//    private CheckBox checkboxNoOilAdded;
         if (checkboxNoOilAdded.isChecked()){
             filters.add(dietFiltersEnum.NoOilAdded);
         }
         else {
             filters.remove(dietFiltersEnum.NoOilAdded);
         }
-//    private CheckBox checkboxSoyFree;
         if (checkboxSoyFree.isChecked()){
             filters.add(dietFiltersEnum.SoyFree);
         }
         else {
             filters.remove(dietFiltersEnum.SoyFree);
         }
-//    private CheckBox checkboxPeanutFree;
         if (checkboxPeanutFree.isChecked()){
             filters.add(dietFiltersEnum.PeanutFree);
         }
         else {
             filters.remove(dietFiltersEnum.PeanutFree);
         }
-//    private CheckBox checkboxKosher;
         if (checkboxKosher.isChecked()){
             filters.add(dietFiltersEnum.Kosher);
         }
         else {
             filters.remove(dietFiltersEnum.Kosher);
         }
-//    private CheckBox checkboxPorkFree;
         if (checkboxPorkFree.isChecked()){
             filters.add(dietFiltersEnum.PorkFree);
         }
