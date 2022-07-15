@@ -46,6 +46,7 @@ import okhttp3.Response;
 
 public class RecipeSearchFragment extends Fragment {
     private TextView tvExpandFilters;
+    private TextView tvResetFilters;
     private ImageButton ibRecipeSearch;
     private ImageButton ibRecipeSearchClear;
     private EditText etRecipeLookup;
@@ -113,6 +114,7 @@ public class RecipeSearchFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
         tvExpandFilters = view.findViewById(R.id.tvExpandFilters);
+        tvResetFilters = view.findViewById(R.id.tvResetFilters);
         flexboxFilters = view.findViewById(R.id.flexboxFilters);
         etRecipeLookup = view.findViewById(R.id.etRecipeLookup);
         ibRecipeSearch = view.findViewById(R.id.ibRecipeSearch);
@@ -169,6 +171,14 @@ public class RecipeSearchFragment extends Fragment {
                 else {
                     flexboxFilters.setVisibility(View.GONE);
                     tvExpandFilters.setText("Edit filters");}
+            }
+        });
+
+        tvResetFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filters = currentUser.getDietFilters();
+                setUserFilters();
             }
         });
 
@@ -306,6 +316,7 @@ public class RecipeSearchFragment extends Fragment {
 
     }
 
+    // todo: make this into a loop
     private void setUserFilters(){
         if (filters==null){ // if user has not chosen any filters
             return;
@@ -314,41 +325,80 @@ public class RecipeSearchFragment extends Fragment {
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
             checkboxVegan.setChecked(true);
         }
+        else {
+            checkboxVegan.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
             checkboxVegetarian.setChecked(true);
+        }
+        else {
+            checkboxVegetarian.setChecked(false);
         }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
         }
+        else {
+            checkboxGlutenFree.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.DairyFree)){
             checkboxDairyFree.setChecked(true);
+        }
+        else {
+            checkboxDairyFree.setChecked(false);
         }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.AlcoholFree)){
             checkboxAlcoholFree.setChecked(true);
         }
+        else {
+            checkboxAlcoholFree.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive)){
             checkboxImmunoSupportive.setChecked(true);
+        }
+        else {
+            checkboxImmunoSupportive.setChecked(false);
         }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.KetoFriendly)){
             checkboxKetoFriendly.setChecked(true);
         }
+        else {
+            checkboxKetoFriendly.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Pescatarian)){
             checkboxPescatarian.setChecked(true);
+        }
+        else {
+            checkboxPescatarian.setChecked(false);
         }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.NoOilAdded)){
             checkboxNoOilAdded.setChecked(true);
         }
+        else {
+            checkboxNoOilAdded.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.SoyFree)){
             checkboxSoyFree.setChecked(true);
+        }
+        else {
+            checkboxSoyFree.setChecked(false);
         }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PeanutFree)){
             checkboxPeanutFree.setChecked(true);
         }
+        else {
+            checkboxPeanutFree.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Kosher)){
             checkboxKosher.setChecked(true);
         }
+        else {
+            checkboxKosher.setChecked(false);
+        }
         if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PorkFree)){
             checkboxPorkFree.setChecked(true);
+        }
+        else {
+            checkboxPorkFree.setChecked(false);
         }
     }
 

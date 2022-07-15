@@ -33,15 +33,26 @@
         android:background="@null"
         android:contentDescription="clear previous search"
         app:srcCompat="@android:drawable/ic_delete" />
+
     <TextView
         android:id="@+id/tvExpandFilters"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@id/etRecipeLookup"
+        android:layout_alignParentStart="true"
         android:clickable="true"
         android:text="Edit filters"
-        android:textColor="@color/dark_blue"/>
+        android:textColor="@color/dark_blue" />
+
+    <TextView
+        android:id="@+id/tvResetFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etRecipeLookup"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:text="Reset filters"
+        android:textColor="@color/dark_blue" />
 
     <include layout="@layout/flexbox_checkboxes"
         android:id="@+id/flexboxFilters"
