@@ -76,14 +76,15 @@ public class RecipeSearchAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView tvRecipeTitle;
-        public TextView tvRecipeIngredientLines;
-        public TextView tvOpenRecipeLink;
+        private TextView tvRecipeTitle;
+        private TextView tvRecipeIngredientLines;
+        private TextView tvOpenRecipeLink;
+        public TextView tvFractionGottenIngredients;
 //        public TextView tvRecipeFilters;
-        public ImageButton ibOpenRecipeLink;
-        public ImageView ivRecipeImage;
-        public RelativeLayout rlRecipeSearch;
-        public ImageButton ibSaved;
+        private ImageButton ibOpenRecipeLink;
+        private ImageView ivRecipeImage;
+        private RelativeLayout rlRecipeSearch;
+        private ImageButton ibSaved;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
