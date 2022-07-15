@@ -18,6 +18,7 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,7 +118,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String link = recipe.getHyperlink_url();
         String title = recipe.getTitle();
         String filters = "";
-        List<String> recipeFilters = recipe.getFilters();
+        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
         String ingredients = "";
         List<FoodItem> recipeIngredients = recipe.getIngredients();
         String procedures = "";
@@ -131,16 +132,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         if (link!=null){
             tvLink.setText("Link: " + link);
         }
-        if (recipeFilters != null){
-            filters = recipeFilters.get(0);
-            for (int i=0; i<recipeFilters.size(); i++){
-                if (i==0){
-                    continue;
-                }
-                filters = filters + ", " + recipeFilters.get(i);
-            }
-            tvRecipeFilters.setText(filters);
-        }
+//        if (recipeFilters != null){
+//            filters = recipeFilters.get(0);
+//            for (int i=0; i<recipeFilters.size(); i++){
+//                if (i==0){
+//                    continue;
+//                }
+//                filters = filters + ", " + recipeFilters.get(i);
+//            }
+//            tvRecipeFilters.setText(filters);
+//        }
 
         if (recipeIngredients != null){
             tvRecipeIngredientsLabel.setVisibility(View.VISIBLE);

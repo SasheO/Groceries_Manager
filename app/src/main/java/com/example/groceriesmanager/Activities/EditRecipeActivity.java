@@ -26,6 +26,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,7 +111,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
             recipeTitle = userRecipe.getTitle();
-            List<String> filters = userRecipe.getFilters();
+            EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = userRecipe.getFilters();
             recipeLink = userRecipe.getHyperlink_url();
 //            recipeIngredientListStr = userRecipe.getIngredientLines();
 
@@ -120,6 +121,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
 
             if (filters != null){
+                // todo: update this, preferrably
                 if (filters.contains(getResources().getString(R.string.vegan))){
                     checkboxVegan.setChecked(true);
                 }

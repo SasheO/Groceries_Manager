@@ -53,11 +53,17 @@
         android:text="Edit filters"
         android:textColor="@color/dark_blue"/>
 
-    <com.google.android.flexbox.FlexboxLayout
+    <include layout="@layout/flexbox_checkboxes"
         android:id="@+id/flexboxFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvExpandFilters"
+        />
+
+    <!---com.google.android.flexbox.FlexboxLayout
+
+
+
         app:flexWrap="wrap"
         android:visibility="gone"
         android:orientation="horizontal">
@@ -142,7 +148,7 @@
             android:layout_height="wrap_content"
             android:text="no-added-oil" />
 
-    </com.google.android.flexbox.FlexboxLayout>
+    </com.google.android.flexbox.FlexboxLayout-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecipeSearch"

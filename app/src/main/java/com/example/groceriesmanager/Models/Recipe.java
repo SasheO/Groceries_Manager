@@ -2,6 +2,7 @@ package com.example.groceriesmanager.Models;
 
 import android.util.Log;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.parse.DeleteCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -96,9 +98,11 @@ public class Recipe extends ParseObject {
     }
 
 
-    public List<String> getFilters() {
+    public EnumSet<AccountSettingsActivity.dietFiltersEnum> getFilters() {
+        EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = EnumSet.noneOf(AccountSettingsActivity.dietFiltersEnum.class);
         try {
-            return fetchIfNeeded().getList(KEY_FILTERS);
+            filters.addAll(fetchIfNeeded().getList(KEY_FILTERS));
+            return filters;
         } catch (ParseException e) {
             Log.v(TAG, e.toString());
             return null;
