@@ -14,12 +14,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Adapters.RecipeTextAdapter;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.google.android.flexbox.FlexboxLayout;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -31,6 +33,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class EditRecipeActivity extends AppCompatActivity {
+    private TextView tvTagLabel;
+    FlexboxLayout flexboxCheckboxes;
     private EditText etRecipeTitle;
     private EditText etLink;
     private CheckBox checkboxVegan;
@@ -66,6 +70,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_recipe);
 
+        flexboxCheckboxes = findViewById(R.id.flexboxCheckboxes);
+        tvTagLabel = findViewById(R.id.tvTagLabel);
         etRecipeTitle = findViewById(R.id.etRecipeTitle);
         etLink = findViewById(R.id.etLink);
         checkboxGlutenFree = findViewById(R.id.checkboxGlutenFree);
@@ -111,7 +117,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         if (Objects.equals(process, "edit")){
             userRecipe = getIntent().getParcelableExtra("recipe");
             recipeTitle = userRecipe.getTitle();
-            EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = userRecipe.getFilters();
+//            EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = userRecipe.getFilters();
             recipeLink = userRecipe.getHyperlink_url();
 //            recipeIngredientListStr = userRecipe.getIngredientLines();
 
@@ -120,18 +126,18 @@ public class EditRecipeActivity extends AppCompatActivity {
                 etLink.setText(recipeLink);
             }
 
-            if (filters != null){
-                // todo: update this, preferrably
-                if (filters.contains(getResources().getString(R.string.vegan))){
-                    checkboxVegan.setChecked(true);
-                }
-                if (filters.contains(getResources().getString(R.string.vegetarian))){
-                    checkboxVegetarian.setChecked(true);
-                }
-                if (filters.contains(getResources().getString(R.string.gluten_free))){
-                    checkboxGlutenFree.setChecked(true);
-                }
-            }
+//            if (filters != null){
+//                // todo: update this, preferrably
+//                if (filters.contains(getResources().getString(R.string.vegan))){
+//                    checkboxVegan.setChecked(true);
+//                }
+//                if (filters.contains(getResources().getString(R.string.vegetarian))){
+//                    checkboxVegetarian.setChecked(true);
+//                }
+//                if (filters.contains(getResources().getString(R.string.gluten_free))){
+//                    checkboxGlutenFree.setChecked(true);
+//                }
+//            }
 
             if (userRecipe.getProcedure() != null){
                 recipeProcedureList.addAll(userRecipe.getProcedure());
@@ -144,6 +150,20 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
 
         }
+
+        tvTagLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flexboxCheckboxes.getVisibility()==View.GONE){
+                    flexboxCheckboxes.setVisibility(View.VISIBLE);
+                    tvTagLabel.setText("Close tags");
+                }
+                else {
+                    flexboxCheckboxes.setVisibility(View.GONE);
+                    tvTagLabel.setText("Edit tags");
+                }
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -118,7 +118,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String link = recipe.getHyperlink_url();
         String title = recipe.getTitle();
         String filters = "";
-        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
+//        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
         String ingredients = "";
         List<FoodItem> recipeIngredients = recipe.getIngredients();
         String procedures = "";
