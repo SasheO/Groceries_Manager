@@ -58,7 +58,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     String recipeTitle;
     String recipeLink;
     List<String> recipeProcedureList;
-    List<String> recipeFiltersList;
+//    List<String> recipeFiltersList;
     List<FoodItem> recipeIngredientList;
     public RecipeTextAdapter ingredientAdapter;
     public RecipeTextAdapter procedureAdapter;
@@ -90,7 +90,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         recipeProcedureList = new ArrayList<>();
         recipeIngredientList = new ArrayList<>();
-        recipeFiltersList = new ArrayList<>();
+//        recipeFiltersList = new ArrayList<>();
 
         // array adapter for rendering items into the ingredient measure spinner
         ArrayAdapter<CharSequence> foodMeasureAdapter = ArrayAdapter.createFromResource(this, R.array.food_measures, android.R.layout.simple_spinner_item);
@@ -196,22 +196,22 @@ public class EditRecipeActivity extends AppCompatActivity {
                         userRecipe.remove(Recipe.KEY_HYPERLINK_URL);
                     }
 
-                    recipeFiltersList.clear();
-                    if (checkboxVegetarian.isChecked()) {
-                        recipeFiltersList.add(getResources().getString(R.string.vegetarian));
-                    }
-                    if (checkboxVegan.isChecked()) {
-                        recipeFiltersList.add(getResources().getString(R.string.vegan));
-                    }
-                    if (checkboxGlutenFree.isChecked()) {
-                        recipeFiltersList.add(getResources().getString(R.string.gluten_free));
-                    }
-                    if (recipeFiltersList.size() != 0) {
-                        userRecipe.setFilters(recipeFiltersList);
-                    }
-                    else {
-                        userRecipe.remove(Recipe.KEY_FILTERS);
-                    }
+//                    recipeFiltersList.clear();
+//                    if (checkboxVegetarian.isChecked()) {
+//                        recipeFiltersList.add(getResources().getString(R.string.vegetarian));
+//                    }
+//                    if (checkboxVegan.isChecked()) {
+//                        recipeFiltersList.add(getResources().getString(R.string.vegan));
+//                    }
+//                    if (checkboxGlutenFree.isChecked()) {
+//                        recipeFiltersList.add(getResources().getString(R.string.gluten_free));
+//                    }
+//                    if (recipeFiltersList.size() != 0) {
+//                        userRecipe.setFilters(recipeFiltersList);
+//                    }
+//                    else {
+//                        userRecipe.remove(Recipe.KEY_FILTERS);
+//                    }
 
                     if (recipeIngredientList.size() != 0) {
                         for (FoodItem ingredient : recipeIngredientList) {

@@ -9,12 +9,15 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +38,8 @@ public class Recipe extends ParseObject {
     // these are set as public because they are referred to in other class (EditRecipeActivity)
     public static final String KEY_FILTERS = "filters";
     public static final String KEY_HYPERLINK_URL = "hyperlink_url";
+    public static final Hashtable jsonFilterToEnum = new Hashtable();
+//    jsonFilterToEnum.put("beverages/dairy", "dairy");
 
     public Recipe(){}
 
@@ -45,7 +50,7 @@ public class Recipe extends ParseObject {
         put(KEY_HYPERLINK_URL, jsonObject.getJSONObject("recipe").getString("url"));
         JSONArray ingredientsJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("ingredients");
         List<FoodItem> ingredientLines = new ArrayList<>();
-        for (int i=0;i<ingredientsJSONArray.length();i++){
+        for (int i=0; i<ingredientsJSONArray.length(); i++){
             FoodItem ingredient = new FoodItem();
             JSONObject ingredientJSONObject = ingredientsJSONArray.getJSONObject(i);
             ingredient.setName(ingredientJSONObject.getString("food"));
@@ -62,20 +67,24 @@ public class Recipe extends ParseObject {
         }
         put(KEY_INGREDIENTS, ingredientLines);
 
-       List<String> filters = new ArrayList<>();
+       EnumSet<AccountSettingsActivity.dietFiltersEnum> filtersEnumSet = EnumSet.noneOf(AccountSettingsActivity.dietFiltersEnum.class);
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
+        // todo: set filters
         for (int i=0; i<filtersJSONArray.length(); i++){
-            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGAN)){
-                filters.add(KEY_FILTER_VEGAN);
-            }
-            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_VEGETARIAN)){
-                filters.add(KEY_FILTER_VEGETARIAN);
-            }
-            if (Objects.equals(filtersJSONArray.getString(i), KEY_FILTER_GLUTEN_FREE)){
-                filters.add(KEY_FILTER_GLUTEN_FREE);
+            String filterStr =  filtersJSONArray.getString(i);
+            // format the string title from the format returned json objects (lower-case-separated-with-hyphens) to format in AccountSettingsActivity.dietFiltersEnum (FirstLetterOfEachWordCapitalized)
+            filterStr = filterStr.replace('-', ' '); // replace hyphen with space
+            filterStr = StringUtils.capitalize(filterStr); // capitalize each first word
+            filterStr = filterStr.replaceAll("\\s", ""); // remove spaces
+            // todo: if string formatted in enum, add to filters
+            if (EnumUtils.isValidEnum(AccountSettingsActivity.dietFiltersEnum.class, filterStr)){
+                filtersEnumSet.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filterStr));
             }
         }
-        put(KEY_FILTERS, filters);
+//        for (Enum<AccountSettingsActivity.dietFiltersEnum> filter: AccountSettingsActivity.dietFiltersEnum.values()){
+////            filters.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filter));
+//        }
+        setFilters(filtersEnumSet);
     }
 
     public String getImage_url() {
@@ -153,8 +162,12 @@ public class Recipe extends ParseObject {
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
-    public void setFilters(List<String> filters) {
-        put(KEY_FILTERS, filters);
+    public void setFilters(EnumSet<AccountSettingsActivity.dietFiltersEnum> filtersEnum) {
+        List<String> filtersArray = new ArrayList<>();
+        for(Enum filter : filtersEnum) {
+            filtersArray.add(filter.name());
+        }
+        put(KEY_FILTERS, filtersArray);
     }
     public void setHyperlink_url(String hyperlink_url) {
         put(KEY_HYPERLINK_URL, hyperlink_url);

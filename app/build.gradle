@@ -68,6 +68,9 @@ dependencies {
     // for flexbox view
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
+    // for editing string to capitalize first letter, etc.
+    implementation 'org.apache.commons:commons-lang3:3.6'
+
     // https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1"
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1:models"
