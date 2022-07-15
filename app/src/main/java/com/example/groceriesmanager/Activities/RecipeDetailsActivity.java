@@ -118,7 +118,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String link = recipe.getHyperlink_url();
         String title = recipe.getTitle();
         String filters = "";
-//        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
+        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
+//        Log.i(TAG, "recipeFilters: " + recipeFilters.toString());
         String ingredients = "";
         List<FoodItem> recipeIngredients = recipe.getIngredients();
         String procedures = "";
@@ -132,16 +133,19 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         if (link!=null){
             tvLink.setText("Link: " + link);
         }
-//        if (recipeFilters != null){
-//            filters = recipeFilters.get(0);
-//            for (int i=0; i<recipeFilters.size(); i++){
-//                if (i==0){
-//                    continue;
-//                }
-//                filters = filters + ", " + recipeFilters.get(i);
-//            }
-//            tvRecipeFilters.setText(filters);
-//        }
+        if (recipeFilters != null){
+            int i = 0;
+            for (Enum<AccountSettingsActivity.dietFiltersEnum> filter: recipeFilters){
+                if (i==0){
+                    filters = filter.name();
+                    i = 1;
+                    continue;
+                }
+                filters = filter.name() + ", " + filters;
+            }
+            // todo: populate
+            tvRecipeFilters.setText("Tags: " + filters);
+        }
 
         if (recipeIngredients != null){
             tvRecipeIngredientsLabel.setVisibility(View.VISIBLE);

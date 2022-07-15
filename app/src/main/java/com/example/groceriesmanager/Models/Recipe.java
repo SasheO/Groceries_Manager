@@ -69,21 +69,16 @@ public class Recipe extends ParseObject {
 
        EnumSet<AccountSettingsActivity.dietFiltersEnum> filtersEnumSet = EnumSet.noneOf(AccountSettingsActivity.dietFiltersEnum.class);
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
-        // todo: set filters
         for (int i=0; i<filtersJSONArray.length(); i++){
             String filterStr =  filtersJSONArray.getString(i);
             // format the string title from the format returned json objects (lower-case-separated-with-hyphens) to format in AccountSettingsActivity.dietFiltersEnum (FirstLetterOfEachWordCapitalized)
             filterStr = filterStr.replace('-', ' '); // replace hyphen with space
             filterStr = StringUtils.capitalize(filterStr); // capitalize each first word
             filterStr = filterStr.replaceAll("\\s", ""); // remove spaces
-            // todo: if string formatted in enum, add to filters
             if (EnumUtils.isValidEnum(AccountSettingsActivity.dietFiltersEnum.class, filterStr)){
                 filtersEnumSet.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filterStr));
             }
         }
-//        for (Enum<AccountSettingsActivity.dietFiltersEnum> filter: AccountSettingsActivity.dietFiltersEnum.values()){
-////            filters.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filter));
-//        }
         setFilters(filtersEnumSet);
     }
 
@@ -109,11 +104,14 @@ public class Recipe extends ParseObject {
 
     public EnumSet<AccountSettingsActivity.dietFiltersEnum> getFilters() {
         EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = EnumSet.noneOf(AccountSettingsActivity.dietFiltersEnum.class);
-        try {
-            filters.addAll(fetchIfNeeded().getList(KEY_FILTERS));
+        List<String> filtersList = getList(KEY_FILTERS);
+        if (filtersList!=null){
+            for (String filter: filtersList){
+                filters.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filter));
+            }
             return filters;
-        } catch (ParseException e) {
-            Log.v(TAG, e.toString());
+        }
+        else {
             return null;
         }
     }
