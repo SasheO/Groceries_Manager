@@ -35,12 +35,14 @@ public class RecipeSearchAdapter extends
     private List<Recipe> savedRecipesList;
     MainActivity context;
     public static final String TAG = "RecipeSearchAdapter";
+    private List<FoodItem> pantryList;
 
     // constructor to set context
     public RecipeSearchAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
+        this.pantryList = ((MainActivity) context).pantryListFragment.pantryList;
     }
 
     @NonNull
@@ -74,8 +76,7 @@ public class RecipeSearchAdapter extends
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
+        // Your holder should contain a member variable for any view that will be set as you render a row
         private TextView tvRecipeTitle;
         private TextView tvRecipeIngredientLines;
         private TextView tvOpenRecipeLink;
@@ -93,6 +94,7 @@ public class RecipeSearchAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
+            tvFractionGottenIngredients = itemView.findViewById(R.id.tvFractionGottenIngredients);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
             tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientsLabel);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
@@ -110,19 +112,32 @@ public class RecipeSearchAdapter extends
                     .into(ivRecipeImage);
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box
-            String recipe_ingredients = "INGREDIENTS";
+            String recipeIngredientStr = "";
+            int totalIngredients = recipe.getIngredients().size();
+            int gottenIngredients = 0;
             for (FoodItem ingredient: recipe.getIngredients()){
                 String quantity = ingredient.getQuantity();
                 String measure = ingredient.getMeasure();
                 String name = ingredient.getName();
                 if (quantity!=null){
-                    recipe_ingredients = recipe_ingredients + "\r\n" + quantity + " " + measure + " " + name;
+                    recipeIngredientStr = recipeIngredientStr + quantity + " " + measure + " " + name + "\r\n";
                 }
                 else{
-                    recipe_ingredients = recipe_ingredients + "\r\n" + name;
+                    recipeIngredientStr = recipeIngredientStr + name + "\r\n";
+                }
+                Log.i(TAG, "current ingredient: " + name);
+                // todo: check if ingredient with same name in pantry
+                for (FoodItem pantryItem: pantryList){
+                    Log.i(TAG, "pantry item: " + pantryItem.getName());
+                    if (name.toLowerCase().contains(pantryItem.getName().toLowerCase())){
+                        gottenIngredients ++;
+                        break;
+                    }
                 }
             }
-            tvRecipeIngredientLines.setText(recipe_ingredients);
+            tvRecipeIngredientLines.setText(recipeIngredientStr.trim());
+            // todo: populate tvFractionGottenIngredients below
+            tvFractionGottenIngredients.setText("INGREDIENTS: (" + String.valueOf(gottenIngredients) + " / " + String.valueOf(totalIngredients) + " in pantry)");
 
             if (recipeIsSaved(recipe)){
                 ibSaved.setImageResource(android.R.drawable.star_big_on);

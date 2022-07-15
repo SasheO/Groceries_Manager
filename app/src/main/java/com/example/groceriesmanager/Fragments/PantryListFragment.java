@@ -44,7 +44,7 @@ public class PantryListFragment extends Fragment {
     RecyclerView rvPantryList;
     ImageButton btnAddPantryItem;
     FloatingActionButton fabtnSuggestRecipes;
-    List<FoodItem> pantryList;
+    public List<FoodItem> pantryList;
     Switch switchSortAccordingToCategory;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
