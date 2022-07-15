@@ -1,10 +1,7 @@
 package com.example.groceriesmanager.Models;
 
-import android.util.Log;
-
 import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.parse.ParseClassName;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -15,18 +12,18 @@ import java.util.List;
 public class User extends ParseUser {
     private static final String TAG = "User";
     private static final String KEY_DIETFILTERS = "dietFilters";
-    public void setDietFilters(EnumSet<AccountSettingsActivity.dietFilters> dietFilters){
+    public void setDietFilters(EnumSet<AccountSettingsActivity.dietFiltersEnum> dietFiltersEnum){
         List<String> filters = new ArrayList<>();
-        for(Enum filter : dietFilters) {
+        for(Enum filter : dietFiltersEnum) {
             // do whatever
             filters.add(filter.name());
         }
     put(KEY_DIETFILTERS, filters);}
-    public EnumSet<AccountSettingsActivity.dietFilters> getDietFilters(){
-        EnumSet<AccountSettingsActivity.dietFilters> filters = EnumSet.noneOf(AccountSettingsActivity.dietFilters.class);
+    public EnumSet<AccountSettingsActivity.dietFiltersEnum> getDietFilters(){
+        EnumSet<AccountSettingsActivity.dietFiltersEnum> filters = EnumSet.noneOf(AccountSettingsActivity.dietFiltersEnum.class);
         List<String> filtersList = getList(KEY_DIETFILTERS);
         for (String filter: filtersList){
-            filters.add(AccountSettingsActivity.dietFilters.valueOf(filter));
+            filters.add(AccountSettingsActivity.dietFiltersEnum.valueOf(filter));
         }
         return filters;
     }

@@ -56,7 +56,7 @@ public class YoutubeSearchFragment extends Fragment {
     private static final String QUERY_FILTER_GLUTEN_FREE = "gluten free";
     private static final String QUERY_FILTER_DAIRY = "dairy-free";
     User currentUser;
-    EnumSet<AccountSettingsActivity.dietFilters> filters;
+    EnumSet<AccountSettingsActivity.dietFiltersEnum> filters;
     public static List<Video> savedVideosList;
 
     // required empty constructor
@@ -94,13 +94,13 @@ public class YoutubeSearchFragment extends Fragment {
         currentUser = (User) ParseUser.getCurrentUser();
         filters = currentUser.getDietFilters();
 
-        if (filters.contains(AccountSettingsActivity.dietFilters.GlutenFree)){
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
         }
-        if (filters.contains(AccountSettingsActivity.dietFilters.Vegan)){
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
             checkboxVegan.setChecked(true);
         }
-        if (filters.contains(AccountSettingsActivity.dietFilters.Vegetarian)){
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
             checkboxVegetarian.setChecked(true);
         }
 
@@ -113,19 +113,19 @@ public class YoutubeSearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 etYoutubeLookup.setText("");
-                if (filters.contains(AccountSettingsActivity.dietFilters.GlutenFree)){
+                if (filters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
                     checkboxGlutenFree.setChecked(true);
                 }
                 else{
                     checkboxGlutenFree.setChecked(false);
                 }
-                if (filters.contains(AccountSettingsActivity.dietFilters.Vegan)){
+                if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
                     checkboxVegan.setChecked(true);
                 }
                 else {
                     checkboxVegan.setChecked(false);
                 }
-                if (filters.contains(AccountSettingsActivity.dietFilters.Vegetarian)){
+                if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
                     checkboxVegetarian.setChecked(true);
                 }
                 else {
