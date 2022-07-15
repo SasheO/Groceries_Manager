@@ -7,24 +7,41 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
+import com.google.android.flexbox.FlexboxLayout;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
 
 public class AccountSettingsActivity extends AppCompatActivity {
     private CheckBox checkboxVegan;
     private CheckBox checkboxVegetarian;
     private CheckBox checkboxGlutenFree;
+    private CheckBox checkboxDairyFree;
+    private CheckBox checkboxAlcoholFree;
+    private CheckBox checkboxImmunoSupportive;
+    private CheckBox checkboxKetoFriendly;
+    private CheckBox checkboxPescatarian;
+    private CheckBox checkboxNoOilAdded;
+    private CheckBox checkboxSoyFree;
+    private CheckBox checkboxPeanutFree;
+    private CheckBox checkboxKosher;
+    private CheckBox checkboxPorkFree;
     private Button btnSave;
     private Button btnCancel;
+    TextView tvFiltersLabel;
+    FlexboxLayout flexboxFilters;
+    ImageButton ibExpandFilters;
+    EnumSet<dietFiltersEnum> filters;
     private static final String TAG = "AccountSettingsActivity";
+    public enum dietFiltersEnum {Vegan, Vegetarian, GlutenFree, DairyFree, AlcoholFree, ImmunoSupportive, KetoFriendly, Pescatarian, NoOilAdded, SoyFree, PeanutFree, Kosher, PorkFree};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +51,40 @@ public class AccountSettingsActivity extends AppCompatActivity {
         checkboxGlutenFree = findViewById(R.id.checkboxGlutenFree);
         checkboxVegan = findViewById(R.id.checkboxVegan);
         checkboxVegetarian = findViewById(R.id.checkboxVegetarian);
+        checkboxDairyFree = findViewById(R.id.checkboxDairyFree);
+        checkboxAlcoholFree = findViewById(R.id.checkboxAlcoholFree);
+        checkboxImmunoSupportive = findViewById(R.id.checkboxImmunoSupportive);
+        checkboxKetoFriendly = findViewById(R.id.checkboxKetoFriendly);
+        checkboxPescatarian = findViewById(R.id.checkboxPescatarian);
+        checkboxNoOilAdded = findViewById(R.id.checkboxNoOilAdded);
+        checkboxSoyFree = findViewById(R.id.checkboxSoyFree);
+        checkboxPeanutFree = findViewById(R.id.checkboxPeanutFree);
+        checkboxKosher = findViewById(R.id.checkboxKosher);
+        checkboxPorkFree = findViewById(R.id.checkboxPorkFree);
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
+        tvFiltersLabel = findViewById(R.id.tvFiltersLabel);
+        ibExpandFilters = findViewById(R.id.ibExpandFilters);
+        flexboxFilters = findViewById(R.id.flexboxFilters);
 
         User currentUser = (User) ParseUser.getCurrentUser();
+        filters = EnumSet.noneOf(dietFiltersEnum.class);
 
-        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.vegan))){
-            checkboxVegan.setChecked(true);
-        }
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.vegetarian))){
-            checkboxVegetarian.setChecked(true);
-        }
-        if (currentUser.getDietFilters().contains(getResources().getString(R.string.gluten_free))){
-            checkboxGlutenFree.setChecked(true);
-        }
+        setUserFilters(currentUser.getDietFilters());
+
+        ibExpandFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchLlFiltersVisibility();
+            }
+        });
+
+        tvFiltersLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchLlFiltersVisibility();
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,36 +96,187 @@ public class AccountSettingsActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> dietFilters = new ArrayList<>();
 
-                if (checkboxGlutenFree.isChecked()){
-                    dietFilters.add(getResources().getString(R.string.gluten_free));
-                }
-                if (checkboxVegetarian.isChecked()){
-                    dietFilters.add(getResources().getString(R.string.vegetarian));
-                }
-                if (checkboxVegan.isChecked()){
-                    dietFilters.add(getResources().getString(R.string.vegan));
-                }
+                updateFiltersToSave();
 
-                if (dietFilters.size()!=0){
-                    currentUser.setDietFilters(dietFilters);
-                    currentUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e!=null){
-                                Log.e(TAG, "error saving account settings: " + e.toString());
-                                Toast.makeText(AccountSettingsActivity.this, "error saving account settings", Toast.LENGTH_LONG).show();
-                            }
-                            else {
-                                Toast.makeText(AccountSettingsActivity.this, "account settings saved", Toast.LENGTH_LONG).show();
-                            }
+//                if (dietFilters.size()!=0){
+              if (filters.size()!=0){
+//                        currentUser.setDietFilters(dietFilters);
+                    currentUser.setDietFilters(filters);
+                }
+              else {
+                  currentUser.remove(User.KEY_DIETFILTERS);
+              }
+
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e!=null){
+                            Log.e(TAG, "error saving account settings: " + e.toString());
+                            Toast.makeText(AccountSettingsActivity.this, "error saving account settings", Toast.LENGTH_LONG).show();
                         }
-                    });
-                }
+                        else {
+                            Toast.makeText(AccountSettingsActivity.this, "account settings saved", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
                 finish();
             }
         });
+    }
+
+    private void switchLlFiltersVisibility() {
+        if (flexboxFilters.getVisibility()==View.VISIBLE){
+            flexboxFilters.setVisibility(View.GONE);
+            ibExpandFilters.setImageResource(R.drawable.expand_arrow);
+        }
+        else {
+            flexboxFilters.setVisibility(View.VISIBLE);
+            ibExpandFilters.setImageResource(R.drawable.collapse_arrow);
+        }
+    }
+
+    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if else statements
+    private void updateFiltersToSave() {
+        if (checkboxGlutenFree.isChecked()){
+            filters.add(dietFiltersEnum.GlutenFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.GlutenFree);
+        }
+        if (checkboxVegetarian.isChecked()){
+            filters.add(dietFiltersEnum.Vegetarian);
+        }
+        else {
+            filters.remove(dietFiltersEnum.Vegetarian);
+        }
+        if (checkboxVegan.isChecked()){
+            filters.add(dietFiltersEnum.Vegan);
+        }
+        else {
+            filters.remove(dietFiltersEnum.Vegan);
+        }
+
+        if (checkboxDairyFree.isChecked()){
+            filters.add(dietFiltersEnum.DairyFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.DairyFree);
+        }
+        if (checkboxAlcoholFree.isChecked()){
+            filters.add(dietFiltersEnum.AlcoholFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.AlcoholFree);
+        }
+        if (checkboxImmunoSupportive.isChecked()){
+            filters.add(dietFiltersEnum.ImmunoSupportive);
+        }
+        else {
+            filters.remove(dietFiltersEnum.ImmunoSupportive);
+        }
+        if (checkboxKetoFriendly.isChecked()){
+            filters.add(dietFiltersEnum.KetoFriendly);
+        }
+        else {
+            filters.remove(dietFiltersEnum.KetoFriendly);
+        }
+        if (checkboxPescatarian.isChecked()){
+            filters.add(dietFiltersEnum.Pescatarian);
+        }
+        else {
+            filters.remove(dietFiltersEnum.Pescatarian);
+        }
+        if (checkboxNoOilAdded.isChecked()){
+            filters.add(dietFiltersEnum.NoOilAdded);
+        }
+        else {
+            filters.remove(dietFiltersEnum.NoOilAdded);
+        }
+        if (checkboxSoyFree.isChecked()){
+            filters.add(dietFiltersEnum.SoyFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.SoyFree);
+        }
+        if (checkboxPeanutFree.isChecked()){
+            filters.add(dietFiltersEnum.PeanutFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.PeanutFree);
+        }
+        if (checkboxKosher.isChecked()){
+            filters.add(dietFiltersEnum.Kosher);
+        }
+        else {
+            filters.remove(dietFiltersEnum.Kosher);
+        }
+        if (checkboxPorkFree.isChecked()){
+            filters.add(dietFiltersEnum.PorkFree);
+        }
+        else {
+            filters.remove(dietFiltersEnum.PorkFree);
+        }
+    }
+
+    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if statements
+    private void setUserFilters(EnumSet<dietFiltersEnum> userDietFilters){
+        if (userDietFilters==null){ // if user has not chosen any filters
+            return;
+        }
+        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
+        if (userDietFilters.contains(dietFiltersEnum.Vegan)){
+            checkboxVegan.setChecked(true);
+//            filters.add(dietFiltersEnum.Vegan);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.Vegetarian)){
+            checkboxVegetarian.setChecked(true);
+//            filters.add(dietFiltersEnum.Vegetarian);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.GlutenFree)){
+            checkboxGlutenFree.setChecked(true);
+//            filters.add(dietFiltersEnum.GlutenFree);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.DairyFree)){
+            checkboxDairyFree.setChecked(true);
+//            filters.add(dietFiltersEnum.DairyFree);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.AlcoholFree)){
+            checkboxAlcoholFree.setChecked(true);
+//            filters.add(dietFiltersEnum.AlcoholFree);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.ImmunoSupportive)){
+            checkboxImmunoSupportive.setChecked(true);
+//            filters.add(dietFiltersEnum.ImmunoSupportive);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.KetoFriendly)){
+            checkboxKetoFriendly.setChecked(true);
+//            filters.add(dietFiltersEnum.KetoFriendly);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.Pescatarian)){
+            checkboxPescatarian.setChecked(true);
+//            filters.add(dietFiltersEnum.Pescatarian);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.NoOilAdded)){
+            checkboxNoOilAdded.setChecked(true);
+//            filters.add(dietFiltersEnum.NoOilAdded);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.SoyFree)){
+            checkboxSoyFree.setChecked(true);
+//            filters.add(dietFiltersEnum.SoyFree);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.PeanutFree)){
+            checkboxPeanutFree.setChecked(true);
+//            filters.add(dietFiltersEnum.PeanutFree);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.Kosher)){
+            checkboxKosher.setChecked(true);
+//            filters.add(dietFiltersEnum.Kosher);
+        }
+        if (userDietFilters.contains(dietFiltersEnum.PorkFree)){
+            checkboxPorkFree.setChecked(true);
+//            filters.add(dietFiltersEnum.PorkFree);
+        }
     }
 }

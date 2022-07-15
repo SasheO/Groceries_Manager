@@ -28,36 +28,38 @@
         android:id="@+id/ibRecipeSearchClear"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/ibRecipeSearch"
+        android:layout_alignParentEnd="true"
         android:background="@null"
         android:contentDescription="clear previous search"
         app:srcCompat="@android:drawable/ic_delete" />
-    <LinearLayout
-        android:id="@+id/llFilters"
+
+    <TextView
+        android:id="@+id/tvExpandFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etRecipeLookup"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:text="Edit filters"
+        android:textColor="@color/dark_blue" />
+
+    <TextView
+        android:id="@+id/tvResetFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etRecipeLookup"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:text="Reset filters"
+        android:textColor="@color/dark_blue" />
+
+    <include layout="@layout/flexbox_checkboxes"
+        android:id="@+id/flexboxFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/etRecipeLookup">
-
-        <CheckBox
-            android:id="@+id/checkboxVegan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vegan" />
-
-        <CheckBox
-            android:id="@+id/checkboxVegetarian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="vegetarian" />
-
-        <CheckBox
-            android:id="@+id/checkboxGlutenFree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="gluten-free" />
-    </LinearLayout>
+        android:layout_below="@id/tvExpandFilters"
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -72,7 +74,7 @@
         android:id="@+id/rvRecipeSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/llFilters"
+        android:layout_below="@id/flexboxFilters"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

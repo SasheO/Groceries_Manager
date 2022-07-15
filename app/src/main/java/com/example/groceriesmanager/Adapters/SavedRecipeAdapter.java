@@ -77,7 +77,7 @@ public class SavedRecipeAdapter extends
         public TextView tvRecipeTitle;
 //        public TextView tvRecipeIngredientLines;
         public TextView tvOpenRecipeLink;
-        public TextView tvRecipeFilters;
+//        public TextView tvRecipeFilters;
         public ImageButton ibOpenRecipeLink;
 //        public ImageView ivRecipeImage;
         public RelativeLayout rlSavedRecipe;
@@ -92,7 +92,7 @@ public class SavedRecipeAdapter extends
             itemView.setOnClickListener(this);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
-            tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
+//            tvRecipeFilters = itemView.findViewById(R.id.tvRecipeFilters);
             ibOpenRecipeLink = itemView.findViewById(R.id.ibOpenRecipeLink);
             rlSavedRecipe = itemView.findViewById(R.id.rlSavedRecipe);
             ibSavedRecipeDelete = itemView.findViewById(R.id.ibSavedRecipeDelete);
@@ -102,17 +102,17 @@ public class SavedRecipeAdapter extends
             tvRecipeTitle.setText(recipe.getTitle());
 
 
-            List<String> recipe_filters_array = recipe.getFilters();
-            if (recipe_filters_array!=null){
-                String recipe_filters = "Filters: " + recipe_filters_array.get(0);
-                for (int i=0; i<recipe_filters_array.size(); i++){
-                    if (i==0){
-                        continue;
-                    }
-                    recipe_filters = recipe_filters + ", " + recipe_filters_array.get(i);
-                }
-                tvRecipeFilters.setText(recipe_filters);
-            }
+//            List<String> recipe_filters_array = recipe.getFilters();
+//            if (recipe_filters_array!=null){
+//                String recipe_filters = "Filters: " + recipe_filters_array.get(0);
+//                for (int i=0; i<recipe_filters_array.size(); i++){
+//                    if (i==0){
+//                        continue;
+//                    }
+//                    recipe_filters = recipe_filters + ", " + recipe_filters_array.get(i);
+//                }
+//                tvRecipeFilters.setText(recipe_filters);
+//            }
 
             if(recipe.getHyperlink_url() == null){
                 tvOpenRecipeLink.setVisibility(View.GONE);

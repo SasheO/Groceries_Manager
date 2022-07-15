@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,11 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 //import com.example.groceriesmanager.Lemma;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
+import com.google.android.flexbox.FlexboxLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,24 +45,48 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class RecipeSearchFragment extends Fragment {
-    ImageButton ibRecipeSearch;
-    ImageButton ibRecipeSearchClear;
-    EditText etRecipeLookup;
-    CheckBox checkboxVegan;
-    CheckBox checkboxVegetarian;
-    CheckBox checkboxGlutenFree;
-    TextView tvNoResultsMessage;
+    private TextView tvExpandFilters;
+    private TextView tvResetFilters;
+    private ImageButton ibRecipeSearch;
+    private ImageButton ibRecipeSearchClear;
+    private EditText etRecipeLookup;
+    private CheckBox checkboxVegan;
+    private CheckBox checkboxVegetarian;
+    private CheckBox checkboxGlutenFree;
+    private CheckBox checkboxDairyFree;
+    private CheckBox checkboxAlcoholFree;
+    private CheckBox checkboxImmunoSupportive;
+    private CheckBox checkboxKetoFriendly;
+    private CheckBox checkboxPescatarian;
+    private CheckBox checkboxNoOilAdded;
+    private CheckBox checkboxSoyFree;
+    private CheckBox checkboxPeanutFree;
+    private CheckBox checkboxKosher;
+    private CheckBox checkboxPorkFree;
+    private FlexboxLayout flexboxFilters;
+    private TextView tvNoResultsMessage;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public static List<Recipe> savedRecipesList;
     public RecipeSearchAdapter adapter;
     String userQuery;
     RecyclerView rvRecipeSearch;
-    private static final String QUERY_FILTER_VEGAN = "vegan";
-    private static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
-    private static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
     User currentUser;
-    List<String> dietFilters;
+    EnumSet<AccountSettingsActivity.dietFiltersEnum> filters;
+    // these are public because they are also used in youtube search fragment. they are spelt exactly as required in edamam api
+    public static final String QUERY_FILTER_VEGAN = "vegan";
+    public static final String QUERY_FILTER_VEGETARIAN = "vegetarian";
+    public static final String QUERY_FILTER_GLUTEN_FREE = "gluten-free";
+    public static final String QUERY_FILTER_DAIRY_FREE = "dairy-free";
+    public static final String QUERY_FILTER_ALCOHOL_FREE = "alcohol-free";
+    public static final String QUERY_FILTER_IMMUNO_SUPPORTIVE = "immuno-supportive";
+    public static final String QUERY_FILTER_KETO_FRIENDLY = "keto-friendly";
+    public static final String QUERY_FILTER_PESCATARIAN = "pescatarian";
+    public static final String QUERY_FILTER_NO_OIL_ADDED = "no-oil-added";
+    public static final String QUERY_FILTER_SOY_FREE = "soy-free";
+    public static final String QUERY_FILTER_PEANUT_FREE = "peanut-free";
+    public static final String QUERY_FILTER_KOSHER = "kosher";
+    public static final String QUERY_FILTER_PORK_FREE = "pork-free";
 //    Lemma lemmatizer = new Lemma();
 
     // required empty constructor
@@ -87,13 +113,26 @@ public class RecipeSearchFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        etRecipeLookup = (EditText) view.findViewById(R.id.etRecipeLookup);
-        ibRecipeSearch = (ImageButton) view.findViewById(R.id.ibRecipeSearch);
-        ibRecipeSearchClear = (ImageButton) view.findViewById(R.id.ibRecipeSearchClear);
-        rvRecipeSearch = (RecyclerView) view.findViewById(R.id.rvRecipeSearch);
-        checkboxVegan = (CheckBox) view.findViewById(R.id.checkboxVegan);
-        checkboxVegetarian = (CheckBox) view.findViewById(R.id.checkboxVegetarian);
-        checkboxGlutenFree = (CheckBox) view.findViewById(R.id.checkboxGlutenFree);
+        tvExpandFilters = view.findViewById(R.id.tvExpandFilters);
+        tvResetFilters = view.findViewById(R.id.tvResetFilters);
+        flexboxFilters = view.findViewById(R.id.flexboxFilters);
+        etRecipeLookup = view.findViewById(R.id.etRecipeLookup);
+        ibRecipeSearch = view.findViewById(R.id.ibRecipeSearch);
+        ibRecipeSearchClear = view.findViewById(R.id.ibRecipeSearchClear);
+        rvRecipeSearch = view.findViewById(R.id.rvRecipeSearch);
+        checkboxGlutenFree = view.findViewById(R.id.checkboxGlutenFree);
+        checkboxVegan = view.findViewById(R.id.checkboxVegan);
+        checkboxVegetarian = view.findViewById(R.id.checkboxVegetarian);
+        checkboxDairyFree = view.findViewById(R.id.checkboxDairyFree);
+        checkboxPorkFree = view.findViewById(R.id.checkboxPorkFree);
+        checkboxAlcoholFree = view.findViewById(R.id.checkboxAlcoholFree);
+        checkboxImmunoSupportive = view.findViewById(R.id.checkboxImmunoSupportive);
+        checkboxKetoFriendly = view.findViewById(R.id.checkboxKetoFriendly);
+        checkboxPescatarian = view.findViewById(R.id.checkboxPescatarian);
+        checkboxNoOilAdded = view.findViewById(R.id.checkboxNoOilAdded);
+        checkboxSoyFree = view.findViewById(R.id.checkboxSoyFree);
+        checkboxPeanutFree = view.findViewById(R.id.checkboxPeanutFree);
+        checkboxKosher = view.findViewById(R.id.checkboxKosher);
         tvNoResultsMessage = view.findViewById(R.id.tvNoResultsMessage);
         tvNoResultsMessage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
@@ -101,17 +140,9 @@ public class RecipeSearchFragment extends Fragment {
         adapter = new RecipeSearchAdapter(getContext(), recipeList, savedRecipesList);
 
         currentUser = (User) ParseUser.getCurrentUser();
-        dietFilters = currentUser.getDietFilters();
-
-        if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
-            checkboxGlutenFree.setChecked(true);
-        }
-        if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
-            checkboxVegan.setChecked(true);
-        }
-        if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
-            checkboxVegetarian.setChecked(true);
-        }
+        filters = currentUser.getDietFilters();
+        // todo: move the below into a method and add more filters populating
+        setUserFilters();
 
         // in case user is opening this from pantryListFragment
         userQuery = getArguments().getString("userQuery", "");
@@ -130,29 +161,32 @@ public class RecipeSearchFragment extends Fragment {
             etRecipeLookup.setText(userQuery);
         }
 
+        tvExpandFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flexboxFilters.getVisibility()==View.GONE){
+                    flexboxFilters.setVisibility(View.VISIBLE);
+                    tvExpandFilters.setText("Close filters");
+                }
+                else {
+                    flexboxFilters.setVisibility(View.GONE);
+                    tvExpandFilters.setText("Edit filters");}
+            }
+        });
+
+        tvResetFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filters = currentUser.getDietFilters();
+                setUserFilters();
+            }
+        });
+
         // when user clicks on the x to clear search results
         ibRecipeSearchClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 etRecipeLookup.setText("");
-                if (dietFilters.contains(getContext().getResources().getString(R.string.gluten_free))){
-                    checkboxGlutenFree.setChecked(true);
-                }
-                else{
-                    checkboxGlutenFree.setChecked(false);
-                }
-                if (dietFilters.contains(getContext().getResources().getString(R.string.vegan))){
-                    checkboxVegan.setChecked(true);
-                }
-                else {
-                    checkboxVegan.setChecked(false);
-                }
-                if (dietFilters.contains(getContext().getResources().getString(R.string.vegetarian))){
-                    checkboxVegetarian.setChecked(true);
-                }
-                else {
-                    checkboxVegetarian.setChecked(false);
-                }
                 tvNoResultsMessage.setVisibility(View.GONE);
                 adapter.clear();
             }
@@ -188,16 +222,23 @@ public class RecipeSearchFragment extends Fragment {
             urlBuilder.addQueryParameter("type", "public");
             urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
             urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
-            if (checkboxVegan.isChecked()){
-                urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);
-            }
-            else if (checkboxVegetarian.isChecked()){ // only add vegetarian if vegan is not already checked
-                urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);
-            }
-            if (checkboxGlutenFree.isChecked()){
-                urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);
-            }
+            if (checkboxVegan.isChecked()){urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);}
+            // only add vegetarian if not alreay checked
+            else if (checkboxVegetarian.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);}
+            if (checkboxGlutenFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);}
+            if (checkboxDairyFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_DAIRY_FREE);}
+            if (checkboxAlcoholFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_ALCOHOL_FREE);}
+            if (checkboxImmunoSupportive.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_IMMUNO_SUPPORTIVE);}
+            if (checkboxKetoFriendly.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_KETO_FRIENDLY);}
+            if (checkboxPescatarian.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PESCATARIAN);}
+            if (checkboxNoOilAdded.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_NO_OIL_ADDED);}
+            if (checkboxSoyFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_SOY_FREE);}
+            if (checkboxPeanutFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PEANUT_FREE);}
+            if (checkboxKosher.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_KOSHER);}
+            if (checkboxPorkFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PORK_FREE);}
+
             String url = urlBuilder.build().toString();
+        Log.i(TAG, "url: " + url);
             //
             Request request = new Request.Builder()
                     .url(url)
@@ -273,6 +314,92 @@ public class RecipeSearchFragment extends Fragment {
                 }
             });
 
+    }
+
+    // todo: make this into a loop
+    private void setUserFilters(){
+        if (filters==null){ // if user has not chosen any filters
+            return;
+        }
+        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
+            checkboxVegan.setChecked(true);
+        }
+        else {
+            checkboxVegan.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
+            checkboxVegetarian.setChecked(true);
+        }
+        else {
+            checkboxVegetarian.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
+            checkboxGlutenFree.setChecked(true);
+        }
+        else {
+            checkboxGlutenFree.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.DairyFree)){
+            checkboxDairyFree.setChecked(true);
+        }
+        else {
+            checkboxDairyFree.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.AlcoholFree)){
+            checkboxAlcoholFree.setChecked(true);
+        }
+        else {
+            checkboxAlcoholFree.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive)){
+            checkboxImmunoSupportive.setChecked(true);
+        }
+        else {
+            checkboxImmunoSupportive.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.KetoFriendly)){
+            checkboxKetoFriendly.setChecked(true);
+        }
+        else {
+            checkboxKetoFriendly.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Pescatarian)){
+            checkboxPescatarian.setChecked(true);
+        }
+        else {
+            checkboxPescatarian.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.NoOilAdded)){
+            checkboxNoOilAdded.setChecked(true);
+        }
+        else {
+            checkboxNoOilAdded.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.SoyFree)){
+            checkboxSoyFree.setChecked(true);
+        }
+        else {
+            checkboxSoyFree.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PeanutFree)){
+            checkboxPeanutFree.setChecked(true);
+        }
+        else {
+            checkboxPeanutFree.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Kosher)){
+            checkboxKosher.setChecked(true);
+        }
+        else {
+            checkboxKosher.setChecked(false);
+        }
+        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PorkFree)){
+            checkboxPorkFree.setChecked(true);
+        }
+        else {
+            checkboxPorkFree.setChecked(false);
+        }
     }
 
 }

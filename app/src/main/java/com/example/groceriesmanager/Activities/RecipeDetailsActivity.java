@@ -18,6 +18,7 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,7 +118,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         String link = recipe.getHyperlink_url();
         String title = recipe.getTitle();
         String filters = "";
-        List<String> recipeFilters = recipe.getFilters();
+        EnumSet<AccountSettingsActivity.dietFiltersEnum> recipeFilters = recipe.getFilters();
+//        Log.i(TAG, "recipeFilters: " + recipeFilters.toString());
         String ingredients = "";
         List<FoodItem> recipeIngredients = recipe.getIngredients();
         String procedures = "";
@@ -132,14 +134,17 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             tvLink.setText("Link: " + link);
         }
         if (recipeFilters != null){
-            filters = recipeFilters.get(0);
-            for (int i=0; i<recipeFilters.size(); i++){
+            int i = 0;
+            for (Enum<AccountSettingsActivity.dietFiltersEnum> filter: recipeFilters){
                 if (i==0){
+                    filters = filter.name();
+                    i = 1;
                     continue;
                 }
-                filters = filters + ", " + recipeFilters.get(i);
+                filters = filter.name() + ", " + filters;
             }
-            tvRecipeFilters.setText(filters);
+            // todo: populate
+            tvRecipeFilters.setText("Tags: " + filters);
         }
 
         if (recipeIngredients != null){

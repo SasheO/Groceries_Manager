@@ -45,48 +45,29 @@
             android:layout_toEndOf="@+id/tvLinkLabel"
             android:maxLines="1" />
 
-        <LinearLayout
-            android:id="@+id/llTag"
+        <TextView
+            android:id="@+id/tvTagLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_below="@+id/tvLinkLabel"
+            android:clickable="true"
+            android:textColor="@color/dark_blue"
+            android:text="Edit tags" />
+
+        <include layout="@layout/flexbox_checkboxes"
+            android:id="@+id/flexboxCheckboxes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvLinkLabel">
-
-            <TextView
-                android:id="@+id/tvTagLabel"
-                style="@style/Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Tags:" />
-
-            <CheckBox
-                android:id="@+id/checkboxVegan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Vegan" />
-
-            <CheckBox
-                android:id="@+id/checkboxVegetarian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Vegetarian" />
-
-            <CheckBox
-                android:id="@+id/checkboxGlutenFree"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Gluten-free" />
-        </LinearLayout>
+            android:layout_below="@+id/tvTagLabel"
+            />
 
         <TextView
             android:id="@+id/tvIngredientsLabel"
             style="@style/Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/llTag"
+            android:layout_below="@+id/flexboxCheckboxes"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
             android:text="Ingredients" />

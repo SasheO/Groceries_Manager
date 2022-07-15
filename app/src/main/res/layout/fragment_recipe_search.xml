@@ -42,12 +42,42 @@
         android:layout_alignTop="@id/ibRecipeSearch"
         android:contentDescription="clear previous search"
         app:srcCompat="@android:drawable/ic_delete" />
-    <LinearLayout
-        android:id="@+id/llFilters"
+
+    <TextView
+        android:id="@+id/tvExpandFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/etRecipeLookup"
+        android:clickable="true"
+        android:text="Edit filters"
+        android:textColor="@color/dark_blue"/>
+
+    <TextView
+        android:id="@+id/tvResetFilters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etRecipeLookup"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:text="Reset filters"
+        android:textColor="@color/dark_blue" />
+
+    <include layout="@layout/flexbox_checkboxes"
+        android:id="@+id/flexboxFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/etRecipeLookup">
+        android:layout_below="@id/tvExpandFilters"
+        />
+
+    <!---com.google.android.flexbox.FlexboxLayout
+
+
+
+        app:flexWrap="wrap"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
 
         <CheckBox
             android:id="@+id/checkboxVegan"
@@ -61,18 +91,80 @@
             android:layout_height="wrap_content"
             android:text="vegetarian" />
 
+
+        <CheckBox
+            android:id="@+id/checkboxPescatarian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pescatarian" />
+
         <CheckBox
             android:id="@+id/checkboxGlutenFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="gluten-free" />
-    </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkboxDairyFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dairy-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxSoyFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="soy-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxPeanutFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="peanut-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxKosher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kosher" />
+
+        <CheckBox
+            android:id="@+id/checkboxPorkFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pork-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxAlcoholFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alcohol-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxImmunoSupportive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="immuno-supportive" />
+
+        <CheckBox
+            android:id="@+id/checkboxKetoFriendly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="keto-friendly" />
+
+        <CheckBox
+            android:id="@+id/checkboxNoOilAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="no-added-oil" />
+
+    </com.google.android.flexbox.FlexboxLayout-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecipeSearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/llFilters"
+        android:layout_below="@id/flexboxFilters"
         android:layout_alignParentBottom="true" />
 
     <TextView
@@ -83,6 +175,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="167dp"
         android:visibility="gone"
-        android:text="No results for this search." />
+        android:text="No results found for this search. Check your spelling or try reducing the dietary filters applied to this search." />
+
 
 </RelativeLayout>
