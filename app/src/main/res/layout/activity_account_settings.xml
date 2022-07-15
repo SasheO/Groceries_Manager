@@ -38,11 +38,12 @@
         android:scaleType="fitXY"
         android:src="@drawable/expand_arrow" />
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/llFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvFiltersLabel"
+        app:flexWrap="wrap"
         android:visibility="gone"
         android:orientation="horizontal">
 
@@ -59,12 +60,74 @@
             android:layout_height="wrap_content"
             android:text="vegetarian" />
 
+
+        <CheckBox
+            android:id="@+id/checkboxPescatarian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pescatarian" />
+
         <CheckBox
             android:id="@+id/checkboxGlutenFree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="gluten-free" />
-    </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkboxDairyFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dairy-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxSoyFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="soy-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxPeanutFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="peanut-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxKosher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kosher" />
+
+        <CheckBox
+            android:id="@+id/checkboxPorkFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="pork-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxAlcoholFree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alcohol-free" />
+
+        <CheckBox
+            android:id="@+id/checkboxImmunoSupportive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="immuno-supportive" />
+
+        <CheckBox
+            android:id="@+id/checkboxKetoFriendly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="keto-friendly" />
+
+        <CheckBox
+            android:id="@+id/checkboxNoOilAdded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="no-added-oil" />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
     <Button
         android:id="@+id/btnCancel"

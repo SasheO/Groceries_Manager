@@ -40,10 +40,4 @@
         <item>Log Out</item>
     </string-array>
 
-    <string-array name="diet_restrictions">
-        <item>Vegan</item>
-        <item>Vegetarian</item>
-        <item>Gluten-Free</item>
-        <item>Dairy-Free</item>
-    </string-array>
 </resources>

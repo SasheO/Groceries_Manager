@@ -65,6 +65,9 @@ dependencies {
     // for animated bottom bar
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
 
+    // for flexbox view
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
     // https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1"
 //    implementation "edu.stanford.nlp:stanford-corenlp:3.9.1:models"
