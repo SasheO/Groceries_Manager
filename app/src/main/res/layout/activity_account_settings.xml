@@ -39,13 +39,13 @@
         android:src="@drawable/expand_arrow" />
 
     <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/llFilters"
+        android:id="@+id/flexboxFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvFiltersLabel"
-        app:flexWrap="wrap"
+        android:orientation="horizontal"
         android:visibility="gone"
-        android:orientation="horizontal">
+        app:flexWrap="wrap">
 
 
         <CheckBox

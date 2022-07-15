@@ -60,7 +60,6 @@ public class Recipe extends ParseObject {
         }
         put(KEY_INGREDIENTS, ingredientLines);
 
-
        List<String> filters = new ArrayList<>();
         JSONArray filtersJSONArray = jsonObject.getJSONObject("recipe").getJSONArray("healthLabels");
         for (int i=0; i<filtersJSONArray.length(); i++){
@@ -147,10 +146,6 @@ public class Recipe extends ParseObject {
     public String getType(){
         return getString(KEY_TYPE);
     }
-
-    public void setImage_url(String image_url) {
-        put(KEY_IMAGE_URL, image_url);
-    }
     public void setTitle(String title) {
         put(KEY_TITLE, title);
     }
@@ -159,9 +154,6 @@ public class Recipe extends ParseObject {
     }
     public void setHyperlink_url(String hyperlink_url) {
         put(KEY_HYPERLINK_URL, hyperlink_url);
-    }
-    public void setIngredientLines(List<String> ingredientLines) {
-        put(KEY_INGREDIENT_LINES_STR, ingredientLines);
     }
     public void setIngredients(List<FoodItem> ingredients) {
         put(KEY_INGREDIENTS, ingredients);
@@ -183,7 +175,6 @@ public class Recipe extends ParseObject {
             recipeList.add(new Recipe(recipeJsonArray.getJSONObject(i)));
         }
         return recipeList;
-
     }
 
     public void deleteRecipe(){

@@ -54,6 +54,7 @@
             android:layout_marginStart="3dp"
             android:layout_toEndOf="@id/ivFoodItemPic"
             android:contentDescription="Recipe filters"
+            android:visibility="gone"
             tools:text="Recipe Filters appear here" />
 
         <TextView

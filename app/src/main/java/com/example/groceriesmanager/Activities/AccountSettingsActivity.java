@@ -1,16 +1,13 @@
 package com.example.groceriesmanager.Activities;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +18,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.List;
 
 public class AccountSettingsActivity extends AppCompatActivity {
     private CheckBox checkboxVegan;
@@ -44,7 +37,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private Button btnSave;
     private Button btnCancel;
     TextView tvFiltersLabel;
-    FlexboxLayout llFilters;
+    FlexboxLayout flexboxFilters;
     ImageButton ibExpandFilters;
     EnumSet<dietFiltersEnum> filters;
     private static final String TAG = "AccountSettingsActivity";
@@ -72,7 +65,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         tvFiltersLabel = findViewById(R.id.tvFiltersLabel);
         ibExpandFilters = findViewById(R.id.ibExpandFilters);
-        llFilters = findViewById(R.id.llFilters);
+        flexboxFilters = findViewById(R.id.flexboxFilters);
 
         User currentUser = (User) ParseUser.getCurrentUser();
         filters = EnumSet.noneOf(dietFiltersEnum.class);
@@ -134,12 +127,12 @@ public class AccountSettingsActivity extends AppCompatActivity {
     }
 
     private void switchLlFiltersVisibility() {
-        if (llFilters.getVisibility()==View.VISIBLE){
-            llFilters.setVisibility(View.GONE);
+        if (flexboxFilters.getVisibility()==View.VISIBLE){
+            flexboxFilters.setVisibility(View.GONE);
             ibExpandFilters.setImageResource(R.drawable.expand_arrow);
         }
         else {
-            llFilters.setVisibility(View.VISIBLE);
+            flexboxFilters.setVisibility(View.VISIBLE);
             ibExpandFilters.setImageResource(R.drawable.collapse_arrow);
         }
     }
@@ -245,64 +238,55 @@ public class AccountSettingsActivity extends AppCompatActivity {
         // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
         if (userDietFilters.contains(dietFiltersEnum.Vegan)){
             checkboxVegan.setChecked(true);
-            filters.add(dietFiltersEnum.Vegan);
+//            filters.add(dietFiltersEnum.Vegan);
         }
         if (userDietFilters.contains(dietFiltersEnum.Vegetarian)){
             checkboxVegetarian.setChecked(true);
-            filters.add(dietFiltersEnum.Vegetarian);
+//            filters.add(dietFiltersEnum.Vegetarian);
         }
         if (userDietFilters.contains(dietFiltersEnum.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
-            filters.add(dietFiltersEnum.GlutenFree);
+//            filters.add(dietFiltersEnum.GlutenFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.DairyFree)){
             checkboxDairyFree.setChecked(true);
-            filters.add(dietFiltersEnum.DairyFree);
+//            filters.add(dietFiltersEnum.DairyFree);
         }
-//        private CheckBox checkboxAlcoholFree;
         if (userDietFilters.contains(dietFiltersEnum.AlcoholFree)){
             checkboxAlcoholFree.setChecked(true);
-            filters.add(dietFiltersEnum.AlcoholFree);
+//            filters.add(dietFiltersEnum.AlcoholFree);
         }
-//    private CheckBox checkboxImmunoSupportive;
         if (userDietFilters.contains(dietFiltersEnum.ImmunoSupportive)){
             checkboxImmunoSupportive.setChecked(true);
-            filters.add(dietFiltersEnum.ImmunoSupportive);
+//            filters.add(dietFiltersEnum.ImmunoSupportive);
         }
-//    private CheckBox checkboxKetoFriendly;
         if (userDietFilters.contains(dietFiltersEnum.KetoFriendly)){
             checkboxKetoFriendly.setChecked(true);
-            filters.add(dietFiltersEnum.KetoFriendly);
+//            filters.add(dietFiltersEnum.KetoFriendly);
         }
-//    private CheckBox checkboxPescatarian;
         if (userDietFilters.contains(dietFiltersEnum.Pescatarian)){
             checkboxPescatarian.setChecked(true);
-            filters.add(dietFiltersEnum.Pescatarian);
+//            filters.add(dietFiltersEnum.Pescatarian);
         }
-//    private CheckBox checkboxNoOilAdded;
         if (userDietFilters.contains(dietFiltersEnum.NoOilAdded)){
             checkboxNoOilAdded.setChecked(true);
-            filters.add(dietFiltersEnum.NoOilAdded);
+//            filters.add(dietFiltersEnum.NoOilAdded);
         }
-//    private CheckBox checkboxSoyFree;
         if (userDietFilters.contains(dietFiltersEnum.SoyFree)){
             checkboxSoyFree.setChecked(true);
-            filters.add(dietFiltersEnum.SoyFree);
+//            filters.add(dietFiltersEnum.SoyFree);
         }
-//    private CheckBox checkboxPeanutFree;
         if (userDietFilters.contains(dietFiltersEnum.PeanutFree)){
             checkboxPeanutFree.setChecked(true);
-            filters.add(dietFiltersEnum.PeanutFree);
+//            filters.add(dietFiltersEnum.PeanutFree);
         }
-//    private CheckBox checkboxKosher;
         if (userDietFilters.contains(dietFiltersEnum.Kosher)){
             checkboxKosher.setChecked(true);
-            filters.add(dietFiltersEnum.Kosher);
+//            filters.add(dietFiltersEnum.Kosher);
         }
-//    private CheckBox checkboxPorkFree;
         if (userDietFilters.contains(dietFiltersEnum.PorkFree)){
             checkboxPorkFree.setChecked(true);
-            filters.add(dietFiltersEnum.PorkFree);
+//            filters.add(dietFiltersEnum.PorkFree);
         }
     }
 }
