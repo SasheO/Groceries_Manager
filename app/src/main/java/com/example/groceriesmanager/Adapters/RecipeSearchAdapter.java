@@ -201,11 +201,7 @@ public class RecipeSearchAdapter extends
             tvAddAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: enable user to set checkboxes to add ingredients (without quantity or measure) to grocery list
-
-
-
-
+                    tvAddAll.setTextColor(context.getColor(R.color.dark_grey));
                     Dialog dialog;
                     List<Integer> indexOfIngredientsSelectedArray = new ArrayList();
                     String[] items = new String[addAllList.size()];
@@ -228,8 +224,6 @@ public class RecipeSearchAdapter extends
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             Log.i(TAG, indexOfIngredientsSelectedArray.toString());
-                            // save all grocery items selected to server, update grocery list
-                            // todo: Your logic here when OK button is clicked
                             for (int index: indexOfIngredientsSelectedArray){
                                 addAllList.get(index).setType("grocery");
                                 addAllList.get(index).setUser(currentUser);

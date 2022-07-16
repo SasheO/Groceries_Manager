@@ -111,7 +111,7 @@
             android:contentDescription="open recipe link button"
             android:scaleType="fitXY"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
-            card_view:tint="#121111" />
+            card_view:tint="@color/dark_grey" />
 
 
 
