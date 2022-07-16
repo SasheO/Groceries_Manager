@@ -1,6 +1,9 @@
 package com.example.groceriesmanager.Adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -37,7 +40,8 @@ public class RecipeSearchAdapter extends
     MainActivity context;
     public static final String TAG = "RecipeSearchAdapter";
     private List<FoodItem> pantryList;
-    private List<FoodItem> addAllList;
+    private final ParseUser currentUser = ParseUser.getCurrentUser();
+
 
     // constructor to set context
     public RecipeSearchAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
@@ -45,7 +49,6 @@ public class RecipeSearchAdapter extends
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
         this.pantryList = ((MainActivity) context).pantryListFragment.pantryList;
-        this.addAllList = new ArrayList<>();
     }
 
     @NonNull
@@ -120,6 +123,11 @@ public class RecipeSearchAdapter extends
             String recipeIngredientStr = "";
             int totalIngredients = recipe.getIngredients().size();
             int gottenIngredients = 0;
+
+            // this list initially has all elements
+            List<FoodItem> addAllList = new ArrayList<>();
+            addAllList.addAll(recipe.getIngredients());
+
             for (FoodItem ingredient: recipe.getIngredients()){
                 String quantity = ingredient.getQuantity();
                 String measure = ingredient.getMeasure();
@@ -130,12 +138,12 @@ public class RecipeSearchAdapter extends
                 else{
                     recipeIngredientStr = recipeIngredientStr + name + "\r\n";
                 }
-                Log.i(TAG, "current ingredient: " + name);
                 // todo: check if ingredient with same name in pantry
                 for (FoodItem pantryItem: pantryList){
-                    Log.i(TAG, "pantry item: " + pantryItem.getName());
-                    if (name.toLowerCase().contains(pantryItem.getName().toLowerCase())){
+                    if (name.toLowerCase().contains(pantryItem.getName().toLowerCase())||pantryItem.getName().toLowerCase().contains(name.toLowerCase())){ // substring match lower case
+//                        Log.i(TAG, name + " contains " + pantryItem.getName());
                         gottenIngredients ++;
+                        addAllList.remove(ingredient);
                         break;
                     }
                 }
@@ -172,6 +180,7 @@ public class RecipeSearchAdapter extends
                     context.startActivity(intent);
                 }
             });
+
             ibOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -193,6 +202,55 @@ public class RecipeSearchAdapter extends
                 @Override
                 public void onClick(View v) {
                     // todo: enable user to set checkboxes to add ingredients (without quantity or measure) to grocery list
+
+
+
+
+                    Dialog dialog;
+                    List<Integer> indexOfIngredientsSelectedArray = new ArrayList();
+                    String[] items = new String[addAllList.size()];
+                    for (int i=0; i<addAllList.size(); i++){
+                        items[i] = addAllList.get(i).getName();
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Add to Grocery List: ");
+                    builder.setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int selectedItemIndex, boolean isSelected) {
+                            if (isSelected) {
+                                indexOfIngredientsSelectedArray.add(selectedItemIndex);
+                            } else if (indexOfIngredientsSelectedArray.contains(selectedItemIndex)) {
+                                indexOfIngredientsSelectedArray.remove(Integer.valueOf(selectedItemIndex));
+                            }
+                        }
+                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i(TAG, indexOfIngredientsSelectedArray.toString());
+                            // save all grocery items selected to server, update grocery list
+                            // todo: Your logic here when OK button is clicked
+                            for (int index: indexOfIngredientsSelectedArray){
+                                addAllList.get(index).setType("grocery");
+                                addAllList.get(index).setUser(currentUser);
+                                addAllList.get(index).saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e!=null){
+                                            Log.e(TAG, "error adding ingredient to grocery list: " + e.toString());
+                                        }
+                                    }
+                                });
+                            }
+//                            gottenIngredients = gottenIngredients + addAllList.size();
+                            // todo: update gotten ingredients bar
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {}
+                    });
+                    dialog = builder.create();
+                    dialog.show();
                 }
             });
 
