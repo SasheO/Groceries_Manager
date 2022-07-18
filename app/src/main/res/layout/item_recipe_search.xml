@@ -15,6 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:id="@+id/rlTitlePicContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/ivFoodItemPic"
             android:layout_width="120dp"
@@ -45,7 +49,6 @@
             android:layout_marginEnd="5dp"
             android:background="@null"
             card_view:srcCompat="@android:drawable/btn_star_big_off" />
-
         <TextView
             android:id="@+id/tvRecipeFilters"
             android:layout_width="wrap_content"
@@ -56,14 +59,30 @@
             android:contentDescription="Recipe filters"
             android:visibility="gone"
             tools:text="Recipe Filters appear here" />
+    </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tvFractionGottenIngredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivFoodItemPic"
+            android:layout_below="@id/rlTitlePicContainer"
             android:contentDescription="Text view of ingredient lines"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/tvAddAll"
+            android:textColor="@color/dark_blue"
             tools:text="Fraction of ingredients in pantry appears here" />
+
+        <TextView
+            android:id="@+id/tvAddAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rlTitlePicContainer"
+            android:contentDescription="Text view of ingredient lines"
+            android:textColor="@color/dark_blue"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:text="Add to groceries" />
 
         <TextView
             android:id="@+id/tvRecipeIngredientsLabel"
@@ -92,7 +111,7 @@
             android:contentDescription="open recipe link button"
             android:scaleType="fitXY"
             card_view:srcCompat="@android:drawable/ic_menu_set_as"
-            card_view:tint="#121111" />
+            card_view:tint="@color/dark_grey" />
 
 
 

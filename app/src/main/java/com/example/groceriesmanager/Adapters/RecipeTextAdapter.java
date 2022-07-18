@@ -78,9 +78,9 @@ public class RecipeTextAdapter extends RecyclerView.Adapter<RecipeTextAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView tvText;
-        public ImageButton ibDelete;
-        public ImageButton ibEdit;
+        private TextView tvText;
+        private ImageButton ibEdit;
+        private ImageButton ibDelete;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview

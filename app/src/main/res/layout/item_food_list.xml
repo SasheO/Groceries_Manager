@@ -67,7 +67,7 @@
             android:background="@null"
             android:contentDescription="delete button"
             card_view:srcCompat="@android:drawable/ic_menu_delete"
-            card_view:tint="#716868" />
+            card_view:tint="@color/dark_grey" />
 
         <TextView
             android:id="@+id/tvFoodItemQty"

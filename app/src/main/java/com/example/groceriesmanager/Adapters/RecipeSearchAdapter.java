@@ -1,6 +1,9 @@
 package com.example.groceriesmanager.Adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
@@ -26,6 +29,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,12 +39,16 @@ public class RecipeSearchAdapter extends
     private List<Recipe> savedRecipesList;
     MainActivity context;
     public static final String TAG = "RecipeSearchAdapter";
+    private List<FoodItem> pantryList;
+    private final ParseUser currentUser = ParseUser.getCurrentUser();
+
 
     // constructor to set context
     public RecipeSearchAdapter(Context context, List<Recipe> recipeList, List<Recipe> savedRecipesList) {
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
+        this.pantryList = ((MainActivity) context).pantryListFragment.pantryList;
     }
 
     @NonNull
@@ -74,16 +82,17 @@ public class RecipeSearchAdapter extends
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        public TextView tvRecipeTitle;
-        public TextView tvRecipeIngredientLines;
-        public TextView tvOpenRecipeLink;
+        // Your holder should contain a member variable for any view that will be set as you render a row
+        private TextView tvRecipeTitle;
+        private TextView tvRecipeIngredientLines;
+        private TextView tvOpenRecipeLink;
+        private TextView tvAddAll;
+        public TextView tvFractionGottenIngredients;
 //        public TextView tvRecipeFilters;
-        public ImageButton ibOpenRecipeLink;
-        public ImageView ivRecipeImage;
-        public RelativeLayout rlRecipeSearch;
-        public ImageButton ibSaved;
+        private ImageButton ibOpenRecipeLink;
+        private ImageView ivRecipeImage;
+        private RelativeLayout rlRecipeSearch;
+        private ImageButton ibSaved;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -92,6 +101,8 @@ public class RecipeSearchAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
+            tvAddAll = itemView.findViewById(R.id.tvAddAll);
+            tvFractionGottenIngredients = itemView.findViewById(R.id.tvFractionGottenIngredients);
             tvRecipeTitle = itemView.findViewById(R.id.tvRecipeTitle);
             tvRecipeIngredientLines = itemView.findViewById(R.id.tvRecipeIngredientsLabel);
             tvOpenRecipeLink = itemView.findViewById(R.id.tvOpenRecipeLink);
@@ -109,19 +120,36 @@ public class RecipeSearchAdapter extends
                     .into(ivRecipeImage);
 
             // convert recipe lines from recipe from string array to a string that can be displayed in text box
-            String recipe_ingredients = "INGREDIENTS";
+            String recipeIngredientStr = "";
+            int totalIngredients = recipe.getIngredients().size();
+            int gottenIngredients = 0;
+
+            // this list initially has all elements
+            List<FoodItem> addAllList = new ArrayList<>();
+            addAllList.addAll(recipe.getIngredients());
+
             for (FoodItem ingredient: recipe.getIngredients()){
                 String quantity = ingredient.getQuantity();
                 String measure = ingredient.getMeasure();
                 String name = ingredient.getName();
                 if (quantity!=null){
-                    recipe_ingredients = recipe_ingredients + "\r\n" + quantity + " " + measure + " " + name;
+                    recipeIngredientStr = recipeIngredientStr + quantity + " " + measure + " " + name + "\r\n";
                 }
                 else{
-                    recipe_ingredients = recipe_ingredients + "\r\n" + name;
+                    recipeIngredientStr = recipeIngredientStr + name + "\r\n";
+                }
+                // todo: check if ingredient with same name in pantry
+                for (FoodItem pantryItem: pantryList){
+                    if (name.toLowerCase().contains(pantryItem.getName().toLowerCase())||pantryItem.getName().toLowerCase().contains(name.toLowerCase())){ // substring match lower case
+//                        Log.i(TAG, name + " contains " + pantryItem.getName());
+                        gottenIngredients ++;
+                        addAllList.remove(ingredient);
+                        break;
+                    }
                 }
             }
-            tvRecipeIngredientLines.setText(recipe_ingredients);
+            tvRecipeIngredientLines.setText(recipeIngredientStr.trim());
+            tvFractionGottenIngredients.setText("INGREDIENTS: (" + String.valueOf(gottenIngredients) + " / " + String.valueOf(totalIngredients) + " in pantry)");
 
             if (recipeIsSaved(recipe)){
                 ibSaved.setImageResource(android.R.drawable.star_big_on);
@@ -152,6 +180,7 @@ public class RecipeSearchAdapter extends
                     context.startActivity(intent);
                 }
             });
+
             ibOpenRecipeLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -166,6 +195,56 @@ public class RecipeSearchAdapter extends
                 @Override
                 public void onClick(View v) {
                     saveOrUnsaveRecipe(recipe);
+                }
+            });
+
+            tvAddAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tvAddAll.setTextColor(context.getColor(R.color.dark_grey));
+                    Dialog dialog;
+                    List<Integer> indexOfIngredientsSelectedArray = new ArrayList();
+                    String[] items = new String[addAllList.size()];
+                    for (int i=0; i<addAllList.size(); i++){
+                        items[i] = addAllList.get(i).getName();
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Add to Grocery List: ");
+                    builder.setMultiChoiceItems(items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int selectedItemIndex, boolean isSelected) {
+                            if (isSelected) {
+                                indexOfIngredientsSelectedArray.add(selectedItemIndex);
+                            } else if (indexOfIngredientsSelectedArray.contains(selectedItemIndex)) {
+                                indexOfIngredientsSelectedArray.remove(Integer.valueOf(selectedItemIndex));
+                            }
+                        }
+                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            Log.i(TAG, indexOfIngredientsSelectedArray.toString());
+                            for (int index: indexOfIngredientsSelectedArray){
+                                addAllList.get(index).setType("grocery");
+                                addAllList.get(index).setUser(currentUser);
+                                addAllList.get(index).saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e!=null){
+                                            Log.e(TAG, "error adding ingredient to grocery list: " + e.toString());
+                                        }
+                                    }
+                                });
+                            }
+//                            gottenIngredients = gottenIngredients + addAllList.size();
+                            // todo: update gotten ingredients bar
+                        }
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {}
+                    });
+                    dialog = builder.create();
+                    dialog.show();
                 }
             });
 

@@ -298,58 +298,45 @@ public class EditRecipeActivity extends AppCompatActivity {
         if (userDietFilters==null){ // if user has not chosen any filters
             return;
         }
-        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
+        // if current user specified any of the following as a diet filter, set the checkbox
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
             checkboxVegan.setChecked(true);
-//            filters.add(dietFiltersEnum.Vegan);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
             checkboxVegetarian.setChecked(true);
-//            filters.add(dietFiltersEnum.Vegetarian);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
-//            filters.add(dietFiltersEnum.GlutenFree);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.DairyFree)){
             checkboxDairyFree.setChecked(true);
-//            filters.add(dietFiltersEnum.DairyFree);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.AlcoholFree)){
             checkboxAlcoholFree.setChecked(true);
-//            filters.add(dietFiltersEnum.AlcoholFree);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive)){
             checkboxImmunoSupportive.setChecked(true);
-//            filters.add(dietFiltersEnum.ImmunoSupportive);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.KetoFriendly)){
             checkboxKetoFriendly.setChecked(true);
-//            filters.add(dietFiltersEnum.KetoFriendly);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Pescatarian)){
             checkboxPescatarian.setChecked(true);
-//            filters.add(dietFiltersEnum.Pescatarian);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.NoOilAdded)){
             checkboxNoOilAdded.setChecked(true);
-//            filters.add(dietFiltersEnum.NoOilAdded);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.SoyFree)){
             checkboxSoyFree.setChecked(true);
-//            filters.add(dietFiltersEnum.SoyFree);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.PeanutFree)){
             checkboxPeanutFree.setChecked(true);
-//            filters.add(dietFiltersEnum.PeanutFree);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Kosher)){
             checkboxKosher.setChecked(true);
-//            filters.add(dietFiltersEnum.Kosher);
         }
         if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.PorkFree)){
             checkboxPorkFree.setChecked(true);
-//            filters.add(dietFiltersEnum.PorkFree);
         }
     }
 

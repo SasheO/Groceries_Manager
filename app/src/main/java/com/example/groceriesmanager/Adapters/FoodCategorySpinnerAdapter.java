@@ -23,8 +23,8 @@ import java.util.List;
 
 public class FoodCategorySpinnerAdapter extends ArrayAdapter<String> {
 
-    Context context;
-    List<String> foodCategoryList;
+    private Context context;
+    private List<String> foodCategoryList;
     private static final String TAG = "FoodCategorySpinnerAdapter";
     // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
     public static Hashtable textToDrawableName = new Hashtable();

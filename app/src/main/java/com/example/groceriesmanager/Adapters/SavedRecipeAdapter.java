@@ -30,9 +30,9 @@ import java.util.Objects;
 public class SavedRecipeAdapter extends
         RecyclerView.Adapter<SavedRecipeAdapter.ViewHolder>{
     private List<Recipe> recipeList;
-    MainActivity context;
-    String type;
-    public static final String TAG = "SavedRecipeAdapter";
+    private MainActivity context;
+    private String type;
+    private static final String TAG = "SavedRecipeAdapter";
 
     // constructor to set context
     public SavedRecipeAdapter(Context context, List<Recipe> recipeList, String type) {
@@ -74,14 +74,12 @@ public class SavedRecipeAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView tvRecipeTitle;
-//        public TextView tvRecipeIngredientLines;
-        public TextView tvOpenRecipeLink;
+        private TextView tvRecipeTitle;
+        private TextView tvOpenRecipeLink;
 //        public TextView tvRecipeFilters;
-        public ImageButton ibOpenRecipeLink;
-//        public ImageView ivRecipeImage;
-        public RelativeLayout rlSavedRecipe;
-        public ImageButton ibSavedRecipeDelete;
+        private ImageButton ibOpenRecipeLink;
+        private RelativeLayout rlSavedRecipe;
+        private ImageButton ibSavedRecipeDelete;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview

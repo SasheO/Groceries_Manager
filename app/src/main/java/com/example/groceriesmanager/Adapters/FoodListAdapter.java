@@ -36,15 +36,14 @@ import java.util.Objects;
 
 public class FoodListAdapter extends
         RecyclerView.Adapter<FoodListAdapter.ViewHolder>{
-    protected List<FoodItem> foodItemList;
+    private List<FoodItem> foodItemList;
     MainActivity context;
     String type; // will be either grocery or pantry to differentiate which one that particular instance of the class is being used for
-    public static final String TAG = "FoodListAdapter";
-    public static final String PANTRY = "pantry";
-    public static final String GROCERY = "grocery";
-    public List<FoodItem> selected = new ArrayList<>();
+    private static final String TAG = "FoodListAdapter";
     // todo: extract this to values since this hashtable is also found in FoodCategorySpinnerAdapter
-    public static Hashtable textToDrawableName = new Hashtable();
+    private static Hashtable textToDrawableName = new Hashtable();
+    // public because this is accessed in other class
+    public List<FoodItem> selected = new ArrayList<>();
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {

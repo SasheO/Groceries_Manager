@@ -228,55 +228,42 @@ public class AccountSettingsActivity extends AppCompatActivity {
         // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
         if (userDietFilters.contains(dietFiltersEnum.Vegan)){
             checkboxVegan.setChecked(true);
-//            filters.add(dietFiltersEnum.Vegan);
         }
         if (userDietFilters.contains(dietFiltersEnum.Vegetarian)){
             checkboxVegetarian.setChecked(true);
-//            filters.add(dietFiltersEnum.Vegetarian);
         }
         if (userDietFilters.contains(dietFiltersEnum.GlutenFree)){
             checkboxGlutenFree.setChecked(true);
-//            filters.add(dietFiltersEnum.GlutenFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.DairyFree)){
             checkboxDairyFree.setChecked(true);
-//            filters.add(dietFiltersEnum.DairyFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.AlcoholFree)){
             checkboxAlcoholFree.setChecked(true);
-//            filters.add(dietFiltersEnum.AlcoholFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.ImmunoSupportive)){
             checkboxImmunoSupportive.setChecked(true);
-//            filters.add(dietFiltersEnum.ImmunoSupportive);
         }
         if (userDietFilters.contains(dietFiltersEnum.KetoFriendly)){
             checkboxKetoFriendly.setChecked(true);
-//            filters.add(dietFiltersEnum.KetoFriendly);
         }
         if (userDietFilters.contains(dietFiltersEnum.Pescatarian)){
             checkboxPescatarian.setChecked(true);
-//            filters.add(dietFiltersEnum.Pescatarian);
         }
         if (userDietFilters.contains(dietFiltersEnum.NoOilAdded)){
             checkboxNoOilAdded.setChecked(true);
-//            filters.add(dietFiltersEnum.NoOilAdded);
         }
         if (userDietFilters.contains(dietFiltersEnum.SoyFree)){
             checkboxSoyFree.setChecked(true);
-//            filters.add(dietFiltersEnum.SoyFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.PeanutFree)){
             checkboxPeanutFree.setChecked(true);
-//            filters.add(dietFiltersEnum.PeanutFree);
         }
         if (userDietFilters.contains(dietFiltersEnum.Kosher)){
             checkboxKosher.setChecked(true);
-//            filters.add(dietFiltersEnum.Kosher);
         }
         if (userDietFilters.contains(dietFiltersEnum.PorkFree)){
             checkboxPorkFree.setChecked(true);
-//            filters.add(dietFiltersEnum.PorkFree);
         }
     }
 }

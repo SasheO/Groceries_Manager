@@ -12,5 +12,6 @@
     <color name="pale_blue">#D7E5F0</color>
     <color name="highlighted_blue">#B7C5D0</color>
     <color name="dark_blue">#0039BF</color>
+    <color name="dark_grey">#716868</color>
 
 </resources>
