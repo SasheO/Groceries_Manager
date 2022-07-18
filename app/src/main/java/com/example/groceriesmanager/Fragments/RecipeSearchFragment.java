@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 //import com.example.groceriesmanager.Lemma;
+import com.example.groceriesmanager.Lemmatizer;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
@@ -210,6 +211,15 @@ public class RecipeSearchFragment extends Fragment {
     }
 
     private void searchRecipes(String query){
+        String[] queryStringArray = query.split("\\s+");
+        for (int i = 0; i < queryStringArray.length; i++) {
+            // You may want to check for a non-word character before blindly
+            // performing a replacement
+            // It may also be necessary to adjust the character class
+            queryStringArray[i] = queryStringArray[i].replaceAll("[^\\w]", "");
+        }
+        Lemmatizer.lemma(queryStringArray);
+
         // check if user has typed in something already
             adapter.clear(); // clear adapter, in case there are already results
             // todo: lemmatize the query

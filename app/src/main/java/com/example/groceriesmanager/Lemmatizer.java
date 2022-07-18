@@ -1,20 +1,25 @@
 package com.example.groceriesmanager;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import opennlp.tools.lemmatizer.DictionaryLemmatizer;
 import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
 
 public class Lemmatizer {
+    public static final String TAG = "Lemmatizer";
 
-    public static void lemma(String[] args){
+    public static void lemma(String[] tokens){
         try{
-            // test sentence
-            String[] tokens = new String[]{"Most", "large", "cities", "in", "the", "US", "had",
-                    "morning", "and", "afternoon", "newspapers", "."};
+//            // test sentence
+//            String[] tokens = new String[]{"Most", "large", "cities", "in", "the", "US", "had",
+//                    "morning", "and", "afternoon", "newspapers", "."};
 
             // Parts-Of-Speech Tagging
             // reading parts-of-speech model to a stream
@@ -34,11 +39,13 @@ public class Lemmatizer {
             // finding the lemmas
             String[] lemmas = lemmatizer.lemmatize(tokens, tags);
 
+
             // printing the results
             System.out.println("\nPrinting lemmas for the given sentence...");
             System.out.println("WORD -POSTAG : LEMMA");
             for(int i=0;i< tokens.length;i++){
                 System.out.println(tokens[i]+" -"+tags[i]+" : "+lemmas[i]);
+                Log.i(TAG, tokens[i]+" -"+tags[i]+" : "+lemmas[i]);
             }
 
         } catch (FileNotFoundException e){
