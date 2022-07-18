@@ -196,7 +196,7 @@ public class PantryListFragment extends Fragment {
         pantryList.addAll(organizedPantryList);
     }
 
-    private void queryPantryList() {
+    public void queryPantryList() {
         // specify what type of data we want to query - Post.class
         ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
         // include data where post is current post

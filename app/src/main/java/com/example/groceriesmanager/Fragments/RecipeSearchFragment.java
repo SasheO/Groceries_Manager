@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Adapters.RecipeSearchAdapter;
 //import com.example.groceriesmanager.Lemma;
-import com.example.groceriesmanager.Lemmatizer;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.Models.User;
 import com.example.groceriesmanager.R;
@@ -32,7 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -44,6 +47,9 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import opennlp.tools.lemmatizer.DictionaryLemmatizer;
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
 
 public class RecipeSearchFragment extends Fragment {
     private TextView tvExpandFilters;
@@ -88,6 +94,9 @@ public class RecipeSearchFragment extends Fragment {
     public static final String QUERY_FILTER_PEANUT_FREE = "peanut-free";
     public static final String QUERY_FILTER_KOSHER = "kosher";
     public static final String QUERY_FILTER_PORK_FREE = "pork-free";
+    InputStream dictLemmatizer = null;
+    DictionaryLemmatizer lemmatizer;
+    POSTaggerME tagger;
 //    Lemma lemmatizer = new Lemma();
 
     // required empty constructor
@@ -152,6 +161,31 @@ public class RecipeSearchFragment extends Fragment {
         getSavedRecipes();
         adapter.notifyDataSetChanged();
 
+        // instantiate dictionary lemmatizer
+        try {
+            String path = "/Users/sasheojuba/Documents/GroceriesManager/app/src/main/java/com/example/groceriesmanager/Fragments/en_lemmatizer_dict.txt";
+            dictLemmatizer = getContext().getResources().openRawResource(R.raw.en_lemmatizer_dict);
+            lemmatizer = new DictionaryLemmatizer(dictLemmatizer);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "dictLemmatizer error: " + e.toString());
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(TAG, "lemmatizer error: " + e.toString());
+            e.printStackTrace();
+        }
+
+        // get parts of speech per word
+        try {
+            // todo: replace en_pos_maxent with a valid file with the right format
+            InputStream tokenModelIn = getContext().getResources().openRawResource(R.raw.en_pos_maxent);
+//            InputStream tokenModelIn = new FileInputStream("en-pos-maxent.bin");
+            POSModel model = new POSModel(tokenModelIn);
+            tagger = new POSTaggerME(model);
+        } catch (IOException e) {
+            Log.e(TAG, "IOException tokenModelIn: " + e.toString());
+            e.printStackTrace();
+        }
+
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -211,6 +245,7 @@ public class RecipeSearchFragment extends Fragment {
     }
 
     private void searchRecipes(String query){
+        // convert string to string array gotten from here: https://stackoverflow.com/questions/4674850/converting-a-sentence-string-to-a-string-array-of-words-in-java
         String[] queryStringArray = query.split("\\s+");
         for (int i = 0; i < queryStringArray.length; i++) {
             // You may want to check for a non-word character before blindly
@@ -218,7 +253,11 @@ public class RecipeSearchFragment extends Fragment {
             // It may also be necessary to adjust the character class
             queryStringArray[i] = queryStringArray[i].replaceAll("[^\\w]", "");
         }
-        Lemmatizer.lemma(queryStringArray);
+
+//        String[] posTags = tagger.tag(queryStringArray);
+
+//        String[] lemmas = lemmatizer.lemmatize(queryStringArray, posTags);
+
 
         // check if user has typed in something already
             adapter.clear(); // clear adapter, in case there are already results
