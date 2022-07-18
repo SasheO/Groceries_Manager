@@ -21,6 +21,7 @@ import com.parse.SignUpCallback;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextView tvLogin;
+    private EditText etRegisterEmail;
     private EditText etRegisterUsername;
     private EditText etRegisterPassword;
     private Button btnRegister;
@@ -37,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         etRegisterPassword = findViewById(R.id.etRegisterPassword);
         etRegisterUsername = findViewById(R.id.etRegisterUsername);
         btnRegister = findViewById(R.id.btnRegister);
+        etRegisterEmail = findViewById(R.id.etRegisterEmail);
 
 
         tvLogin.setOnClickListener(new View.OnClickListener() {
