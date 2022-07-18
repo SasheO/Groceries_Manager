@@ -97,7 +97,6 @@ public class RecipeSearchFragment extends Fragment {
     InputStream dictLemmatizer = null;
     DictionaryLemmatizer lemmatizer;
     POSTaggerME tagger;
-//    Lemma lemmatizer = new Lemma();
 
     // required empty constructor
     public RecipeSearchFragment() {}
