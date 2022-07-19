@@ -13,8 +13,8 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 ### App Evaluation
 - **Category:** Productivity
 - **Mobile:** This app would be primarily developed for a mobile device because of its portability and possible push notifications (implemented as a stretch feature).
-- **Story:** Keeps all the user needs for groceries and cooking in one location.
-- **Market:** Anyone can use this app, particularly adults who manage their own groceries
+- **Story:** Cooking is difficult and requires a lot of executive planning which may be difficult for some people. This app aims to make the process a little easier by collating all you need in one place.
+- **Market:** Anyone can use this app, particularly adults who manage their own chores
 - **Habit:** This app should be used often as it manages user needs for daily living (cooking, getting groceries)
 - **Scope:** Pretty limited in scope, could possibly expand to more social app for sharing recipes (and not just making personal recipes or getting recipes from an API)
 
@@ -170,11 +170,28 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 * grocery/pantry list screen: 
     * get request for all food items in list where user is author
 ```
-type in code here
-   // whereKey("author", equalTo: currentUser)
-   // whereKey("type", equalTo: type ) --> type is either grocery or pantry list
-   // query.order(byDescending: "createdAt")
-   
+ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
+        // include data where post is current post
+        query.whereEqualTo("type", type); // type is either "grocery" or "pantry"
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground();   
+```
+
+* saved/user-created recipes: 
+```
+ParseQuery<Recipe> query = ParseQuery.getQuery(Recipe.class);
+        // include data where recipe is given type and was saved/created by current user
+        query.whereEqualTo("type", type); // type is either "user" or "saved"
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<Recipe>()
 ```
 
 - [Add list of network requests by screen ]
