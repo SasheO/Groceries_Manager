@@ -125,7 +125,7 @@ public class RecipeSearchAdapter extends
             int totalIngredients = recipe.getIngredients().size();
             int gottenIngredients = 0;
 
-            // this list initially has all elements
+            // this list initially has all ingredients
             List<FoodItem> addAllList = new ArrayList<>();
             addAllList.addAll(recipe.getIngredients());
 
@@ -139,15 +139,17 @@ public class RecipeSearchAdapter extends
                 else{
                     recipeIngredientStr = recipeIngredientStr + name + "\r\n";
                 }
-                // todo: check if ingredient with same name in pantry
+
+                // check if ingredient with same name in pantry
                 for (FoodItem pantryItem: pantryList){
                     // todo: when you get lemmatizer working, use lemmatizer instead of substring match
                     if (Objects.equals(name.toLowerCase(), pantryItem.getName().toLowerCase())||name.toLowerCase().contains(pantryItem.getName().toLowerCase())){
                         gottenIngredients ++;
-                        addAllList.remove(ingredient);
+                        addAllList.remove(ingredient); // if already in pantry, remove ingredient from list
                     }
                 }
             }
+
             tvRecipeIngredientLines.setText(recipeIngredientStr.trim());
             tvFractionGottenIngredients.setText("INGREDIENTS: (" + String.valueOf(gottenIngredients) + " / " + String.valueOf(totalIngredients) + " in pantry)");
 
@@ -323,8 +325,8 @@ public class RecipeSearchAdapter extends
 
     private boolean recipeIsSaved(Recipe recipe){
         for (Recipe savedRecipe: savedRecipesList){
-            // check title names since object ids will be different for the same recipe in each search
-            if (Objects.equals(recipe.getTitle(), savedRecipe.getTitle())){
+            // check links since object ids will be different for the same recipe in each search
+            if (Objects.equals(recipe.getHyperlink_url(), savedRecipe.getHyperlink_url())){
                 return true;
             }
         }
