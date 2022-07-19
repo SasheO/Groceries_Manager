@@ -70,18 +70,43 @@
         android:layout_below="@id/tvExpandFilters"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecipeSearch"
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/flexboxFilters"
+    android:id="@+id/llRecipeSearchResults"
+    android:layout_alignParentBottom="true">
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/flexboxFilters"
-        android:layout_alignParentBottom="true" />
+        android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true">
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecipeSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvNextPage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:text="Next"
+                android:textColor="@color/dark_blue" />
+
+        </LinearLayout>
+
+    </ScrollView>
     <TextView
         android:id="@+id/tvNoResultsMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/rvRecipeSearch"
+        android:layout_alignStart="@+id/llRecipeSearchResults"
         android:layout_below="@id/flexboxFilters"
         android:visibility="gone"
         android:text="No results found for this search. Check your spelling or try reducing the dietary filters applied to this search." />
