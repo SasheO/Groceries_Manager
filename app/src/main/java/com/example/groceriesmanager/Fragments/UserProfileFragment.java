@@ -109,7 +109,6 @@ public class UserProfileFragment extends Fragment {
 
         savedRecipeAdapter = new SavedRecipeAdapter(getContext(), savedRecipes, "saved");
         userRecipeAdapter = new SavedRecipeAdapter(getContext(), userRecipes, "user");
-        // todo: set video adapter
         videoRecipeAdapter = new VideoSearchAdapter(getContext(), savedVideos, null);
 
         // spinner adapter for account dropdown
@@ -148,7 +147,7 @@ public class UserProfileFragment extends Fragment {
         spinnerExpandSettings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // todo: implement better way of identifying which item is selected
+                // todo: implement cleaner way of identifying which item is selected
                 String selection = spinnerExpandSettings.getItemAtPosition(position).toString();
                 if (Objects.equals(selection, "Log Out")){
                     ParseUser.logOutInBackground(new LogOutCallback() {

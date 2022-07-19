@@ -143,7 +143,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
                 }
                 filters = filter.name() + ", " + filters;
             }
-            // todo: populate
             tvRecipeFilters.setText("Tags: " + filters);
         }
 

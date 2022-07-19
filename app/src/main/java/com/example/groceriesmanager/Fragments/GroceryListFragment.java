@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class GroceryListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     RecyclerView rvGroceryList;
     ImageButton ibAddGroceryItem;
     List<FoodItem> groceryList;
@@ -119,7 +118,6 @@ public class GroceryListFragment extends Fragment {
                     // with no error or cancellation
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-                        // todo: Get the data passed from EditActivity
                         String process = data.getExtras().getString("process");
                         FoodItem foodItem = data.getParcelableExtra("fooditem");
 

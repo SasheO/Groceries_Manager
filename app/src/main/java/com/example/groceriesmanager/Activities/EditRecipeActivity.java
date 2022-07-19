@@ -443,7 +443,6 @@ public class EditRecipeActivity extends AppCompatActivity {
                     userRecipe.remove(Recipe.KEY_HYPERLINK_URL);
                 }
 
-                // todo: save user filters
                 updateFiltersToSave();
                 userRecipe.setFilters(recipeFiltersEnum);
 
