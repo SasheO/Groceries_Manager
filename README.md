@@ -24,31 +24,31 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 
 **Required Must-have Stories**
 
-* [] User must sign up/in to use app
-* []User can view and edit (add and delete) grocery shopping list on app
-   * [] Each item has a "delete" button and a "bought" button to move item to pantry list
-   * [] User can move items from grocery shopping list to pantry directly
-* [] User can view and edit (add and delete) of ingredients in their pantry list
-    * [] Each item has a delete button to remove list from pantry
-* [] User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
-* [] User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
+* [x] User must sign up/in to use app
+* [x]User can view and edit (add and delete) grocery shopping list on app
+   * [x] Each item has a "delete" button and a "bought" button to move item to pantry list
+   * [x] User can move items from grocery shopping list to pantry directly
+* [x] User can view and edit (add and delete) of ingredients in their pantry list
+    * [x] Each item has a delete button to remove list from pantry
+* [x] User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
+* [x] User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
 
 
 **Optional Nice-to-have Stories**
-* [] Each item in grocery/pantry list has an image shown
-* [] User can save and unsave recipes
-* [] User can view saved recipes
-* [] User can create own recipes which are automatically saved on their device
-* [] User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
-* [] User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
-    * [] Items in pantry must be clickable
-* [] User can select things in grocery list and implement recipe search directly
-* [] Include a how to use this app activity
-* [] User can take pictures of groceries, recipes that they make, etc. and add them
-* [] User can search and save grocery locations (using GoogleMaps api)
-* []  User can recover forgotten password through emails
-* []  User can sesarch synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
-* []  User can load more results on Recipe Search after first 20 are shown.
+* [ ] Each item in grocery/pantry list has an image shown
+* [ ] User can save and unsave recipes
+* [ ] User can view saved recipes
+* [ ] User can create own recipes which are automatically saved on their device
+* [ ] User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
+* [ ] User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
+    * [ ] Items in pantry must be clickable
+* [ ] User can select things in grocery list and implement recipe search directly
+* [ ] Include a how to use this app activity
+* [ ] User can take pictures of groceries, recipes that they make, etc. and add them
+* [ ] User can search and save grocery locations (using GoogleMaps api)
+* [ ]  User can recover forgotten password through emails
+* [ ]  User can sesarch synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
+* [ ]  User can load more results on Recipe Search after first 20 are shown.
 
 
 ### 2. Screen Archetypes
