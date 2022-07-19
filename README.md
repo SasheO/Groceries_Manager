@@ -8,7 +8,7 @@
 
 ## Overview
 ### Description
-Enables user to manage shopping list, pantry records and recipes in one app.
+Enables user to manage shopping list, pantry records and recipes in one app. The app utilizes [Edamam Recipe Search API](https://developer.edamam.com/edamam-docs-recipe-api) and [YouTube API](https://developers.google.com/youtube/v3).
 
 ### App Evaluation
 - **Category:** Productivity
@@ -24,31 +24,31 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 **Required Must-have Stories**
 
--[] User must sign up/in to use app
--[]User can view and edit (add and delete) grocery shopping list on app
+*[] User must sign up/in to use app
+*[]User can view and edit (add and delete) grocery shopping list on app
     * Each item has a "delete" button and a "bought" button to move item to pantry list
   * User can move items from grocery shopping list to pantry directly
--[] User can view and edit (add and delete) of ingredients in their pantry list
+*[] User can view and edit (add and delete) of ingredients in their pantry list
     * Each item has a delete button to remove list from pantry
--[] User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
--[] User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
+*[] User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
+*[] User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
 
 
 **Optional Nice-to-have Stories**
-* Each item in grocery/pantry list has an image shown
-* User can save and unsave recipes
-* User can view saved recipes
-* User can create own recipes which are automatically saved on their device
-* User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
-* User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
-    * Items in pantry must be clickable
-* User can select things in grocery list and implement recipe search directly
-* Include a how to use this app activity
-* User can take pictures of groceries, recipes that they make, etc. and add them
-*  User can search and save grocery locations (using GoogleMaps api)
-*  User can recover forgotten password through emails
-*  User can sesarch synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
-*  User can load more results on Recipe Search after first 20 are shown.
+*[] Each item in grocery/pantry list has an image shown
+*[] User can save and unsave recipes
+*[] User can view saved recipes
+*[] User can create own recipes which are automatically saved on their device
+*[] User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
+*[] User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
+    *[] Items in pantry must be clickable
+*[] User can select things in grocery list and implement recipe search directly
+*[] Include a how to use this app activity
+*[] User can take pictures of groceries, recipes that they make, etc. and add them
+*[] User can search and save grocery locations (using GoogleMaps api)
+*[]  User can recover forgotten password through emails
+*[]  User can sesarch synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
+*[]  User can load more results on Recipe Search after first 20 are shown.
 
 
 ### 2. Screen Archetypes
@@ -88,7 +88,6 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 * Map (optional)
 
 
-
 **Flow Navigation** (Screen to Screen)
 
 * Login screen
@@ -122,38 +121,30 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 ## Schema 
 ### Models
 **Food items**
-|Property |Type           |Description                                   |
-|---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the food item (default field)   |
-|name     |String         |name of item.                                 |
-|image    |File           |optional picture of food item                 |
-|quantity |number         |amount of food item                           |
-|measure  |String         |quantity in which food item is measured       |
-|user     |pointer to User|food item author                              |
-|updatedAt|DateTime       |date when post is created (default field)     |
-|createdAt|DateTime       |date when post is last updated (default field)|
+|Property |Type           |Description                                           |
+|---------|---------------|------------------------------------------------------|
+|objectId |String         |unique id for the food item (default field)           |
+|name     |String         |name of item.                                         |
+|quantity |number         |amount of food item                                   |
+|measure  |String         |quantity in which food item is measured               |
+|user     |pointer to User|food item author                                      |
+|updatedAt|DateTime       |date when post is created (default field)             |
+|createdAt|DateTime       |date when post is last updated (default field)        |
+|type     |String         |type of food item (grocery, pantry, recipe ingredient)|
 
 **User**
-|Property |Type           |Description                                   |
-|---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the user (default field)        |
-|username |String         |name of user                                  |
-|password |String         |user's password                               |
-|updatedAt|DateTime       |date when post is created (default field)     |
-|createdAt|DateTime       |date when post is last updated (default field)|
-
-**User list**
-|Property |Type           |Description                                   |
-|---------|---------------|----------------------------------------------|
-|objectId |String         |unique id for the user list (default field)   |
-|type     |String         |type of list (grocery or pantry)              |
-|updatedAt|DateTime       |date when post is created (default field)     |
-|createdAt|DateTime       |date when post is last updated (default field)|
-|user     |pointer to User|list author                                   |
-|items    |Array          |Array of pointers to food items               |
+|Property     |Type           |Description                                   |
+|-------------|---------------|----------------------------------------------|
+|objectId     |String         |unique id for the user (default field)        |
+|username     |String         |name of user                                  |
+|password     |String         |user's password                               |
+|updatedAt    |DateTime       |date when post is created (default field)     |
+|createdAt    |DateTime       |date when post is last updated (default field)|
+|email        |String         |email address of user                         |
+|emailVerified|boolean        |whether email address is verified or not      |
 
 
-**Recipe (stretch)**
+**Recipe**
 |Property   |Type           |Description                                   |
 |-----------|---------------|----------------------------------------------|
 |objectId   |String         |unique id for the recipe (default field)      |
@@ -161,8 +152,19 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 |updatedAt  |DateTime       |date when post is created (default field)     |
 |createdAt  |DateTime       |date when post is last updated (default field)|
 |user       |pointer to User|recipe author                                 |
-|ingredients|Array          |Array of string of ingredients with qty       |
-|procedure  |String         |String of method for preparing food           |
+|ingredients|Array          |Array of food item objects                    |
+|procedure  |String         |String array of steps for preparing food      |
+
+**Video**
+|Property    |Type           |Description                                   |
+|------------|---------------|----------------------------------------------|
+|objectId    |String         |unique id for the recipe (default field)      |
+|title       |String         |video title                                   |
+|updatedAt   |DateTime       |date when post is created (default field)     |
+|createdAt   |DateTime       |date when post is last updated (default field)|
+|user        |pointer to User|user who saved video                          |
+|thumbnailURL|String         |image url of video thumbnail                  |
+
 
 ### Networking
 * grocery/pantry list screen: 
@@ -182,7 +184,20 @@ type in code here
 
 ## Credits/Attribution
 * Icons generated by [frepik](https://www.flaticon.com/free-icons/list)
-* (include apis you used)
+   * Shelf icons created by [Freepik](https://www.flaticon.com/free-icons/shelf)
+   * List icons created by [Freepik](https://www.flaticon.com/free-icons/list)
+   * Pan icons created by [Good Ware](https://www.flaticon.com/free-icons/pan)
+   * Nutrition background vector created by p[ikisuperstar](https://www.freepik.com/vectors/nutrition-background) - www.freepik.com
+   * Vegetable drawing vector created by [rawpixel.com](https://www.freepik.com/vectors/vegetable-drawing) - www.freepik.com
+   * Canned food vector created by [brgfx](https://www.freepik.com/vectors/canned-food) - www.freepik.com
+   * Etching vector created by [rawpixel.com](https://www.freepik.com/vectors/etching) - www.freepik.com
+   * Kale vector created by [pch.vector](https://www.freepik.com/vectors/kale) - www.freepik.com
+   * Cog vector created by [rawpixel.com](https://www.freepik.com/vectors/cog) - www.freepik.com
+   * Milk icons created by [Freepik](https://www.flaticon.com/free-icons/milk) - Flaticon
+ * Bone icons created by [smalllikeart](https://www.flaticon.com/free-icons/bone) - Flaticon
+ * Rice icons created by [Icongeek26](https://www.flaticon.com/free-icons/rice) - Flaticon
+ * Soy sauce icons created by [mangsaabguru](https://www.flaticon.com/free-icons/soy-sauce) - Flaticon
+ * Expand icons created by [Google](https://www.flaticon.com/free-icons/expand) - Flaticon
 
 ## License
 
