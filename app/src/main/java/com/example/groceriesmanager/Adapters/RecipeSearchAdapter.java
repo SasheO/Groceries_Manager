@@ -140,6 +140,7 @@ public class RecipeSearchAdapter extends
                 }
                 // todo: check if ingredient with same name in pantry
                 for (FoodItem pantryItem: pantryList){
+                    // todo: when you get lemmatizer working, use lemmatizer instead of substring match
                     if (name.toLowerCase().contains(pantryItem.getName().toLowerCase())||pantryItem.getName().toLowerCase().contains(name.toLowerCase())){ // substring match lower case
 //                        Log.i(TAG, name + " contains " + pantryItem.getName());
                         gottenIngredients ++;

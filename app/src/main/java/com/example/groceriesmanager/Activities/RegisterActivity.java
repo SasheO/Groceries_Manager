@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private String username;
     private String password;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // what will happen when the user clicks the sign up button
                 username = etRegisterUsername.getText().toString();
                 password = etRegisterPassword.getText().toString();
+                email = etRegisterEmail.getText().toString();
 
                 // check if username is valid i.e. no spaces
                 if (username.contains(" ")) {
@@ -63,13 +66,16 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (username.length() == 0) {
                     Toast.makeText(RegisterActivity.this, "please choose a username", Toast.LENGTH_LONG).show();
                 }
-                else if (password.length() == 0){
+                else if (password.length() == 0){ // todo: change to checks for valid password complexity
                     Toast.makeText(RegisterActivity.this, "please type a password", Toast.LENGTH_LONG).show();
+                }
+                else if (!isValidEmail(email)){ // todo: change to checks for valid email address
+                    Toast.makeText(RegisterActivity.this, "please type a valid email address", Toast.LENGTH_LONG).show();
                 }
                 else {
                     // create grocery and pantry list for the new user
 
-                    createNewUser(username, password);
+                    createNewUser(username, password, email);
 
                 }
             }});
@@ -82,12 +88,12 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
-    private void createNewUser(String username, String password) {
+    private void createNewUser(String username, String password, String email) {
         // create new user
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setPassword(password);
-
+        newUser.setEmail(email);
 
         // sign them up in server
         newUser.signUpInBackground(new SignUpCallback() {
@@ -102,5 +108,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }

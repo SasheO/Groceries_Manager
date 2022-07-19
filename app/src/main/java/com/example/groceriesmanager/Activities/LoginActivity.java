@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etLoginUsername;
     private EditText etLoginPassword;
     private TextView tvRegister;
+    private TextView tvForgotPassword;
 
     private static final String TAG = "LoginActivity";
     @Override
@@ -41,11 +42,21 @@ public class LoginActivity extends AppCompatActivity {
         etLoginUsername = findViewById(R.id.etRegisterUsername);
         etLoginPassword = findViewById(R.id.etRegisterPassword);
         tvRegister = findViewById(R.id.tvLogin);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: populate
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });

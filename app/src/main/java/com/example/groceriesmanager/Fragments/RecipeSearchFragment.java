@@ -31,7 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -43,6 +47,9 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import opennlp.tools.lemmatizer.DictionaryLemmatizer;
+import opennlp.tools.postag.POSModel;
+import opennlp.tools.postag.POSTaggerME;
 
 public class RecipeSearchFragment extends Fragment {
     private TextView tvExpandFilters;
@@ -87,7 +94,9 @@ public class RecipeSearchFragment extends Fragment {
     public static final String QUERY_FILTER_PEANUT_FREE = "peanut-free";
     public static final String QUERY_FILTER_KOSHER = "kosher";
     public static final String QUERY_FILTER_PORK_FREE = "pork-free";
-//    Lemma lemmatizer = new Lemma();
+    InputStream dictLemmatizer = null;
+    DictionaryLemmatizer lemmatizer;
+    POSTaggerME tagger;
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -151,6 +160,37 @@ public class RecipeSearchFragment extends Fragment {
         getSavedRecipes();
         adapter.notifyDataSetChanged();
 
+        // instantiate dictionary lemmatizer
+        try {
+            dictLemmatizer = getContext().getResources().openRawResource(R.raw.en_lemmatizer_dict);
+            lemmatizer = new DictionaryLemmatizer(dictLemmatizer);
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "dictLemmatizer error: " + e.toString());
+            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(TAG, "lemmatizer error: " + e.toString());
+            e.printStackTrace();
+        }
+
+        // create tagger for getting parts of speech per word
+        // here: https://opennlp.apache.org/docs/2.0.0/manual/opennlp.html#tools.postagger.tagging.cmdline
+        try {
+            // todo: replace en_pos_maxent with a valid file with the right format
+            InputStream tokenModelIn = getContext().getAssets().open("en_pos_maxent.bin");
+            // keeps getting 'java.lang.String java.util.Properties.getProperty(java.lang.String)' on a null object reference
+//            if (tokenModelIn!=null){
+//                POSModel model = new POSModel(tokenModelIn);
+//                tagger = new POSTaggerME(model);
+//            }
+//            else{
+//                Log.e(TAG, "tokenModelIn == null");
+//            }
+
+        } catch (IOException e) {
+            Log.e(TAG, "IOException tokenModelIn: " + e.toString());
+            e.printStackTrace();
+        }
+
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -210,10 +250,23 @@ public class RecipeSearchFragment extends Fragment {
     }
 
     private void searchRecipes(String query){
+        // convert string to string array gotten from here: https://stackoverflow.com/questions/4674850/converting-a-sentence-string-to-a-string-array-of-words-in-java
+        String[] queryStringArray = query.split("\\s+");
+        for (int i = 0; i < queryStringArray.length; i++) {
+            // You may want to check for a non-word character before blindly
+            // performing a replacement
+            // It may also be necessary to adjust the character class
+            queryStringArray[i] = queryStringArray[i].replaceAll("[^\\w]", "");
+        }
+
+//        String[] posTags = tagger.tag(queryStringArray);
+
+//        String[] lemmas = lemmatizer.lemmatize(queryStringArray, posTags);
+
+
         // check if user has typed in something already
             adapter.clear(); // clear adapter, in case there are already results
-            // todo: lemmatize the query
-//                    query = lemmatizer.lemmatize(query);
+
             // send api request to edamam
             OkHttpClient client = new OkHttpClient();
             // this builder helps us to creates the request url
@@ -400,6 +453,15 @@ public class RecipeSearchFragment extends Fragment {
         else {
             checkboxPorkFree.setChecked(false);
         }
+    }
+
+    // helper function to open bin files (e.g. en_pos_maxent.bin which are used in pos tagging for lemmatizer)
+    // gotten from https://stackoverflow.com/questions/29602728/adding-bin-files-in-android-studio
+    public InputStream openBin(String filename) throws IOException {
+        ClassLoader classLoader = getContext().getClass().getClassLoader();
+        File file = new File(classLoader.getResource(filename).getPath());
+        InputStream input = new FileInputStream(file);
+        return input;
     }
 
 }

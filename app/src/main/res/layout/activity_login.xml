@@ -43,11 +43,20 @@
         />
 
     <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="I forgot my password."
+        android:textStyle="italic" />
+
+    <TextView
         android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:text="Sign up instead!"
         android:textStyle="italic" />
+
 </LinearLayout>
 
