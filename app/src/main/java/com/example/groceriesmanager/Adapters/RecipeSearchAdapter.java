@@ -115,6 +115,7 @@ public class RecipeSearchAdapter extends
 
         public void bind(Recipe recipe) {
             tvRecipeTitle.setText(recipe.getTitle());
+            tvAddAll.setTextColor(context.getResources().getColor(R.color.dark_blue));
             Glide.with(context)
                     .load(recipe.getImage_url()).error(R.drawable.placeholder).error(R.drawable.placeholder)
                     .into(ivRecipeImage);

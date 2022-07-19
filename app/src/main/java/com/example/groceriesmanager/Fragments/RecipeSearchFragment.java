@@ -48,7 +48,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import opennlp.tools.lemmatizer.DictionaryLemmatizer;
-import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 
 public class RecipeSearchFragment extends Fragment {
@@ -72,6 +71,7 @@ public class RecipeSearchFragment extends Fragment {
     private CheckBox checkboxPorkFree;
     private FlexboxLayout flexboxFilters;
     private TextView tvNoResultsMessage;
+    private TextView tvNextPage;
     private static final String TAG = "RecipeSearchFragment";
     public static List<Recipe> recipeList;
     public static List<Recipe> savedRecipesList;
@@ -97,7 +97,8 @@ public class RecipeSearchFragment extends Fragment {
     InputStream dictLemmatizer = null;
     DictionaryLemmatizer lemmatizer;
     POSTaggerME tagger;
-    private String next_page;
+    private String next_page_url;
+    OkHttpClient client;
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -144,10 +145,13 @@ public class RecipeSearchFragment extends Fragment {
         checkboxPeanutFree = view.findViewById(R.id.checkboxPeanutFree);
         checkboxKosher = view.findViewById(R.id.checkboxKosher);
         tvNoResultsMessage = view.findViewById(R.id.tvNoResultsMessage);
+        tvNextPage = view.findViewById(R.id.tvNextPage);
         tvNoResultsMessage.setVisibility(View.GONE);
+        tvNextPage.setVisibility(View.GONE);
         recipeList = new ArrayList<>();
         savedRecipesList = new ArrayList<>();
         adapter = new RecipeSearchAdapter(getContext(), recipeList, savedRecipesList);
+        client = new OkHttpClient();
 
         currentUser = (User) ParseUser.getCurrentUser();
         filters = currentUser.getDietFilters();
@@ -175,22 +179,34 @@ public class RecipeSearchFragment extends Fragment {
 
         // create tagger for getting parts of speech per word
         // here: https://opennlp.apache.org/docs/2.0.0/manual/opennlp.html#tools.postagger.tagging.cmdline
-        try {
-            // todo: replace en_pos_maxent with a valid file with the right format
-            InputStream tokenModelIn = getContext().getAssets().open("en_pos_maxent.bin");
-            // keeps getting 'java.lang.String java.util.Properties.getProperty(java.lang.String)' on a null object reference
+//        File f = new File("res/raw/en_pos_maxent.bin");
+//        try (InputStream modelIn = new FileInputStream(f)) {
+//            POSModel model = new POSModel(modelIn);
+////            tagger = new POSTaggerME(model);
+//        } catch (FileNotFoundException e){
+//            Log.e(TAG, e.toString());
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            Log.e(TAG, e.toString());
+//            e.printStackTrace();
+//        }
+
+//        try {
+//            InputStream tokenModelIn = getContext().getAssets().open("en_pos_maxent.bin");
+////             keeps getting 'java.lang.String java.util.Properties.getProperty(java.lang.String)' on a null object reference
 //            if (tokenModelIn!=null){
+//                // constructor for POSmodel failing
 //                POSModel model = new POSModel(tokenModelIn);
 //                tagger = new POSTaggerME(model);
 //            }
 //            else{
 //                Log.e(TAG, "tokenModelIn == null");
 //            }
-
-        } catch (IOException e) {
-            Log.e(TAG, "IOException tokenModelIn: " + e.toString());
-            e.printStackTrace();
-        }
+//
+//        } catch (IOException e) {
+//            Log.e(TAG, e.toString());
+//            e.printStackTrace();
+//        }
 
         // set the adapter on the recycler view
         rvRecipeSearch.setAdapter(adapter);
@@ -230,6 +246,7 @@ public class RecipeSearchFragment extends Fragment {
                 etRecipeLookup.setText("");
                 tvNoResultsMessage.setVisibility(View.GONE);
                 adapter.clear();
+                tvNextPage.setVisibility(View.GONE);
             }
         });
 
@@ -244,32 +261,41 @@ public class RecipeSearchFragment extends Fragment {
                 else {
                     userQuery = etRecipeLookup.getText().toString().trim(); // remove trailing and leading spaces
                     searchRecipes(userQuery);
+                    tvNextPage.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        tvNextPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: enable user to go to next page results
+                getNextPage(next_page_url);
             }
         });
 
     }
 
     private void searchRecipes(String query){
+
+        // todo: lemmatization
         // convert string to string array gotten from here: https://stackoverflow.com/questions/4674850/converting-a-sentence-string-to-a-string-array-of-words-in-java
-        String[] queryStringArray = query.split("\\s+");
-        for (int i = 0; i < queryStringArray.length; i++) {
-            // You may want to check for a non-word character before blindly
-            // performing a replacement
-            // It may also be necessary to adjust the character class
-            queryStringArray[i] = queryStringArray[i].replaceAll("[^\\w]", "");
-        }
+//        String[] queryStringArray = query.split("\\s+");
+//        for (int i = 0; i < queryStringArray.length; i++) {
+//            // You may want to check for a non-word character before blindly
+//            // performing a replacement
+//            // It may also be necessary to adjust the character class
+//            queryStringArray[i] = queryStringArray[i].replaceAll("[^\\w]", "");
+//        }
 
 //        String[] posTags = tagger.tag(queryStringArray);
 
 //        String[] lemmas = lemmatizer.lemmatize(queryStringArray, posTags);
 
-
         // check if user has typed in something already
             adapter.clear(); // clear adapter, in case there are already results
 
-            // send api request to edamam
-            OkHttpClient client = new OkHttpClient();
+
             // this builder helps us to creates the request url
             HttpUrl.Builder urlBuilder = HttpUrl.parse("https://api.edamam.com/api/recipes/v2").newBuilder();
             urlBuilder.addQueryParameter("q", query);
@@ -299,7 +325,7 @@ public class RecipeSearchFragment extends Fragment {
             Request request = new Request.Builder()
                     .url(url)
                     .build();
-
+            Log.i(TAG, "request: " + request.toString());
 
             client.newCall(request).enqueue(new Callback() {
                 @Override
@@ -313,8 +339,8 @@ public class RecipeSearchFragment extends Fragment {
                         String myResponse = response.body().string();
                         try {
                             JSONObject responsejson = new JSONObject(myResponse);
-                            next_page = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
-                            Log.i(TAG, "next page:" + next_page);
+                            next_page_url = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
+                            Log.i(TAG, "next page:" + next_page_url);
                             JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
                             // todo: add all recipes to the recipe list that will be passed into adapter
                             recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
@@ -344,6 +370,58 @@ public class RecipeSearchFragment extends Fragment {
 
                 }
             });
+    }
+
+    private void getNextPage(String next_page){
+        Request request = new Request.Builder()
+                .url(next_page)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "error in executing okhttp call: "+ e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    String myResponse = response.body().string();
+                    try {
+                        JSONObject responsejson = new JSONObject(myResponse);
+                        next_page_url = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
+                        Log.i(TAG, "next page:" + next_page_url);
+                        JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
+                        // todo: add all recipes to the recipe list that will be passed into adapter
+                        recipeList.clear();
+                        recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "JSONException: " + e.toString());
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // edit the view here
+                            adapter.notifyDataSetChanged();
+                            if (recipeList.size()==0){
+                                tvNoResultsMessage.setVisibility(View.VISIBLE);
+                            }
+                            else{
+                                LinearLayoutManager layoutManager = (LinearLayoutManager) rvRecipeSearch
+                                        .getLayoutManager();
+                                layoutManager.scrollToPositionWithOffset(0, 0);
+                                tvNoResultsMessage.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }
+                else { // response is unsuccessful
+                    Log.e(TAG, "response unsuccessful: " + response);
+                }
+            }
+        });
+
     }
 
     public void getSavedRecipes(){
@@ -454,15 +532,6 @@ public class RecipeSearchFragment extends Fragment {
         else {
             checkboxPorkFree.setChecked(false);
         }
-    }
-
-    // helper function to open bin files (e.g. en_pos_maxent.bin which are used in pos tagging for lemmatizer)
-    // gotten from https://stackoverflow.com/questions/29602728/adding-bin-files-in-android-studio
-    public InputStream openBin(String filename) throws IOException {
-        ClassLoader classLoader = getContext().getClass().getClassLoader();
-        File file = new File(classLoader.getResource(filename).getPath());
-        InputStream input = new FileInputStream(file);
-        return input;
     }
 
 }
