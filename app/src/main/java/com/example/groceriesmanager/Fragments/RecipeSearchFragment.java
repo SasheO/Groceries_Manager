@@ -97,6 +97,7 @@ public class RecipeSearchFragment extends Fragment {
     InputStream dictLemmatizer = null;
     DictionaryLemmatizer lemmatizer;
     POSTaggerME tagger;
+    private String next_page;
 
     // required empty constructor
     public RecipeSearchFragment() {}
@@ -275,6 +276,8 @@ public class RecipeSearchFragment extends Fragment {
             urlBuilder.addQueryParameter("type", "public");
             urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
             urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
+
+            // todo: convert this to for loop instead of manually typing out all these
             if (checkboxVegan.isChecked()){urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);}
             // only add vegetarian if not alreay checked
             else if (checkboxVegetarian.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);}
@@ -310,6 +313,8 @@ public class RecipeSearchFragment extends Fragment {
                         String myResponse = response.body().string();
                         try {
                             JSONObject responsejson = new JSONObject(myResponse);
+                            next_page = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
+                            Log.i(TAG, "next page:" + next_page);
                             JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
                             // todo: add all recipes to the recipe list that will be passed into adapter
                             recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
@@ -339,10 +344,6 @@ public class RecipeSearchFragment extends Fragment {
 
                 }
             });
-
-
-
-
     }
 
     public void getSavedRecipes(){

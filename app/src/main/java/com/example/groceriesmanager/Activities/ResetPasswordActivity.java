@@ -41,7 +41,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(ResetPasswordActivity.this, "type in valid email address", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    // todo: check if email is verified before send link. close page and display message
+                    // check if email address exists before sending link
                     ParseQuery<User> query = ParseQuery.getQuery(User.class);
                     query.whereEqualTo("email", email);
                     query.findInBackground(new FindCallback<User>() {
@@ -51,7 +51,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                                 Log.e(TAG, "error querying user class: " + e.toString());
                             }
                             else{
-                                if (objects.size()!=0){
+                                if (objects.size()!=0){ // if there is a User match with this email address
                                     ParseUser.requestPasswordResetInBackground(email, new RequestPasswordResetCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -75,5 +75,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
 }
