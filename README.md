@@ -1,4 +1,4 @@
-# Groceries_Manager
+# Easy Cooking
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -24,14 +24,14 @@ Enables user to manage shopping list, pantry records and recipes in one app.
 
 **Required Must-have Stories**
 
-* User must sign up/in to use app
-* User can view and edit (add and delete) grocery shopping list on app
+-[] User must sign up/in to use app
+-[]User can view and edit (add and delete) grocery shopping list on app
     * Each item has a "delete" button and a "bought" button to move item to pantry list
   * User can move items from grocery shopping list to pantry directly
-* User can view and edit (add and delete) of ingredients in their pantry list
+-[] User can view and edit (add and delete) of ingredients in their pantry list
     * Each item has a delete button to remove list from pantry
- * User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
- * User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
+-[] User can search recipes with given ingredients and view them e.g. [Edamam](https://developer.edamam.com/edamam-docs-recipe-api)
+-[] User can search video recipes with prep instructions and play the video in app e.g. [Youtube](https://developers.google.com/youtube/v3/getting-started)
 
 
 **Optional Nice-to-have Stories**
