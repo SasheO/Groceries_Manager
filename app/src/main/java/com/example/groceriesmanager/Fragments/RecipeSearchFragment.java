@@ -155,7 +155,6 @@ public class RecipeSearchFragment extends Fragment {
 
         currentUser = (User) ParseUser.getCurrentUser();
         filters = currentUser.getDietFilters();
-        // todo: move the below into a method and add more filters populating
         setUserFilters();
 
         // in case user is opening this from pantryListFragment
@@ -269,7 +268,6 @@ public class RecipeSearchFragment extends Fragment {
         tvNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: enable user to go to next page results
                 getNextPage(next_page_url);
             }
         });
@@ -342,7 +340,6 @@ public class RecipeSearchFragment extends Fragment {
                             next_page_url = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
                             Log.i(TAG, "next page:" + next_page_url);
                             JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
-                            // todo: add all recipes to the recipe list that will be passed into adapter
                             recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -393,7 +390,6 @@ public class RecipeSearchFragment extends Fragment {
                         next_page_url = responsejson.getJSONObject("_links").getJSONObject("next").getString("href");
                         Log.i(TAG, "next page:" + next_page_url);
                         JSONArray recipesJSONArray = responsejson.getJSONArray("hits");
-                        // todo: add all recipes to the recipe list that will be passed into adapter
                         recipeList.clear();
                         recipeList.addAll(Recipe.fromJsonArray(recipesJSONArray));
                     } catch (JSONException e) {
@@ -450,9 +446,10 @@ public class RecipeSearchFragment extends Fragment {
 
     }
 
-    // todo: make this into a loop
+    // todo: make this into a loop instead of manually typing all
     private void setUserFilters(){
         if (filters==null){ // if user has not chosen any filters
+            // todo: uncheck all boxes
             return;
         }
         // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
