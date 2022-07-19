@@ -355,10 +355,12 @@ public class RecipeSearchFragment extends Fragment {
                                 // edit the view here
                                 adapter.notifyDataSetChanged();
                                 if (recipeList.size()==0){
+                                    // if no recipes gotten, show no results message
                                     tvNoResultsMessage.setVisibility(View.VISIBLE);
                                 }
                                 else{
                                     tvNoResultsMessage.setVisibility(View.GONE);
+                                    tvNextPage.setVisibility(View.VISIBLE);
                                 }
                             }
                         });
@@ -403,15 +405,15 @@ public class RecipeSearchFragment extends Fragment {
                         @Override
                         public void run() {
                             // edit the view here
+                            rvRecipeSearch.getLayoutManager().smoothScrollToPosition(rvRecipeSearch, null, 0);
                             adapter.notifyDataSetChanged();
                             if (recipeList.size()==0){
+                                // if no recipes gotten, show no results message
                                 tvNoResultsMessage.setVisibility(View.VISIBLE);
                             }
                             else{
-                                LinearLayoutManager layoutManager = (LinearLayoutManager) rvRecipeSearch
-                                        .getLayoutManager();
-                                layoutManager.scrollToPositionWithOffset(0, 0);
                                 tvNoResultsMessage.setVisibility(View.GONE);
+                                tvNextPage.setVisibility(View.VISIBLE);
                             }
                         }
                     });
