@@ -46,7 +46,7 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 * [x] User can select things in pantry list and implement recipe search directly
 * [x] User can have recipes suggested based on what they have in pantry list
   * [x] User can add ingredients they do not have to grocery list
-* [x] Include a how to use this app activity
+* [ ] User can see a how to use this app page
 * [ ] User can take pictures of groceries, recipes that they make, etc. and add them
 * [ ] User can search and save grocery locations (using GoogleMaps api)
 * [x]  User can recover forgotten password through emails
