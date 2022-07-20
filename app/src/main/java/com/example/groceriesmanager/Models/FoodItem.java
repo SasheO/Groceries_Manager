@@ -12,6 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class FoodItem extends ParseObject {
     public static final String KEY_CATEGORY= "foodCategory";
     public static final String KEY_QUANTITY = "quantity";
     public static final String KEY_MEASURE = "measure";
+    public static final String KEY_EXPIRY_DATE = "expiryDate";
 
     public String getName(){
         try {
@@ -72,6 +74,15 @@ public class FoodItem extends ParseObject {
         }
     }
 
+    public Date getExpiryDate(){
+        try {
+            return fetchIfNeeded().getDate(KEY_EXPIRY_DATE);
+        } catch (ParseException e) {
+            Log.v(TAG, e.toString());
+            return null;
+        }
+    }
+
     public void setName(String name){ put(KEY_NAME, name); }
     public void setUser(ParseUser user){
         put(KEY_USER, user);
@@ -80,6 +91,7 @@ public class FoodItem extends ParseObject {
     public void setMeasure(String measure){ put(KEY_MEASURE, measure); }
     public void setType(String type){ put(KEY_TYPE, type); }
     public void setCategory(String category){ put(KEY_CATEGORY, category); }
+    public void setExpiryDate(Date expiryDate){ put(KEY_EXPIRY_DATE, expiryDate); }
 
     public void switchList() {
         if (Objects.equals(getType(), "grocery")){

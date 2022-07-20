@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,14 +25,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
-    private Spinner spinnerFoodMeasure;
-    private Spinner spinnerFoodCategory;
-    private EditText etFoodName;
-    private EditText etFoodQty;
-    private Button btnSave;
     FoodItem foodItem;
-    private Button btnCancel;
-    private TextView tvTitle;
+    private EditText etFoodQty;
+    private EditText etFoodName;
     private static final String TAG = "EditFoodItemActivity";
 
     @Override
@@ -39,13 +35,15 @@ public class EditFoodItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_food_item);
 
-        spinnerFoodMeasure = findViewById(R.id.spinnerIngredientMeasure);
-        spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
         etFoodName = findViewById(R.id.etFoodName);
         etFoodQty = findViewById(R.id.etFoodQty);
-        btnSave = findViewById(R.id.btnSave);
-        btnCancel = findViewById(R.id.btnCancel);
-        tvTitle = findViewById(R.id.tvTitle);
+        Spinner spinnerFoodMeasure = findViewById(R.id.spinnerIngredientMeasure);
+        Spinner spinnerFoodCategory = findViewById(R.id.spinnerFoodCategory);
+        Button btnSave = findViewById(R.id.btnSave);
+        Button btnCancel = findViewById(R.id.btnCancel);
+        TextView tvTitle = findViewById(R.id.tvTitle);
+        ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
+        ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
 
         String process = getIntent().getStringExtra("process");
 
@@ -67,7 +65,22 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
             spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
+            // todo: set expiry date if one already set
         }
+
+        ibDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: set date
+            }
+        });
+
+        ibRemoveDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // todo: remove date
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +90,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
+            // todo: save expiry date
             @Override
             public void onClick(View v) {
 
@@ -113,6 +127,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
     }
 
     class FoodStruct{
+        // todo: include expiry date
         public String foodName;
         public String foodQty;
         public String foodMeasure;
