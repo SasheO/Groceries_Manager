@@ -28,6 +28,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -252,134 +253,52 @@ public class YoutubeSearchFragment extends Fragment {
     }
 
     private String getYoutubeApiQuery() {
-        String query = ""; // remove any leading and trailing spaces
-        if (checkboxVegan.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_VEGAN;
-        }
-        else if (checkboxVegetarian.isChecked()){ // only include vegetarian if vegan isn't already checked
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_VEGETARIAN;
-        }
-        if (checkboxGlutenFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_GLUTEN_FREE;
-        }
-        if (checkboxDairyFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_DAIRY_FREE;
-        }
-        if (checkboxAlcoholFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_ALCOHOL_FREE;
-        }
-        if (checkboxImmunoSupportive.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_IMMUNO_SUPPORTIVE;
-        }
-        if (checkboxKetoFriendly.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_KETO_FRIENDLY;
-        }
-        if (checkboxPescatarian.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_PESCATARIAN;
-        }
-        if (checkboxNoOilAdded.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_NO_OIL_ADDED;
-        }
-        if (checkboxSoyFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_SOY_FREE;
-        }
-        if (checkboxPeanutFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_PEANUT_FREE;
-        }
-        if (checkboxKosher.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_KOSHER;
-        }
-        if (checkboxPorkFree.isChecked()){
-            query = query + " " + RecipeSearchFragment.QUERY_FILTER_PORK_FREE;
-        }
+        String query = "";
+        // check each textbox in flexbox filters if it is checkes, and add it to the query
+        CheckBox v;
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
 
-        query = query + " " + etYoutubeLookup.getText().toString().trim() + " recipe";
+            if (v.isChecked()){
+                // add text to url, checkbox text attributes are formatted already how it is in edamam documentation
+                query = query + " " + v.getText().toString();
+            }
+
+        }
+                query = query + " " + etYoutubeLookup.getText().toString().trim() + " recipe";
         return query;
     }
 
-    // todo: make this into a loop
     private void setUserFilters(){
+
+        CheckBox v;
         if (filters==null){ // if user has not chosen any filters
+            // uncheck all boxes
+            for (int i = 0; i < flexboxFilters.getChildCount(); i++) {
+                v = (CheckBox) flexboxFilters.getChildAt(i);
+                v.setChecked(false);
+            }
             return;
         }
-        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
-            checkboxVegan.setChecked(true);
-        }
-        else {
-            checkboxVegan.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
-            checkboxVegetarian.setChecked(true);
-        }
-        else {
-            checkboxVegetarian.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
-            checkboxGlutenFree.setChecked(true);
-        }
-        else {
-            checkboxGlutenFree.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.DairyFree)){
-            checkboxDairyFree.setChecked(true);
-        }
-        else {
-            checkboxDairyFree.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.AlcoholFree)){
-            checkboxAlcoholFree.setChecked(true);
-        }
-        else {
-            checkboxAlcoholFree.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive)){
-            checkboxImmunoSupportive.setChecked(true);
-        }
-        else {
-            checkboxImmunoSupportive.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.KetoFriendly)){
-            checkboxKetoFriendly.setChecked(true);
-        }
-        else {
-            checkboxKetoFriendly.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Pescatarian)){
-            checkboxPescatarian.setChecked(true);
-        }
-        else {
-            checkboxPescatarian.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.NoOilAdded)){
-            checkboxNoOilAdded.setChecked(true);
-        }
-        else {
-            checkboxNoOilAdded.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.SoyFree)){
-            checkboxSoyFree.setChecked(true);
-        }
-        else {
-            checkboxSoyFree.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PeanutFree)){
-            checkboxPeanutFree.setChecked(true);
-        }
-        else {
-            checkboxPeanutFree.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.Kosher)){
-            checkboxKosher.setChecked(true);
-        }
-        else {
-            checkboxKosher.setChecked(false);
-        }
-        if (filters.contains(AccountSettingsActivity.dietFiltersEnum.PorkFree)){
-            checkboxPorkFree.setChecked(true);
-        }
-        else {
-            checkboxPorkFree.setChecked(false);
+
+        String enumStrValue;
+
+        // check every checkbox in flexboxFilters layout if the enum value is in the given user diet filters
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (filters.contains(AccountSettingsActivity.dietFiltersEnum.valueOf(enumStrValue))) {
+                // set checkbox checked upon opening page
+                v.setChecked(true);
+            }
+            else {
+                v.setChecked(false);
+            }
         }
     }
 

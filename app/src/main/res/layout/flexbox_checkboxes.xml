@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+The format of text attributes of the checkboxes is important.
+The text attributes is formatted exactly as it is found in the Edamam API documentation.
+Please adhere to format.
+-->
+
 <com.google.android.flexbox.FlexboxLayout android:id="@+id/flexboxFilters"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,7 +15,6 @@
     app:flexWrap="wrap"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
 
         <CheckBox
             android:id="@+id/checkboxVegan"

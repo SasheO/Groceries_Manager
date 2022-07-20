@@ -162,12 +162,17 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void setUserFilters(EnumSet<dietFiltersEnum> userDietFilters){
+    public void setUserFilters(EnumSet<dietFiltersEnum> userDietFilters){
+        CheckBox v;
+
         if (userDietFilters==null){ // if user has not chosen any filters
+            for (int i = 0; i < flexboxFilters.getChildCount(); i++) {
+                v = (CheckBox) flexboxFilters.getChildAt(i);
+                v.setChecked(false);
+            }
             return;
         }
 
-        CheckBox v;
         String enumStrValue;
 
         // check every checkbox in flexboxFilters layout if the enum value is in the given user diet filters
