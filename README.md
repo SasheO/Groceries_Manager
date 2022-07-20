@@ -12,7 +12,7 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 
 ### App Evaluation
 - **Category:** Productivity
-- **Mobile:** This app would be primarily developed for a mobile device because of its portability and possible push notifications (implemented as a stretch feature).
+- **Mobile:** This app would be primarily developed for a mobile device because of its portability.
 - **Story:** Cooking is difficult and requires a lot of executive planning which may be difficult for some people. This app aims to make the process a little easier by collating all you need in one place.
 - **Market:** Anyone can use this app, particularly adults who manage their own chores
 - **Habit:** This app should be used often as it manages user needs for daily living (cooking, getting groceries)
