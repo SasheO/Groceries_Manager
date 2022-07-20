@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "error encountered signing up", Toast.LENGTH_LONG).show();
                     Log.e(TAG, "error encountered signing up new user: " + e.toString());
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Welcome to " + R.string.app_name, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Welcome to " + getResources().getString(R.string.app_name), Toast.LENGTH_LONG).show();
                     goToMainActivity();
                 }
             }
