@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Groceries Manager</string>
+    <string name="app_name">Easy Cooking!</string>
     <string name="vegan">Vegan</string>
     <string name="vegetarian">Vegetarian</string>
     <string name="gluten_free">Gluten-Free</string>
