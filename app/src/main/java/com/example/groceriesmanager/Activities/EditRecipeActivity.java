@@ -26,6 +26,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -34,7 +36,7 @@ import java.util.Objects;
 
 public class EditRecipeActivity extends AppCompatActivity {
     private TextView tvTagLabel;
-    private FlexboxLayout flexboxCheckboxes;
+    private FlexboxLayout flexboxFilters;
     private EditText etRecipeTitle;
     private EditText etLink;
     private CheckBox checkboxVegan;
@@ -80,7 +82,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_recipe);
 
-        flexboxCheckboxes = findViewById(R.id.flexboxCheckboxes);
+        flexboxFilters = findViewById(R.id.flexboxCheckboxes);
         tvTagLabel = findViewById(R.id.tvTagLabel);
         etRecipeTitle = findViewById(R.id.etRecipeTitle);
         etLink = findViewById(R.id.etLink);
@@ -165,12 +167,12 @@ public class EditRecipeActivity extends AppCompatActivity {
         tvTagLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flexboxCheckboxes.getVisibility()==View.GONE){
-                    flexboxCheckboxes.setVisibility(View.VISIBLE);
+                if (flexboxFilters.getVisibility()==View.GONE){
+                    flexboxFilters.setVisibility(View.VISIBLE);
                     tvTagLabel.setText("Close tags");
                 }
                 else {
-                    flexboxCheckboxes.setVisibility(View.GONE);
+                    flexboxFilters.setVisibility(View.GONE);
                     tvTagLabel.setText("Edit tags");
                 }
             }
@@ -293,135 +295,55 @@ public class EditRecipeActivity extends AppCompatActivity {
         }
     }
 
-    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if statements
     private void setUserFilters(EnumSet<AccountSettingsActivity.dietFiltersEnum> userDietFilters){
         if (userDietFilters==null){ // if user has not chosen any filters
             return;
         }
-        // if current user specified any of the following as a diet filter, set the checkbox
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Vegan)){
-            checkboxVegan.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Vegetarian)){
-            checkboxVegetarian.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.GlutenFree)){
-            checkboxGlutenFree.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.DairyFree)){
-            checkboxDairyFree.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.AlcoholFree)){
-            checkboxAlcoholFree.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive)){
-            checkboxImmunoSupportive.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.KetoFriendly)){
-            checkboxKetoFriendly.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Pescatarian)){
-            checkboxPescatarian.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.NoOilAdded)){
-            checkboxNoOilAdded.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.SoyFree)){
-            checkboxSoyFree.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.PeanutFree)){
-            checkboxPeanutFree.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.Kosher)){
-            checkboxKosher.setChecked(true);
-        }
-        if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.PorkFree)){
-            checkboxPorkFree.setChecked(true);
+
+        CheckBox v;
+        String enumStrValue;
+
+        // check every checkbox in flexboxFilters layout if the enum value is in the given user diet filters
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (userDietFilters.contains(AccountSettingsActivity.dietFiltersEnum.valueOf(enumStrValue))) {
+                // set checkbox checked upon opening page
+                v.setChecked(true);
+            }
         }
     }
 
-    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if else statements
     private void updateFiltersToSave() {
-        if (checkboxGlutenFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.GlutenFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.GlutenFree);
-        }
-        if (checkboxVegetarian.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.Vegetarian);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.Vegetarian);
-        }
-        if (checkboxVegan.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.Vegan);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.Vegan);
-        }
+        CheckBox v;
+        String enumStrValue;
 
-        if (checkboxDairyFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.DairyFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.DairyFree);
-        }
-        if (checkboxAlcoholFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.AlcoholFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.AlcoholFree);
-        }
-        if (checkboxImmunoSupportive.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.ImmunoSupportive);
-        }
-        if (checkboxKetoFriendly.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.KetoFriendly);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.KetoFriendly);
-        }
-        if (checkboxPescatarian.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.Pescatarian);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.Pescatarian);
-        }
-        if (checkboxNoOilAdded.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.NoOilAdded);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.NoOilAdded);
-        }
-        if (checkboxSoyFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.SoyFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.SoyFree);
-        }
-        if (checkboxPeanutFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.PeanutFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.PeanutFree);
-        }
-        if (checkboxKosher.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.Kosher);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.Kosher);
-        }
-        if (checkboxPorkFree.isChecked()){
-            recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.PorkFree);
-        }
-        else {
-            recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.PorkFree);
+        // check every checkbox in flexbox filters if it is checked
+        // add it to the filters to be saved if it is, remove it otherwise
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (v.isChecked()){
+                // add to filters
+                recipeFiltersEnum.add(AccountSettingsActivity.dietFiltersEnum.valueOf(enumStrValue));
+            }
+            else{
+                // remove from filters
+                recipeFiltersEnum.remove(AccountSettingsActivity.dietFiltersEnum.valueOf(enumStrValue));
+            }
         }
     }
+
     private void saveRecipe() {
             recipeTitle = etRecipeTitle.getText().toString().trim();
             if (Objects.equals(recipeTitle, "")){

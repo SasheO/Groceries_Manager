@@ -18,6 +18,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.EnumSet;
 
 public class AccountSettingsActivity extends AppCompatActivity {
@@ -99,9 +101,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
                 updateFiltersToSave();
 
-//                if (dietFilters.size()!=0){
               if (filters.size()!=0){
-//                        currentUser.setDietFilters(dietFilters);
                     currentUser.setDietFilters(filters);
                 }
               else {
@@ -137,133 +137,52 @@ public class AccountSettingsActivity extends AppCompatActivity {
         }
     }
 
-    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if else statements
     private void updateFiltersToSave() {
-        if (checkboxGlutenFree.isChecked()){
-            filters.add(dietFiltersEnum.GlutenFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.GlutenFree);
-        }
-        if (checkboxVegetarian.isChecked()){
-            filters.add(dietFiltersEnum.Vegetarian);
-        }
-        else {
-            filters.remove(dietFiltersEnum.Vegetarian);
-        }
-        if (checkboxVegan.isChecked()){
-            filters.add(dietFiltersEnum.Vegan);
-        }
-        else {
-            filters.remove(dietFiltersEnum.Vegan);
-        }
+        CheckBox v;
+        String enumStrValue;
 
-        if (checkboxDairyFree.isChecked()){
-            filters.add(dietFiltersEnum.DairyFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.DairyFree);
-        }
-        if (checkboxAlcoholFree.isChecked()){
-            filters.add(dietFiltersEnum.AlcoholFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.AlcoholFree);
-        }
-        if (checkboxImmunoSupportive.isChecked()){
-            filters.add(dietFiltersEnum.ImmunoSupportive);
-        }
-        else {
-            filters.remove(dietFiltersEnum.ImmunoSupportive);
-        }
-        if (checkboxKetoFriendly.isChecked()){
-            filters.add(dietFiltersEnum.KetoFriendly);
-        }
-        else {
-            filters.remove(dietFiltersEnum.KetoFriendly);
-        }
-        if (checkboxPescatarian.isChecked()){
-            filters.add(dietFiltersEnum.Pescatarian);
-        }
-        else {
-            filters.remove(dietFiltersEnum.Pescatarian);
-        }
-        if (checkboxNoOilAdded.isChecked()){
-            filters.add(dietFiltersEnum.NoOilAdded);
-        }
-        else {
-            filters.remove(dietFiltersEnum.NoOilAdded);
-        }
-        if (checkboxSoyFree.isChecked()){
-            filters.add(dietFiltersEnum.SoyFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.SoyFree);
-        }
-        if (checkboxPeanutFree.isChecked()){
-            filters.add(dietFiltersEnum.PeanutFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.PeanutFree);
-        }
-        if (checkboxKosher.isChecked()){
-            filters.add(dietFiltersEnum.Kosher);
-        }
-        else {
-            filters.remove(dietFiltersEnum.Kosher);
-        }
-        if (checkboxPorkFree.isChecked()){
-            filters.add(dietFiltersEnum.PorkFree);
-        }
-        else {
-            filters.remove(dietFiltersEnum.PorkFree);
+        // check every checkbox in flexbox filters if it is checked
+        // add it to the filters to be saved if it is, remove it otherwise
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (v.isChecked()){
+                // add to filters
+                filters.add(dietFiltersEnum.valueOf(enumStrValue));
+            }
+            else{
+                // remove from filters
+                filters.remove(dietFiltersEnum.valueOf(enumStrValue));
+            }
         }
     }
 
-    // todo: find way to convert "checkbox" + enums to variable name and iterate through enum instead of manually typing out all the if statements
     private void setUserFilters(EnumSet<dietFiltersEnum> userDietFilters){
         if (userDietFilters==null){ // if user has not chosen any filters
             return;
         }
-        // if current user specified any of the following as a diet filter, set the checkbox upon opening the page
-        if (userDietFilters.contains(dietFiltersEnum.Vegan)){
-            checkboxVegan.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.Vegetarian)){
-            checkboxVegetarian.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.GlutenFree)){
-            checkboxGlutenFree.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.DairyFree)){
-            checkboxDairyFree.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.AlcoholFree)){
-            checkboxAlcoholFree.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.ImmunoSupportive)){
-            checkboxImmunoSupportive.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.KetoFriendly)){
-            checkboxKetoFriendly.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.Pescatarian)){
-            checkboxPescatarian.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.NoOilAdded)){
-            checkboxNoOilAdded.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.SoyFree)){
-            checkboxSoyFree.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.PeanutFree)){
-            checkboxPeanutFree.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.Kosher)){
-            checkboxKosher.setChecked(true);
-        }
-        if (userDietFilters.contains(dietFiltersEnum.PorkFree)){
-            checkboxPorkFree.setChecked(true);
+
+        CheckBox v;
+        String enumStrValue;
+
+        // check every checkbox in flexboxFilters layout if the enum value is in the given user diet filters
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (userDietFilters.contains(dietFiltersEnum.valueOf(enumStrValue))) {
+                // set checkbox checked upon opening page
+                v.setChecked(true);
+            }
         }
     }
 }

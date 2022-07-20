@@ -27,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -301,21 +302,22 @@ public class RecipeSearchFragment extends Fragment {
             urlBuilder.addQueryParameter("app_id", getResources().getString(R.string.edamam_app_id));
             urlBuilder.addQueryParameter("app_key", getResources().getString(R.string.edamam_app_key));
 
-            // todo: convert this to for loop instead of manually typing out all these
-            if (checkboxVegan.isChecked()){urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGAN);}
-            // only add vegetarian if not alreay checked
-            else if (checkboxVegetarian.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_VEGETARIAN);}
-            if (checkboxGlutenFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_GLUTEN_FREE);}
-            if (checkboxDairyFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_DAIRY_FREE);}
-            if (checkboxAlcoholFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_ALCOHOL_FREE);}
-            if (checkboxImmunoSupportive.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_IMMUNO_SUPPORTIVE);}
-            if (checkboxKetoFriendly.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_KETO_FRIENDLY);}
-            if (checkboxPescatarian.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PESCATARIAN);}
-            if (checkboxNoOilAdded.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_NO_OIL_ADDED);}
-            if (checkboxSoyFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_SOY_FREE);}
-            if (checkboxPeanutFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PEANUT_FREE);}
-            if (checkboxKosher.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_KOSHER);}
-            if (checkboxPorkFree.isChecked()){ urlBuilder.addQueryParameter("health", QUERY_FILTER_PORK_FREE);}
+        CheckBox v;
+        String enumStrValue;
+        for (int i = 0; i < flexboxFilters.getChildCount(); i++){
+            v = (CheckBox) flexboxFilters.getChildAt(i);
+
+            // format the text from lower-case-separated-with-hyphens to FirstLetterCapitalized
+            enumStrValue = v.getText().toString().replaceAll("-", " ");
+            enumStrValue = WordUtils.capitalize(enumStrValue);
+            enumStrValue = enumStrValue.replaceAll("\\s", "");
+
+            if (v.isChecked()){
+                // add to url
+                urlBuilder.addQueryParameter("health",v.getText().toString());
+            }
+
+        }
 
             String url = urlBuilder.build().toString();
         Log.i(TAG, "url: " + url);
