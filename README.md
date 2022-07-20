@@ -35,20 +35,23 @@ Enables user to manage shopping list, pantry records and recipes in one app. The
 
 
 **Optional Nice-to-have Stories**
-* [ ] Each item in grocery/pantry list has an image shown
-* [ ] User can save and unsave recipes
-* [ ] User can view saved recipes
-* [ ] User can create own recipes which are automatically saved on their device
-* [ ] User can apply filters when searching recipes (like vegan, vegetarian, gluten-free)
+* [x] Each item in grocery/pantry list has an image shown
+* [x] User can save and unsave recipes
+* [x] User can view saved recipes
+* [x] User can create own recipes which are automatically saved on their device
+* [x] User can specify dietary restrictions that are applied by default to all recipe search (like dairy-free, nut-free, vegan, vegetarian, gluten-free)
+  * [x] User can edit filters with each search or from account settings
 * [ ] User can input expiration dates/freshness limits on groceries and receive push notifications closer to said date to prevent wastage
-    * [ ] Items in pantry must be clickable
-* [ ] User can select things in grocery list and implement recipe search directly
-* [ ] Include a how to use this app activity
+    * [x] Items in pantry must be clickable/editable
+* [x] User can select things in pantry list and implement recipe search directly
+* [x] User can have recipes suggested based on what they have in pantry list
+  * [x] User can add ingredients they do not have to grocery list
+* [x] Include a how to use this app activity
 * [ ] User can take pictures of groceries, recipes that they make, etc. and add them
 * [ ] User can search and save grocery locations (using GoogleMaps api)
-* [ ]  User can recover forgotten password through emails
-* [ ]  User can sesarch synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
-* [ ]  User can load more results on Recipe Search after first 20 are shown.
+* [x]  User can recover forgotten password through emails
+* [ ]  User can search synonyms on Recipe Search (lemmitization). For example searching for banana vs bananas returns similar result.
+* [x]  User can load more results on Recipe Search after first 20 are shown.
 
 
 ### 2. Screen Archetypes
