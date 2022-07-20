@@ -166,11 +166,10 @@ public class PantryListFragment extends Fragment {
     }
 
     private void sortPantryAccordingToCategory(){
-        // todo: populate
         /*
         (pantry list max size is 30,)
         this shuffles list (to somewhat randomize searches) then repeatedly moves items to the front to rearrange them in order of relevance when searching
-*/
+        */
         List<FoodItem> organizedPantryList = new ArrayList<>(pantryList);
         Collections.shuffle(organizedPantryList);
         for (FoodItem item: pantryList){
