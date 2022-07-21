@@ -41,6 +41,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
     int selectedYear;
     int selectedMonth;
     int selectedDayOfMonth;
+    Date today = new Date();
     DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
 
     @Override
@@ -59,11 +60,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
         EditText etExpiryDate = findViewById(R.id.etExpiryDate);
 
-        Date today = new Date();
         selectedYear = today.getYear()+1900;  // the addition is because only three numbers are returned and any 21sy century year starts with 1
         selectedMonth = today.getMonth();
         selectedDayOfMonth = today.getDate();
-        today = null;
 
         String process = getIntent().getStringExtra("process");
 
@@ -163,10 +162,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
-
                 }
-                else if (false){ // todo: set condition date cannot be past or present, must be future
-
+                else if (expiryDate.compareTo(today)<0){ // if expiry date is set in future
+                    Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     // using foodstruct so we do not need to keep altering the function signature
