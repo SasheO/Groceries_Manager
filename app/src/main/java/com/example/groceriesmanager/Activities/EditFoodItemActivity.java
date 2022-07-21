@@ -23,9 +23,12 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -38,7 +41,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
     int selectedYear = 2000;
     int selectedMonth = 5;
     int selectedDayOfMonth = 10;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.ENGLISH);
+    DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,14 +143,19 @@ public class EditFoodItemActivity extends AppCompatActivity {
             // todo: save expiry date
             @Override
             public void onClick(View v) {
-                LocalDate expiryDate = null;
+                Date expiryDate = null;
 
                 String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();
                 if (expiryDateStr!=null){
-                    expiryDate = LocalDate.parse(expiryDateStr, formatter);
+                    try {
+                        expiryDate = formatter.parse(expiryDateStr);
+                    } catch (java.text.ParseException e) {
+                        Log.e(TAG, "error formatting date: " + e.toString());
+                        e.printStackTrace();
+                    }
                 }
                 String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
@@ -182,13 +190,12 @@ public class EditFoodItemActivity extends AppCompatActivity {
     }
 
     class FoodStruct{
-        // todo: include expiry date. shoud it be string or date?
         public String foodName;
         public String foodQty;
         public String foodMeasure;
         public String type;
         public String foodCategory;
-        public LocalDate expiryDate;
+        public Date expiryDate;
     };
 
     private void editFoodItem(FoodStruct foodStruct) {
@@ -212,6 +219,8 @@ public class EditFoodItemActivity extends AppCompatActivity {
         }
         if (foodStruct.expiryDate!=null){
             // todo: save date
+            foodItem.setExpiryDate(foodStruct.expiryDate);
+            Log.i(TAG, "expiry date: " + foodItem.getExpiryDate().toString());
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -239,7 +248,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
     }
 
     private void addFoodItem(FoodStruct foodStruct){
-
         FoodItem newFoodItem = new FoodItem();
         newFoodItem.setName(foodStruct.foodName.replaceAll("\n", ""));
         newFoodItem.setType(foodStruct.type);
@@ -250,6 +258,14 @@ public class EditFoodItemActivity extends AppCompatActivity {
         }
         if (!Objects.equals(foodStruct.foodCategory, "--no selection--")){
             newFoodItem.setCategory(foodStruct.foodCategory);
+        }
+        if (foodStruct.expiryDate!=null){
+            // todo: save date
+            newFoodItem.setExpiryDate(foodStruct.expiryDate);
+            Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
+        }
+        else {
+            newFoodItem.remove(FoodItem.KEY_EXPIRY_DATE);
         }
         // update info in parse server
         newFoodItem.saveInBackground(new SaveCallback() {
