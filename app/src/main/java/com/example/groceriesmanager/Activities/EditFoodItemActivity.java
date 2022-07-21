@@ -37,10 +37,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
     private EditText etFoodQty;
     private EditText etFoodName;
     private static final String TAG = "EditFoodItemActivity";
-    // todo: these date integers as today's date
-    int selectedYear = 2000;
-    int selectedMonth = 5;
-    int selectedDayOfMonth = 10;
+    // these date integers are the date that will be opened in the date picker
+    int selectedYear;
+    int selectedMonth;
+    int selectedDayOfMonth;
     DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
 
     @Override
@@ -58,6 +58,12 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
         EditText etExpiryDate = findViewById(R.id.etExpiryDate);
+
+        Date today = new Date();
+        selectedYear = today.getYear()+1900;  // the addition is because only three numbers are returned and any 21sy century year starts with 1
+        selectedMonth = today.getMonth();
+        selectedDayOfMonth = today.getDate();
+        today = null;
 
         String process = getIntent().getStringExtra("process");
 
@@ -79,14 +85,22 @@ public class EditFoodItemActivity extends AppCompatActivity {
             etFoodQty.setText(foodItem.getQuantity());
             // todo: fix this spinner measure below. it does not select the food type when opened
             spinnerFoodMeasure.setSelection(foodMeasureAdapter.getPosition(foodItem.getMeasure()));
-            // todo: set expiry date if one already set
+            if (foodItem.getExpiryDate()!=null){
+                int year = foodItem.getExpiryDate().getYear()+1900; // the addition is because only three numbers are returned and any 21st century year starts with 1
+                int month = foodItem.getExpiryDate().getMonth();
+                int day = foodItem.getExpiryDate().getDate();
+                selectedYear = year;
+                selectedMonth = month;
+                selectedDayOfMonth = day;
+                etExpiryDate.setText(year + "/" + month + "/" + day);
+            }
         }
 
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Date Select Listener.
+                // create Date Select Listener
                 DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -94,21 +108,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                                           int monthOfYear, int dayOfMonth) {
 
                         // format date to yyyy/mm/dd format
-                        String date = String.valueOf(year);
-                        if (monthOfYear<10){
-                            date = date + "/0" + (monthOfYear + 1);
-                        }
-                        else {
-                            date = date + "/" + (monthOfYear + 1);
-                        }
-                        if (dayOfMonth<10){
-                            date = date + "/0" + (dayOfMonth);
-                        }
-                        else {
-                            date = date + "/" + (dayOfMonth);
-                        }
-
-                        etExpiryDate.setText(date);
+                        etExpiryDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
                         selectedYear = year;
                         selectedMonth = monthOfYear + 1;
                         selectedDayOfMonth = dayOfMonth;
@@ -140,7 +140,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(new View.OnClickListener() {
-            // todo: save expiry date
             @Override
             public void onClick(View v) {
                 Date expiryDate = null;
