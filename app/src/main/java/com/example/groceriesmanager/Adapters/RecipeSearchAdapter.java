@@ -145,7 +145,7 @@ public class RecipeSearchAdapter extends
                     // check if ingredient with same name in pantry
                     for (FoodItem pantryItem: pantryList){
                         // todo: when you get lemmatizer working, use lemmatizer instead of substring match
-                        if (Objects.equals(name.toLowerCase(), pantryItem.getName().toLowerCase())||name.toLowerCase().contains(pantryItem.getName().toLowerCase())){
+                        if (Objects.equals(name.toLowerCase(), pantryItem.getName().toLowerCase()) || name.toLowerCase().contains(pantryItem.getName().toLowerCase())){
                             gottenIngredients ++;
                             addAllList.remove(ingredient); // if already in pantry, remove ingredient from list
                         }
