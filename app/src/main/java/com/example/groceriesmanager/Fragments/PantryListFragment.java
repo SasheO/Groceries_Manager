@@ -196,9 +196,9 @@ public class PantryListFragment extends Fragment {
     }
 
     public void queryPantryList() {
-        // specify what type of data we want to query - Post.class
+        // specify what type of data we want to query - FoodItem.class
         ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
-        // include data where post is current post
+        // include data which matches given requirements
         query.whereEqualTo("type", type);
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         // necessary to include non-primitive types
