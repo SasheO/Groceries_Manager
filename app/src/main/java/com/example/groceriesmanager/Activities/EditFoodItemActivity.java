@@ -25,8 +25,6 @@ import com.parse.SaveCallback;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -167,7 +165,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    // using foodstruct so we do not need to keep altering the function signature
+                    // using FoodStruct so we do not need to keep altering the function signature of add/editFoodItem
                     FoodStruct foodStruct = new FoodStruct();
                     foodStruct.foodCategory = foodCategory;
                     foodStruct.foodName = foodName;

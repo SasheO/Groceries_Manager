@@ -25,7 +25,9 @@ import com.example.groceriesmanager.Gestures.OnSwipeTouchListener;
 import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.Models.Recipe;
 import com.example.groceriesmanager.R;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -48,29 +50,45 @@ public class RecipeSearchAdapter extends
         this.context = (MainActivity) context;
         this.recipeList = recipeList;
         this.savedRecipesList = savedRecipesList;
-        this.pantryList = ((MainActivity) context).pantryListFragment.pantryList;
+        queryPantryList();
+    }
+
+    private void queryPantryList() {
+        // specify what type of data we want to query - FoodItem.class
+        ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
+        // include data which matches given requirements
+        query.whereEqualTo("type", "pantry");
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        query.findInBackground(new FindCallback<FoodItem>() {
+            @Override
+            public void done(List<FoodItem> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                }
+                else{
+                    pantryList = new ArrayList<>();
+                    pantryList.addAll(objects);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Inflate the custom layout
         View recipeItemView = inflater.inflate(R.layout.item_recipe_search, parent, false);
-
-        // Return a new holder instance
         RecipeSearchAdapter.ViewHolder viewHolder = new ViewHolder(recipeItemView);
-
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = recipeList.get(position);
-
         holder.bind(recipe);
-
         holder.itemView.setClickable(true);
     }
 
@@ -94,11 +112,8 @@ public class RecipeSearchAdapter extends
         private RelativeLayout rlRecipeSearch;
         private ImageButton ibSaved;
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
+
         public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnClickListener(this);
             tvAddAll = itemView.findViewById(R.id.tvAddAll);
