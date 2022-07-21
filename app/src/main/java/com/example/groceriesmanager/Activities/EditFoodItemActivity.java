@@ -23,7 +23,10 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EditFoodItemActivity extends AppCompatActivity {
@@ -31,10 +34,11 @@ public class EditFoodItemActivity extends AppCompatActivity {
     private EditText etFoodQty;
     private EditText etFoodName;
     private static final String TAG = "EditFoodItemActivity";
-    // todo: set date as today's date
+    // todo: these date integers as today's date
     int selectedYear = 2000;
     int selectedMonth = 5;
     int selectedDayOfMonth = 10;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd", Locale.ENGLISH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +90,22 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
 
-                        etExpiryDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
+                        // format date to yyyy/mm/dd format
+                        String date = String.valueOf(year);
+                        if (monthOfYear<10){
+                            date = date + "/0" + (monthOfYear + 1);
+                        }
+                        else {
+                            date = date + "/" + (monthOfYear + 1);
+                        }
+                        if (dayOfMonth<10){
+                            date = date + "/0" + (dayOfMonth);
+                        }
+                        else {
+                            date = date + "/" + (dayOfMonth);
+                        }
+
+                        etExpiryDate.setText(date);
                         selectedYear = year;
                         selectedMonth = monthOfYear + 1;
                         selectedDayOfMonth = dayOfMonth;
@@ -121,11 +140,15 @@ public class EditFoodItemActivity extends AppCompatActivity {
             // todo: save expiry date
             @Override
             public void onClick(View v) {
+                LocalDate expiryDate = null;
 
                 String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
-
+                String expiryDateStr = etExpiryDate.getText().toString();
+                if (expiryDateStr!=null){
+                    expiryDate = LocalDate.parse(expiryDateStr, formatter);
+                }
                 String foodMeasure = spinnerFoodMeasure.getSelectedItem().toString();
                 String foodCategory = Arrays.asList(getResources().getStringArray(R.array.food_categories)).get(spinnerFoodCategory.getSelectedItemPosition());
 
@@ -133,6 +156,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
+
+                }
+                else if (false){ // todo: set condition date cannot be past or present, must be future
 
                 }
                 else{
@@ -143,6 +169,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     foodStruct.foodQty = foodQty;
                     foodStruct.foodMeasure = foodMeasure;
                     foodStruct.type = type;
+                    foodStruct.expiryDate = expiryDate;
                     if (Objects.equals(process, "new")){ // is user is creating new food item
                         addFoodItem(foodStruct);
                     }
@@ -155,12 +182,13 @@ public class EditFoodItemActivity extends AppCompatActivity {
     }
 
     class FoodStruct{
-        // todo: include expiry date
+        // todo: include expiry date. shoud it be string or date?
         public String foodName;
         public String foodQty;
         public String foodMeasure;
         public String type;
         public String foodCategory;
+        public LocalDate expiryDate;
     };
 
     private void editFoodItem(FoodStruct foodStruct) {
@@ -181,6 +209,12 @@ public class EditFoodItemActivity extends AppCompatActivity {
         else {
             // if set to no selection, remove food category
             foodItem.remove(FoodItem.KEY_CATEGORY);
+        }
+        if (foodStruct.expiryDate!=null){
+            // todo: save date
+        }
+        else {
+            foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
         }
 
         foodItem.saveInBackground(new SaveCallback() {
