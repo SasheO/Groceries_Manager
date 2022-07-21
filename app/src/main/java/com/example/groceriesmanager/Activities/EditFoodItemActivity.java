@@ -44,6 +44,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
         TextView tvTitle = findViewById(R.id.tvTitle);
         ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
+        EditText etExpiryDate = findViewById(R.id.etExpiryDate);
 
         String process = getIntent().getStringExtra("process");
 
@@ -71,14 +72,15 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: set date
+                // todo: set date picker popup
+                // check here: https://stackoverflow.com/questions/42210257/java-util-date-to-string-using-datetimeformatter
             }
         });
 
         ibRemoveDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: remove date
+                etExpiryDate.setText(null);
             }
         });
 
