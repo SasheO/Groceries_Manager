@@ -2,12 +2,14 @@ package com.example.groceriesmanager.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -29,6 +31,10 @@ public class EditFoodItemActivity extends AppCompatActivity {
     private EditText etFoodQty;
     private EditText etFoodName;
     private static final String TAG = "EditFoodItemActivity";
+    // todo: set date as today's date
+    int selectedYear = 2000;
+    int selectedMonth = 5;
+    int selectedDayOfMonth = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +78,28 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo: set date picker popup
-                // check here: https://stackoverflow.com/questions/42210257/java-util-date-to-string-using-datetimeformatter
+
+                // Date Select Listener.
+                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        etExpiryDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
+                        selectedYear = year;
+                        selectedMonth = monthOfYear + 1;
+                        selectedDayOfMonth = dayOfMonth;
+                    }
+                };
+
+                // Create DatePickerDialog (Spinner Mode):
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditFoodItemActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                        dateSetListener, selectedYear, selectedMonth, selectedDayOfMonth);
+
+                // Show
+                datePickerDialog.show();
             }
         });
 
