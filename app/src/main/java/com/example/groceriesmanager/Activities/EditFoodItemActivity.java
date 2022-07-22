@@ -145,9 +145,15 @@ public class EditFoodItemActivity extends AppCompatActivity {
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();
-                if (expiryDateStr!=null){
+                if (expiryDateStr!=null && !Objects.equals(expiryDateStr, "")){
                     try {
                         expiryDate = formatter.parse(expiryDateStr);
+
+                        // todo: find out the issue with this comparison and debug it
+                        if(expiryDate.compareTo(today)<0){ // if expiry date is set in future
+                            Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     } catch (java.text.ParseException e) {
                         Log.e(TAG, "error formatting date: " + e.toString());
                         e.printStackTrace();
@@ -160,9 +166,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
-                }
-                else if (expiryDate.compareTo(today)<0){ // if expiry date is set in future
-                    Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     // using FoodStruct so we do not need to keep altering the function signature of add/editFoodItem
