@@ -220,7 +220,7 @@ public class PantryListFragment extends Fragment {
         // necessary to include non-primitive types
         query.include("user");
         // order posts by creation date (newest first)
-        query.addDescendingOrder("expiryDate");
+        query.addAscendingOrder("expiryDate");
         query.findInBackground(new FindCallback<FoodItem>() {
             @Override
             public void done(List<FoodItem> objects, ParseException e) {

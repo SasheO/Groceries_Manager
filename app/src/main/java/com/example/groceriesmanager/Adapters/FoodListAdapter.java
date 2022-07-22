@@ -29,9 +29,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class FoodListAdapter extends
@@ -44,6 +46,11 @@ public class FoodListAdapter extends
     private static Hashtable textToDrawableName = new Hashtable();
     // public because this is accessed in other class
     public List<FoodItem> selected = new ArrayList<>();
+    private static final int SECOND_MILLIS = 1000;
+    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+
 
     // constructor to set context
     public FoodListAdapter(Context context, List<FoodItem> foodItemList, String type) {
@@ -99,6 +106,7 @@ public class FoodListAdapter extends
         public CardView cvFoodItem;
         public TextView tvFoodItemQty;
         public TextView tvFoodItemMeasure;
+        public TextView tvExpiryDate;
         public ImageView ivFoodItemPic;
         public ImageButton ibFoodItemSwitchList;
         public ImageButton ibFoodItemDelete;
@@ -111,14 +119,15 @@ public class FoodListAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             itemView.setOnTouchListener(this);
-            tvFoodItemName = (TextView) itemView.findViewById(R.id.tvFoodItemName);
-            tvFoodItemQty = (TextView) itemView.findViewById(R.id.tvFoodItemQty);
-            tvFoodItemMeasure = (TextView) itemView.findViewById(R.id.tvFoodItemMeasure);
-            ivFoodItemPic = (ImageView) itemView.findViewById(R.id.ivFoodItemPic);
-            ibFoodItemSwitchList = (ImageButton) itemView.findViewById(R.id.ibFoodItemSwitchList);
-            ibFoodItemDelete = (ImageButton) itemView.findViewById(R.id.ibFoodItemDelete);
-            cvFoodItem = (CardView) itemView.findViewById(R.id.cvFoodItem);
-            rlFoodItem = (RelativeLayout) itemView.findViewById(R.id.rlFoodItem);
+            tvFoodItemName = itemView.findViewById(R.id.tvFoodItemName);
+            tvFoodItemQty = itemView.findViewById(R.id.tvFoodItemQty);
+            tvFoodItemMeasure = itemView.findViewById(R.id.tvFoodItemMeasure);
+            ivFoodItemPic = itemView.findViewById(R.id.ivFoodItemPic);
+            ibFoodItemSwitchList = itemView.findViewById(R.id.ibFoodItemSwitchList);
+            ibFoodItemDelete = itemView.findViewById(R.id.ibFoodItemDelete);
+            cvFoodItem = itemView.findViewById(R.id.cvFoodItem);
+            rlFoodItem = itemView.findViewById(R.id.rlFoodItem);
+            tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
         }
 
         public void bind(FoodItem foodItem, int position) {
@@ -146,6 +155,15 @@ public class FoodListAdapter extends
                 int resId = res.getIdentifier(drawableName, "drawable", context.getPackageName());
                 Drawable drawable = res.getDrawable(resId);
                 Glide.with(context).load(drawable).transform(new CircleCrop()).into(ivFoodItemPic);
+            }
+
+            if (Objects.equals(type, "pantry")){ // show expiry dates for pantry items
+                if (foodItem.getExpiryDate()!=null){
+                    String expiry_date = "expires ";
+                    // todo: populate
+                    expiry_date = expiry_date + getRelativeExpiryDate(String.valueOf(foodItem.getExpiryDate()));
+                    tvExpiryDate.setText(expiry_date);
+                }
             }
 
             cvFoodItem.setOnTouchListener(new OnSwipeTouchListener(context) {
@@ -284,5 +302,40 @@ public class FoodListAdapter extends
                         }
                     }).show();
 
+    }
+
+    // original method gotten from https://gist.github.com/nesquena/f786232f5ef72f6e10a7
+    public String getRelativeExpiryDate(String rawJsonDate) {
+        // todo: fix this to display times in the future
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        try {
+            long time = sf.parse(rawJsonDate).getTime();
+            long now = System.currentTimeMillis();
+
+            final long diff = now - time;
+            if (diff < MINUTE_MILLIS) {
+                return "just now";
+            } else if (diff < 2 * MINUTE_MILLIS) {
+                return "a minute ago";
+            } else if (diff < 50 * MINUTE_MILLIS) {
+                return diff / MINUTE_MILLIS + " m";
+            } else if (diff < 90 * MINUTE_MILLIS) {
+                return "an hour ago";
+            } else if (diff < 24 * HOUR_MILLIS) {
+                return diff / HOUR_MILLIS + " h";
+            } else if (diff < 48 * HOUR_MILLIS) {
+                return "yesterday";
+            } else {
+                return diff / DAY_MILLIS + " d";
+            }
+        } catch (java.text.ParseException e) {
+            Log.i(TAG, "getRelativeTimeAgo failed: " + e.toString());
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }
