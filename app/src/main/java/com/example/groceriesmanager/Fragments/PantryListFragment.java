@@ -224,6 +224,28 @@ public class PantryListFragment extends Fragment {
 
     // todo: populate this
     private void sortPantryAccordingToExpiryDate() {
+        // specify what type of data we want to query - FoodItem.class
+        ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
+        // include data which matches given requirements
+        query.whereEqualTo("type", type);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        // necessary to include non-primitive types
+        query.include("user");
+        // order posts by creation date (newest first)
+        query.addDescendingOrder("expiryDate");
+        query.findInBackground(new FindCallback<FoodItem>() {
+            @Override
+            public void done(List<FoodItem> objects, ParseException e) {
+                if (e!=null){
+                    Log.e(TAG, "error retrieving grocery list: " + e.toString());
+                }
+                else{
+                    adapter.clear();
+                    pantryList.addAll(objects);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     public void queryPantryList() {

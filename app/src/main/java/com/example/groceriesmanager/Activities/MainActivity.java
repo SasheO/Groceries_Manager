@@ -123,18 +123,4 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
-    private void createNotification(int nId, int iconRes, String title, String body, String channelId) {
-        // todo: before creating notification, check if given item is still in pantry list and not deleted
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                this, channelId).setSmallIcon(iconRes)
-                .setContentTitle(title)
-                .setContentText(body);
-
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(nId, mBuilder.build());
-    }
-
 }
