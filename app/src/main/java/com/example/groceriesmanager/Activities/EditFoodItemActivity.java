@@ -57,12 +57,21 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
         EditText etExpiryDate = findViewById(R.id.etExpiryDate);
+        TextView tvExpiryLabel = findViewById(R.id.tvExpiryLabel);
 
         selectedYear = today.getYear()+1900;  // the addition is because only three numbers are returned and any 21sy century year starts with 1
         selectedMonth = today.getMonth();
         selectedDayOfMonth = today.getDate();
 
         String process = getIntent().getStringExtra("process");
+        String type = getIntent().getStringExtra("type");
+
+        if (!Objects.equals(type, "pantry")){ // only let user edit expiry date if the item is a pantry item
+            ibDatePicker.setVisibility(View.GONE);
+            ibRemoveDate.setVisibility(View.GONE);
+            etExpiryDate.setVisibility(View.GONE);
+            tvExpiryLabel.setVisibility(View.GONE);
+        }
 
 
         // array adapter for rendering items into the food measure spinner
@@ -105,9 +114,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
                                           int monthOfYear, int dayOfMonth) {
 
                         // format date to yyyy/mm/dd format
-                        etExpiryDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                        etExpiryDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
                         selectedYear = year;
-                        selectedMonth = monthOfYear + 1;
+                        selectedMonth = monthOfYear;
                         selectedDayOfMonth = dayOfMonth;
                     }
                 };
@@ -141,13 +150,19 @@ public class EditFoodItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Date expiryDate = null;
 
-                String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();
-                if (expiryDateStr!=null){
+                if (expiryDateStr!=null && !Objects.equals(expiryDateStr, "")){
                     try {
                         expiryDate = formatter.parse(expiryDateStr);
+
+//                        Log.i(TAG, "today: " + today);
+//                        Log.i(TAG, "expiry date: " + expiryDate);
+                        if(expiryDate.compareTo(today)<0){ // if expiry date is set in future
+                            Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                     } catch (java.text.ParseException e) {
                         Log.e(TAG, "error formatting date: " + e.toString());
                         e.printStackTrace();
@@ -160,9 +175,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
 
                 if (foodName.replaceAll("\\s+", "").length()==0){ // if the user did not type in a food name or types only spaces
                     Toast.makeText(EditFoodItemActivity.this, "type in the food name", Toast.LENGTH_LONG).show();
-                }
-                else if (expiryDate.compareTo(today)<0){ // if expiry date is set in future
-                    Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     // using FoodStruct so we do not need to keep altering the function signature of add/editFoodItem
@@ -213,9 +225,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             foodItem.setExpiryDate(foodStruct.expiryDate);
-            Log.i(TAG, "expiry date: " + foodItem.getExpiryDate().toString());
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -255,7 +265,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
             newFoodItem.setCategory(foodStruct.foodCategory);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
         }
