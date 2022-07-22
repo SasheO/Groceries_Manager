@@ -7,10 +7,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -118,5 +122,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+
+    private void createNotification(int nId, int iconRes, String title, String body, String channelId) {
+        // todo: before creating notification, check if given item is still in pantry list and not deleted
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+                this, channelId).setSmallIcon(iconRes)
+                .setContentTitle(title)
+                .setContentText(body);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        // mId allows you to update the notification later on.
+        mNotificationManager.notify(nId, mBuilder.build());
+    }
 
 }

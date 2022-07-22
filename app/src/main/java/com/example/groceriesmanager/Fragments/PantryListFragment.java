@@ -7,8 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
@@ -30,6 +34,7 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -45,11 +50,11 @@ public class PantryListFragment extends Fragment {
     ImageButton btnAddPantryItem;
     FloatingActionButton fabtnSuggestRecipes;
     public List<FoodItem> pantryList;
-    Switch switchSortAccordingToCategory;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
     private MainActivity currentActivity;
+    private Spinner spinnerSortAccordingTo;
 
     // required empty constructor
     public PantryListFragment() {}
@@ -68,10 +73,10 @@ public class PantryListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        rvPantryList = (RecyclerView) view.findViewById(R.id.rvPantryList);
+        spinnerSortAccordingTo = view.findViewById(R.id.spinnerSortAccordingTo);
+        rvPantryList = view.findViewById(R.id.rvPantryList);
         btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
-        switchSortAccordingToCategory = view.findViewById(R.id.switchSortAccordingToCategory);
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
@@ -80,18 +85,41 @@ public class PantryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        switchSortAccordingToCategory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // spinner adapter for sorting options
+//        List<String> sortOptions = Arrays.asList(getContext().getResources().getStringArray((R.array.pantry_list_sort_options)));
+        ArrayAdapter<CharSequence> sortPantryListAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.pantry_list_sort_options, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        sortPantryListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerSortAccordingTo.setAdapter(sortPantryListAdapter);
+        spinnerSortAccordingTo.setSelection(0);
+
+
+        spinnerSortAccordingTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    sortPantryAccordingToCategory();
-                    adapter.notifyDataSetChanged();
-                }
-                else{
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // todo: implement cleaner way of identifying which item is selected
+                String selection = spinnerSortAccordingTo.getItemAtPosition(position).toString();
+                if (Objects.equals(selection, "default")){
                     queryPantryList();
                 }
+                if (Objects.equals(selection, "category")){
+                    sortPantryAccordingToCategory();
+                    // dataset not changed within sortPantryAccordingToCategory() because it is used in suggestRecipes() and we do not want the list to visually change there
+                    adapter.notifyDataSetChanged();
+                }
+                if (Objects.equals(selection, "expiry date")){
+                    sortPantryAccordingToExpiryDate();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
+
 
         fabtnSuggestRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,9 +181,8 @@ public class PantryListFragment extends Fragment {
         */
         String userQuery = "";
 
-        if (!switchSortAccordingToCategory.isChecked()){
-            sortPantryAccordingToCategory();
-        }
+        sortPantryAccordingToCategory();
+
         // get random element from first third which is likely to be a prioritized category
         int index = (int)(Math.random() * pantryList.size()/3);
         userQuery = pantryList.get(index).getName();
@@ -193,6 +220,10 @@ public class PantryListFragment extends Fragment {
 
         pantryList.clear();
         pantryList.addAll(organizedPantryList);
+    }
+
+    // todo: populate this
+    private void sortPantryAccordingToExpiryDate() {
     }
 
     public void queryPantryList() {
