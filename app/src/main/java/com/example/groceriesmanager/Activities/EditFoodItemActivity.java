@@ -105,9 +105,9 @@ public class EditFoodItemActivity extends AppCompatActivity {
                                           int monthOfYear, int dayOfMonth) {
 
                         // format date to yyyy/mm/dd format
-                        etExpiryDate.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+                        etExpiryDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
                         selectedYear = year;
-                        selectedMonth = monthOfYear + 1;
+                        selectedMonth = monthOfYear;
                         selectedDayOfMonth = dayOfMonth;
                     }
                 };
@@ -149,7 +149,8 @@ public class EditFoodItemActivity extends AppCompatActivity {
                     try {
                         expiryDate = formatter.parse(expiryDateStr);
 
-                        // todo: find out the issue with this comparison and debug it
+//                        Log.i(TAG, "today: " + today);
+//                        Log.i(TAG, "expiry date: " + expiryDate);
                         if(expiryDate.compareTo(today)<0){ // if expiry date is set in future
                             Toast.makeText(EditFoodItemActivity.this, "expiry date must be in the future!", Toast.LENGTH_LONG).show();
                             return;
@@ -216,9 +217,7 @@ public class EditFoodItemActivity extends AppCompatActivity {
             foodItem.remove(FoodItem.KEY_CATEGORY);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             foodItem.setExpiryDate(foodStruct.expiryDate);
-            Log.i(TAG, "expiry date: " + foodItem.getExpiryDate().toString());
         }
         else {
             foodItem.remove(FoodItem.KEY_EXPIRY_DATE);
@@ -258,7 +257,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
             newFoodItem.setCategory(foodStruct.foodCategory);
         }
         if (foodStruct.expiryDate!=null){
-            // todo: save date
             newFoodItem.setExpiryDate(foodStruct.expiryDate);
             Log.i(TAG, "expiry date: " + newFoodItem.getExpiryDate().toString());
         }

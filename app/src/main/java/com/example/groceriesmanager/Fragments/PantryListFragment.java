@@ -9,11 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -21,12 +18,10 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceriesmanager.Activities.AccountSettingsActivity;
 import com.example.groceriesmanager.Activities.MainActivity;
 import com.example.groceriesmanager.Adapters.FoodListAdapter;
 import com.example.groceriesmanager.Activities.EditFoodItemActivity;
@@ -34,7 +29,6 @@ import com.example.groceriesmanager.Models.FoodItem;
 import com.example.groceriesmanager.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
-import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -46,15 +40,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class PantryListFragment extends Fragment {
-    RecyclerView rvPantryList;
-    ImageButton btnAddPantryItem;
-    FloatingActionButton fabtnSuggestRecipes;
     public List<FoodItem> pantryList;
     private static final String TAG = "PantryListFragment";
     public FoodListAdapter adapter;
     private static final String type = "pantry";
     private MainActivity currentActivity;
-    private Spinner spinnerSortAccordingTo;
 
     // required empty constructor
     public PantryListFragment() {}
@@ -73,10 +63,10 @@ public class PantryListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // Setup any handles to view objects here
-        spinnerSortAccordingTo = view.findViewById(R.id.spinnerSortAccordingTo);
-        rvPantryList = view.findViewById(R.id.rvPantryList);
-        btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
-        fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
+        Spinner spinnerSortAccordingTo = view.findViewById(R.id.spinnerSortAccordingTo);
+        RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
+        ImageButton btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
+        FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
         pantryList = new ArrayList<>();
         queryPantryList();
         adapter = new FoodListAdapter(currentActivity, pantryList, type);
@@ -85,8 +75,7 @@ public class PantryListFragment extends Fragment {
         // set the layout manager on the recycler view
         rvPantryList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        // spinner adapter for sorting options
-//        List<String> sortOptions = Arrays.asList(getContext().getResources().getStringArray((R.array.pantry_list_sort_options)));
+        // spinner adapter to choose how to sort panty list
         ArrayAdapter<CharSequence> sortPantryListAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.pantry_list_sort_options, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
@@ -222,7 +211,6 @@ public class PantryListFragment extends Fragment {
         pantryList.addAll(organizedPantryList);
     }
 
-    // todo: populate this
     private void sortPantryAccordingToExpiryDate() {
         // specify what type of data we want to query - FoodItem.class
         ParseQuery<FoodItem> query = ParseQuery.getQuery(FoodItem.class);
