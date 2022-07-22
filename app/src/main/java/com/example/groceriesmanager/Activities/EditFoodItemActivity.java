@@ -57,12 +57,21 @@ public class EditFoodItemActivity extends AppCompatActivity {
         ImageButton ibDatePicker = findViewById(R.id.ibDatePicker);
         ImageButton ibRemoveDate = findViewById(R.id.ibRemoveDate);
         EditText etExpiryDate = findViewById(R.id.etExpiryDate);
+        TextView tvExpiryLabel = findViewById(R.id.tvExpiryLabel);
 
         selectedYear = today.getYear()+1900;  // the addition is because only three numbers are returned and any 21sy century year starts with 1
         selectedMonth = today.getMonth();
         selectedDayOfMonth = today.getDate();
 
         String process = getIntent().getStringExtra("process");
+        String type = getIntent().getStringExtra("type");
+
+        if (!Objects.equals(type, "pantry")){ // only let user edit expiry date if the item is a pantry item
+            ibDatePicker.setVisibility(View.GONE);
+            ibRemoveDate.setVisibility(View.GONE);
+            etExpiryDate.setVisibility(View.GONE);
+            tvExpiryLabel.setVisibility(View.GONE);
+        }
 
 
         // array adapter for rendering items into the food measure spinner
@@ -141,7 +150,6 @@ public class EditFoodItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Date expiryDate = null;
 
-                String type = getIntent().getStringExtra("type");
                 String foodName = etFoodName.getText().toString();
                 String foodQty = etFoodQty.getText().toString();
                 String expiryDateStr = etExpiryDate.getText().toString();

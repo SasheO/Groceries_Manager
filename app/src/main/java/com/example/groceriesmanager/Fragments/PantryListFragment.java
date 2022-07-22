@@ -65,7 +65,7 @@ public class PantryListFragment extends Fragment {
         // Setup any handles to view objects here
         Spinner spinnerSortAccordingTo = view.findViewById(R.id.spinnerSortAccordingTo);
         RecyclerView  rvPantryList = view.findViewById(R.id.rvPantryList);
-        ImageButton btnAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
+        ImageButton ibAddPantryItem = view.findViewById(R.id.ibAddPantryItem);
         FloatingActionButton fabtnSuggestRecipes = view.findViewById(R.id.fabtnSuggestRecipes);
         pantryList = new ArrayList<>();
         queryPantryList();
@@ -118,7 +118,7 @@ public class PantryListFragment extends Fragment {
         });
 
 
-        btnAddPantryItem.setOnClickListener(new View.OnClickListener() {
+        ibAddPantryItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (pantryList.size() >= 30){

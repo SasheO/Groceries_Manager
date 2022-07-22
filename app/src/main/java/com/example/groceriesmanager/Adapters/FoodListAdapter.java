@@ -156,6 +156,7 @@ public class FoodListAdapter extends
                     Intent intent = new Intent(context, EditFoodItemActivity.class);
                     intent.putExtra("process", "edit");
                     intent.putExtra("foodItem", foodItem);
+                    intent.putExtra("type", type);
                     if (Objects.equals(type, "grocery")){
                         // this function enables the user to see the changes they made to the food item without refreshing the grocery fragment page
                         context.groceryListFragment.editActivityResultLauncher.launch(intent);
